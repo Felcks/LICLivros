@@ -40,6 +40,15 @@ public class Livro {
 		return todosParametros;
 	}
 	
+	public Object[] pegarParametrosDePacote(){
+		Object[] parametrosDePacote = new Object[4];
+		parametrosDePacote[0] = this.getId();
+		parametrosDePacote[1] = this.getNome();
+		parametrosDePacote[2] = this.getEditora().getNome();
+		parametrosDePacote[3] = this.getPreco();
+		return parametrosDePacote;
+	}
+	
 	
 	public int getId() {
 		return id;

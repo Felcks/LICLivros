@@ -48,5 +48,18 @@ public class EstoqueManager {
 		return id;
 	}
 	
+	public Livro getLivroPeloNome(String nome){
+		nome = nome.toUpperCase();
+		Livro livro = new Livro("LivroInexistente", Editora.ED_ATICA);
+		for(int i = 0; i < this.livros.size() ; i++){
+			if(nome.equals(this.livros.get(i).getNome().toUpperCase())){
+				livro = this.livros.get(i);
+				break;
+			}
+		}
+		
+		return livro;
+	}
+	
 
 }

@@ -41,7 +41,6 @@ public class TelaEstoque extends JPanel {
 		table.setFillsViewportHeight(true);
 		scrollPane.setSize(1000, 400);
 		scrollPane.setLocation(1366/2 - scrollPane.getSize().width/2 ,180);
-		
 		this.add(scrollPane);
 		
 
@@ -83,11 +82,11 @@ public class TelaEstoque extends JPanel {
 		labels[5].setLocation(1133 ,590 );
 
 		
-		String[] todasEscolas = new String[Editora.values().length];
-		for(int i = 0; i < todasEscolas.length; i++){
-			todasEscolas[i] = Editora.values()[i].getNome();
+		String[] todasEditoras = new String[Editora.values().length];
+		for(int i = 0; i < todasEditoras.length; i++){
+			todasEditoras[i] = Editora.values()[i].getNome();
 		}
-		JComboBox comboBox = new JComboBox(todasEscolas);
+		JComboBox comboBox = new JComboBox(todasEditoras);
 		comboBox.setSelectedItem(0);
 		comboBox.setBounds(1366/2 - 200, 110, 400, 40);
 		comboBox.setFont(comboBox.getFont().deriveFont(20.0f));

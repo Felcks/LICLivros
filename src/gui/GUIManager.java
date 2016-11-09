@@ -10,6 +10,7 @@ public class GUIManager{
 	private JPanel cards;
 	private TelaInicial telaInicial;
 	private TelaEstoque telaEstoque;
+	private TelaPacote telaPacote;
 	
 	public GUIManager(){
 		this.criarJanela();
@@ -17,8 +18,10 @@ public class GUIManager{
 		
 		this.telaInicial = new TelaInicial(this);
 		this.telaEstoque = new TelaEstoque(this);
+		this.telaPacote = new TelaPacote(this);
 		this.cards.add(this.telaInicial, "telaInicial");
 		this.cards.add(this.telaEstoque, "telaEstoque");
+		this.cards.add(this.telaPacote, "telaPacote");
 		
 		this.mudarParaTela("telaInicial");
 	}
