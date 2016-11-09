@@ -1,5 +1,8 @@
 package gui;
 
+import utilidades.AutoSuggestor;
+
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -117,6 +120,11 @@ public class TelaPacote extends JPanel {
 		textField.setLocation(1366/2 - 200, 650);
 		textField.setSize(400, 30);
 		
+		 AutoSuggestor autoSuggestor = new AutoSuggestor(textField, this.guiManager.getJanela(), null, Color.WHITE.brighter(), Color.BLUE, Color.RED, 0.75f);
+		 String[] todosOsNomesDosLivros = EstoqueManager.getInstance().getTodosOsNomesDosLivros();
+		 for(int i =0; i < todosOsNomesDosLivros.length; i++)
+			 autoSuggestor.addToDictionary(todosOsNomesDosLivros[i]);
+		 
 		this.add(textField);
 		this.add(label);
 		
@@ -129,6 +137,7 @@ public class TelaPacote extends JPanel {
 			  public void actionPerformed(ActionEvent e) {
 				//Adiciona o livro digitado, se ao detectar o nome mostra JMessage bla bla
 				Livro livroDesejado = EstoqueManager.getInstance().getLivroPeloNome(textField.getText());
+				
 				if(livroDesejado.getNome() == "LivroInexistente"){
 					JOptionPane.showMessageDialog(telaPacote, "O Livro: " + textField.getText() + "\n não consta na base de dados" , "Livro não encontrado", JOptionPane.INFORMATION_MESSAGE);	
 				}

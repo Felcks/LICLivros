@@ -43,6 +43,15 @@ public class EstoqueManager {
 		return livrosDeEditora;
 	}
 	
+	public String[] getTodosOsNomesDosLivros(){
+		String[] todosOsNomesDosLivros = new String[this.livros.size()];
+		for(int i = 0; i < todosOsNomesDosLivros.length; i++){
+			todosOsNomesDosLivros[i] = this.livros.get(i).getNome();
+		}
+		
+		return todosOsNomesDosLivros;
+	}
+	
 	public int gerarId(Editora editora){
 		int id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
 		return id;
@@ -50,9 +59,11 @@ public class EstoqueManager {
 	
 	public Livro getLivroPeloNome(String nome){
 		nome = nome.toUpperCase();
+		String nomeSemUmEspaco = nome.substring(0, nome.length() - 1);
+		
 		Livro livro = new Livro("LivroInexistente", Editora.ED_ATICA);
 		for(int i = 0; i < this.livros.size() ; i++){
-			if(nome.equals(this.livros.get(i).getNome().toUpperCase())){
+			if(nome.equals(this.livros.get(i).getNome().toUpperCase()) || nomeSemUmEspaco.equals(this.livros.get(i).getNome().toUpperCase())){
 				livro = this.livros.get(i);
 				break;
 			}

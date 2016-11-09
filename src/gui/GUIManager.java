@@ -50,4 +50,8 @@ public class GUIManager{
 	public JPanel getCards(){
 		return this.cards;
 	}
+	
+	public JFrame getJanela(){
+		return this.janela;
+	}
 }
