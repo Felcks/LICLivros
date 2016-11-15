@@ -1,5 +1,7 @@
 package principais;
 
+import java.sql.*;
+
 public class Livro {
 	
 	private int id;
@@ -18,6 +20,25 @@ public class Livro {
 	public Livro(String nome, Editora editora){
 		this.setNome(nome);
 		this.setEditora(editora);
+	}
+	
+	public Livro(ResultSet rs)
+	{
+		try{
+			int id = rs.getInt("ID");
+			this.setId(id);
+			String nome = rs.getString("NOME");
+			this.setNome(nome);
+			String editora = rs.getString("EDITORA");
+			System.out.println(editora);
+			this.setEditora(Editora.getEditoraDeUmaString(editora));
+			int quantidade = rs.getInt("QUANTIDADE");
+			this.setQuantidade(quantidade);
+			int comprar = rs.getInt("COMPRAR");
+			this.setComprar(comprar);
+			double preco = rs.getDouble("PRECO");
+			this.setPreco(preco);
+		}catch(Exception e){}
 	}
 	
 	public Livro(int id, String nome, Editora editora, int quantidade, int comprar, double preco){
@@ -73,6 +94,13 @@ public class Livro {
 		this.editora = editora;
 	}
 
+	public void setEditoraComoString(String s){
+		for(int i = 0; i < Editora.values().length;  i++){
+			if(s.equals(Editora.values()[i])){
+				this.editora = Editora.values()[i];
+			}
+		}
+	}
 
 	public int getQuantidade() {
 		return quantidade;

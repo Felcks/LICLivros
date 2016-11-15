@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import principais.EstoqueManager;
+
 public class TelaInicial extends JPanel {
 	
 	private GUIManager guiManager;
@@ -22,6 +24,7 @@ public class TelaInicial extends JPanel {
 			@Override
 			  public void actionPerformed(ActionEvent e) {
 				guiManager.mudarParaTela("telaEstoque");
+				
 			  }
 		});
 		btnRegistrarLivro.setBounds(1366/2 - 150, 300, 300, 100);

@@ -13,6 +13,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
+import bd.JavaConnection;
+import bd.Operacoes;
 import principais.Editora;
 import principais.EstoqueManager;
 import principais.Livro;
@@ -119,10 +121,6 @@ public class TelaEstoque extends JPanel {
 		ActionListener salvar = new ActionListener() {
 			@Override
 			  public void actionPerformed(ActionEvent e) {
-			    /*TODO pega as informações do EstoqueManager e salva no Banco de Dados
-			     * 
-			     * 
-			     */
 			  }
 			};
 		btnSalvar.addActionListener(salvar);
@@ -163,7 +161,8 @@ public class TelaEstoque extends JPanel {
 		int comprar = Integer.parseInt(textFields[4].getText());
 		double preco = Float.parseFloat(textFields[5].getText());
 		Livro livro = new Livro(id, nome, editora, quantidade, comprar, preco);
-		EstoqueManager.getInstance().getLivros().add(livro);
+		Operacoes op = new Operacoes();
+		op.INSERT_LIVROS(livro);
 		
 		atualizarLivros(table, comboBox, null);
 	}

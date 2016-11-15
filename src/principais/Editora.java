@@ -1,7 +1,7 @@
 package principais;
 
 public enum Editora {
-	ED_ATICA("Editora Ática", 0), EDITORA_CONSTRUIR("Editora Contruir", 100), EDITORA_DO_BRASIL("Editora do Brasil", 200);
+	ED_ATICA("Editora Ã�tica", 0), EDITORA_CONSTRUIR("Editora Construir", 100), EDITORA_DO_BRASIL("Editora do Brasil", 200);
 	
 	private String nome;
 	private final int idInicial;
@@ -22,7 +22,7 @@ public enum Editora {
 	public static Editora getEditoraDeUmaString(String valor){
 		Editora editora = Editora.ED_ATICA;
 		for(int i = 0; i < Editora.values().length; i++){
-			if(valor == Editora.values()[i].getNome()){
+			if(valor.equalsIgnoreCase(Editora.values()[i].getNome())){
 				editora = Editora.values()[i];
 			}
 		}

@@ -33,7 +33,7 @@ public class PacoteManager {
 		this.pacotes = new ArrayList<Pacote>();
 		
 		//Só para teste pelo amor de Deus -- Tirar essa parte -- Ler comentário acima
-		List<Livro> livros = new ArrayList<Livro>();
+		/*List<Livro> livros = new ArrayList<Livro>();
 		livros.add(EstoqueManager.getInstance().getLivros().get(0));
 		livros.add(EstoqueManager.getInstance().getLivros().get(1));
 		
@@ -46,7 +46,7 @@ public class PacoteManager {
 		
 		this.pacotes.add(new Pacote(Escola.ESCOLA_1, AnoEscolar.JARDIM_1, livros)); //Esse é para testar a entrada
 		this.pacotes.add(new Pacote(Escola.ESCOLA_1, AnoEscolar.JARDIM_2, livros2)); //Esse é para testar - Mudando só a escola se ele vai mudar
-		this.pacotes.add(new Pacote(Escola.ESCOLA_2, AnoEscolar.JARDIM_1, livros3)); //Esse é para testar - Mudando só o ano se ele vai trocar
+		this.pacotes.add(new Pacote(Escola.ESCOLA_2, AnoEscolar.JARDIM_1, livros3)); //Esse é para testar - Mudando só o ano se ele vai trocar*/
 	}
 	
 	public Pacote getPacote(Escola escola, AnoEscolar anoEscolar){
