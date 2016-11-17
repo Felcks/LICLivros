@@ -23,8 +23,6 @@ public class EstoqueManager {
 	
 	private EstoqueManager(){
 		this.livros = new ArrayList<Livro>();
-		//this.livros.add(new Livro("Ciencias", Editora.ED_ATICA, 0));
-		//this.livros.add(new Livro("Circuitos", Editora.EDITORA_CONSTRUIR, 100));
 	}
 	
 	public static EstoqueManager getInstance(){
@@ -44,10 +42,10 @@ public class EstoqueManager {
 			stmt = conn.createStatement();
 			
 			ResultSet resultSet = stmt.executeQuery("SELECT * FROM LIVROS");
+			livros.clear();
 			while (resultSet.next()){
 				Livro livro = new Livro(resultSet);
 				this.livros.add(livro);
-				System.out.println(livro.getEditora());
 			}
 			resultSet.close();
 			stmt.close();

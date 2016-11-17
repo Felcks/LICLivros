@@ -121,6 +121,7 @@ public class TelaEstoque extends JPanel {
 		ActionListener salvar = new ActionListener() {
 			@Override
 			  public void actionPerformed(ActionEvent e) {
+				atualizarLivros(table, comboBox, textFields[2]);
 			  }
 			};
 		btnSalvar.addActionListener(salvar);
@@ -136,6 +137,7 @@ public class TelaEstoque extends JPanel {
 				if(textFields[0].getText().length() > 0){
 					if(checarCampos(textFields, labels, true)){
 						atualizarUmLivro(textFields, comboBox, table);
+						atualizarLivros(table, comboBox, textFields[2]);
 					}
 				}
 				else{
@@ -163,6 +165,7 @@ public class TelaEstoque extends JPanel {
 		Livro livro = new Livro(id, nome, editora, quantidade, comprar, preco);
 		Operacoes op = new Operacoes();
 		op.INSERT_LIVROS(livro);
+		EstoqueManager.getInstance().getLivrosDoBancoDeDados();
 		
 		atualizarLivros(table, comboBox, null);
 	}
@@ -183,6 +186,8 @@ public class TelaEstoque extends JPanel {
 				 livro.setPreco(preco);
 				 livro.setComprar(comprar);
 				 EstoqueManager.getInstance().getLivros().set(i, livro);
+				 Operacoes op = new Operacoes();
+				 op.UPADTE_LIVROS(livro);
 			}
 		}
 		atualizarLivros(table, comboBox, null);
