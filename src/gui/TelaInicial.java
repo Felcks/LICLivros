@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -15,6 +16,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import principais.EstoqueManager;
 import utilidades.Screen;
@@ -69,13 +75,13 @@ public class TelaInicial extends JPanel {
 		c.gridy = 0;
 		this.add(teste2, c);*/
 		
+        
 		JLabel txt_Title = new JLabel("LIC - Livros Ideias Cultura", SwingConstants.CENTER);
-		txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/50)));
+		txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));
 		txt_Title.setSize(1000,100);
 		//c.fill = GridBagConstraints.BOTH;
 		c.gridx = 4;
 		c.gridy = 0;
-		c.ipady = 40;
 		c.gridwidth = 4;
 		c.gridheight = 2;
 		c.anchor = GridBagConstraints.CENTER;
@@ -88,8 +94,12 @@ public class TelaInicial extends JPanel {
 		c.insets = new Insets(10,10,10,10);
 		c.gridx = 4;
 		c.gridy = 2;
-		//c.ipadx = 80;
-		//c.ipady = 30;
+		/*btn_FazerPedido.setBackground(Color.WHITE);
+		btn_FazerPedido.setForeground(Color.BLACK);
+		 Border line = new LineBorder(Color.BLACK);
+		  Border margin = new EmptyBorder(5, 15, 5, 15);
+		  Border compound = new CompoundBorder(line, margin);
+		  btn_FazerPedido.setBorder(compound);*/
 		this.add(btn_FazerPedido, c);
 		
 		JButton btn_verEstoque = new JButton("Checar Estoque");

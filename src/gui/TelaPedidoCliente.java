@@ -23,56 +23,64 @@ public class TelaPedidoCliente extends JPanel {
         
         GridBagConstraints c = new GridBagConstraints();
         
-        JLabel txt_Title = new JLabel("CLIENTES", SwingConstants.CENTER);
+        c.weightx = 1;
+        c.weighty = 1;
+        
+       for(int i = 0; i < 12; i ++){
+        	for(int j = 0; j < 10; j++){
+        		c.gridx = i;
+        		c.gridy = j;
+        		c.fill = GridBagConstraints.BOTH;
+        		this.add(new JLabel(""), c);
+        	}
+        }
+        
+        
+        JLabel txt_Title = new JLabel("Pedido - Passo 1", SwingConstants.CENTER);
   		txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));
   		txt_Title.setSize(100,100);
-         c.fill = GridBagConstraints.NONE;
-  		c.gridx = 3;
+        c.fill = GridBagConstraints.NONE;
+  		c.gridx = 5;
   		c.gridy = 0;
-  		//c.ipady = 10;
-  		c.weightx = 1;
-  		c.weighty = 1;
   		c.gridwidth = 1;
   		c.gridheight = 1;
   		c.anchor = GridBagConstraints.PAGE_START;
   		this.add(txt_Title, c);
   		
-  		JTextField[] textFields = new JTextField[7];
+  		JTextField[] textFields = new JTextField[6];
   		c.anchor = GridBagConstraints.CENTER;
-		c.gridx = 3;
+		c.gridx = 5;
 		c.gridwidth = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 1;
 		for(int i = 0; i < textFields.length; i++){
 			textFields[i] = new JTextField();
-			c.gridy = i * 2 + 1 ;
+			c.gridy = i + 1 ;
 			this.add(textFields[i],c);
 		}
   		
-  		 String[] columnNames = {"ID",
-                 "NOME",
+  		 String[] columnNames = {"NOME",
                  "BAIRRO",
                  "RUA",
                  "COMPLEMENTO",
                  "TELEFONE",
                  "CELULAR"};
-		JLabel[] labels = new JLabel[7];
+		JLabel[] labels = new JLabel[6];
 		c.anchor = GridBagConstraints.PAGE_START;
-		c.gridx = 1;
+		c.gridx = 3;
 		c.gridwidth = 2;
 		c.fill = GridBagConstraints.NONE;
-		c.weightx = 0.5;
 		c.anchor = GridBagConstraints.CENTER;
 		for(int i = 0; i < textFields.length; i++){
 			labels[i] = new JLabel(columnNames[i]);
-			c.gridy = i * 2 + 1;
+			c.gridy = i  + 1;
 			this.add(labels[i],c);
 		}
 		
 		JButton btn_Avancar = new JButton("Avançar");
-		c.gridx = 5;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridy = 15;
+		c.gridx = 10;
+		c.fill = GridBagConstraints.BOTH;
+		c.gridy = 9;
 		this.add(btn_Avancar, c);
         
 
