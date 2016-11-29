@@ -1,8 +1,12 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -10,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import principais.ClienteManager;
+import utilidades.AutoSuggestor;
 import utilidades.Screen;
 
 public class TelaPedidoCliente extends JPanel {
@@ -56,6 +62,10 @@ public class TelaPedidoCliente extends JPanel {
 		for(int i = 0; i < textFields.length; i++){
 			textFields[i] = new JTextField();
 			c.gridy = i + 1 ;
+			if(i > 0){
+				textFields[i].setEditable(false);
+				textFields[i].setBackground(Color.LIGHT_GRAY);
+			}
 			this.add(textFields[i],c);
 		}
   		
@@ -66,7 +76,6 @@ public class TelaPedidoCliente extends JPanel {
                  "TELEFONE",
                  "CELULAR"};
 		JLabel[] labels = new JLabel[6];
-		c.anchor = GridBagConstraints.PAGE_START;
 		c.gridx = 3;
 		c.gridwidth = 2;
 		c.fill = GridBagConstraints.NONE;
@@ -83,7 +92,25 @@ public class TelaPedidoCliente extends JPanel {
 		c.gridy = 9;
 		this.add(btn_Avancar, c);
         
-
+		AutoSuggestor autoSuggestor = new AutoSuggestor(textFields[0], guiManager.getJanela(), ClienteManager.getInstance().getTodosNomesClientes(), 
+				Color.white.brighter(), Color.blue, Color.red, 0.75f);
+		
+		textFields[0].addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				List<String> todosNomesClientes = ClienteManager.getInstance().getTodosNomesClientes();
+				if(todosNomesClientes.contains(textFields[0].getText()) ||
+				todosNomesClientes.contains(textFields[0].getText().substring(0, textFields[0].getText().length()-1))){
+					System.out.println("nome de cliente valido");
+					for(int i = 1; i < textFields.length; i++){
+						//textFields[i] = 
+					}
+				}
+				
+			}
+		});
+		
 		guiManager.getCards().add(this, "telaPedidoCliente");
 	}
 }

@@ -34,8 +34,21 @@ public class ClienteManager
 		//Joga na lista
 	}
 	
+	public List<String> getTodosNomesClientes(){
+		List<String> todosNomes = new ArrayList<String>();
+		for(int i = 0; i < this.clientes.size(); i++){
+			todosNomes.add(clientes.get(i).getNome());
+		}
+		
+		return todosNomes;
+	}
 	public List<Cliente> getTodosClientes(){
 		return this.clientes;
+	}
+	public Cliente getClientePeloNome(String nome){
+		Cliente c = new Cliente();
+		
+		return c;
 	}
 	public void adicionarNovoCliente(Cliente cliente){
 		this.clientes.add(cliente);
@@ -71,7 +84,6 @@ public class ClienteManager
 				break;
 			}
 		}
-		
 		return index;
 	}
 	

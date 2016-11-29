@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -37,14 +38,26 @@ public class TelaCliente extends JPanel {
 		this.setLayout(new GridBagLayout());
         this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         
-
         GridBagConstraints c = new GridBagConstraints();
+        
+        c.weightx = 1;
+        c.weighty = 1;
+        
+        for(int i = 0; i < 7; i ++){
+        	for(int j = 0; j < 10; j++){
+        		c.gridx = i;
+        		c.gridy = j;
+        		c.fill = GridBagConstraints.BOTH;
+        		this.add(new JLabel(""), c);
+        	}
+        }
      
 		
+        
+    
 		JTextField[] textFields = new JTextField[7];
-		c.gridy = 3;
+		c.gridy = 7;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0;
 		for(int i = 0; i < textFields.length; i++){
 			textFields[i] = new JTextField();
 			c.gridx = i ;
@@ -60,9 +73,8 @@ public class TelaCliente extends JPanel {
                  "TELEFONE",
                  "CELULAR"};
 		JLabel[] labels = new JLabel[7];
-		c.gridy = 2;
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 1;
+		c.gridy = 6;
+		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.CENTER;
 		for(int i = 0; i < textFields.length; i++){
 			labels[i] = new JLabel(columnNames[i]);
@@ -77,12 +89,9 @@ public class TelaCliente extends JPanel {
         c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 0;
-		//c.ipady = 10;
-		c.weightx = 1;
-		c.weighty = 0;
 		c.gridwidth = 7;
 		c.gridheight = 1;
-		c.anchor = GridBagConstraints.PAGE_START;
+		c.anchor = GridBagConstraints.CENTER;
 		this.add(txt_Title, c);
 		
 		JTable table = new JTable(new MyTableModelCliente());
@@ -93,69 +102,85 @@ public class TelaCliente extends JPanel {
 		c.gridx = 0;
 		c.gridy = 1;
 		c.anchor = GridBagConstraints.CENTER;
-		c.weightx = 0;
-		c.weighty = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.gridwidth = 7;
+		c.gridheight = 5;
 		this.add(scrollPane, c);
 		
-		JButton btn_adicionarCliente = new JButton("Adicionar Cliente");
-		c.fill = GridBagConstraints.BOTH;
-		c.weighty = 1;
-		c.gridx = 6;
-		c.gridy = 4;
+		String[] acoes = new String[Acao.values().length - 1];
+		for(int i = 0; i < acoes.length; i++)
+			acoes[i] = Acao.values()[i].name();
+		JComboBox comboBox = new JComboBox(acoes);
+		c.anchor = GridBagConstraints.CENTER;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		this.add(btn_adicionarCliente, c);
+		c.gridx = 2;
+		c.gridy = 8;
+		this.add(comboBox, c);
 		
-		JButton btn_OrdenarAlfabetica = new JButton("Ordem Alfabetica");
-		c.fill = GridBagConstraints.NONE;
-		c.weighty = 1;
-		c.gridx = 5;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		this.add(btn_OrdenarAlfabetica, c);
+		JButton btn_fazerAcao = new JButton("Fazer Ação!");
+		c.fill = GridBagConstraints.HORIZONTAL;;
+		c.gridx = 3;
+		c.gridy = 8;
+		c.gridwidth = 2;
+		this.add(btn_fazerAcao, c);
 		
-		JButton btn_OrdenarNumeralmente = new JButton("Ordem Numeral");
-		c.fill = GridBagConstraints.NONE;
-		c.weighty = 1;
-		c.gridx = 4;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		this.add(btn_OrdenarNumeralmente, c);
+		btn_fazerAcao.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				//System.out.println(comboBox.getSelectedItem().toString());
+				Acao acao = Acao.NENHUMA;
+				acao = Acao.valueOf(comboBox.getSelectedItem().toString());
+				fazerAcao(textFields, table, acao);
+			}
+		});
 		
 		JButton btn_Voltar = new JButton("Voltar");
-		c.fill = GridBagConstraints.NONE;
-		c.weighty = 1;
+		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 4;
+		c.gridy = 9;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		this.add(btn_Voltar, c);
 		
-		btn_adicionarCliente.addActionListener(new ActionListener() {
+		JButton btn_Salvar = new JButton("Salvar");
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 6;
+		c.gridy = 9;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		this.add(btn_Salvar, c);
+		
+		btn_Voltar.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-				adicionarCliente(textFields, table);
-					/*int id = Integer.parseInt(todasInfoEmString[0]);
-					Cliente cliente = ClienteManager.getInstance().getClientePeloId(id);
-					int indexNaLista = ClienteManager.getInstance().getIndexPeloId(id);
-					if(cliente.isValid()){
-						System.out.println("bb");
-						ClienteManager.getInstance().atualizarCliente(indexNaLista, new Cliente(todasInfoEmString));
-						((MyTableModelCliente)table.getModel()).updateData();
-						table.repaint();
-					}
-					else{
-						System.out.println("Operação invalida. Deixe vazio para adicionar, -id para remover e id para atualizar");
-					}*/
-				
-				
+			public void actionPerformed(ActionEvent e) {
+				guiManager.mudarParaTela("telaInicial");
 			}
 		});
+		
+		btn_Salvar.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO AQUI ENTRA O MÈTODO DE SALVAR NO BANCO DE DADOS
+			}
+		});
+		
+		
+		JButton btn_OrdenarAlfabetica = new JButton("Ordem Alfabetica");
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 0;
+		this.add(btn_OrdenarAlfabetica, c);
+		
+		JButton btn_OrdenarNumeralmente = new JButton("Ordem Numeral");
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 6;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		this.add(btn_OrdenarNumeralmente, c);
 		
 		btn_OrdenarAlfabetica.addActionListener(new ActionListener() {
 			@Override
@@ -175,19 +200,43 @@ public class TelaCliente extends JPanel {
 			}
 		});
 		
-		btn_Voltar.addActionListener(new ActionListener() {
+
+		
+		/*
+		btn_adicionarCliente.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				guiManager.mudarParaTela("telaInicial");
+			public void actionPerformed(ActionEvent arg0) {
+				
+				adicionarCliente(textFields, table);
+					/*int id = Integer.parseInt(todasInfoEmString[0]);
+					Cliente cliente = ClienteManager.getInstance().getClientePeloId(id);
+					int indexNaLista = ClienteManager.getInstance().getIndexPeloId(id);
+					if(cliente.isValid()){
+						System.out.println("bb");
+						ClienteManager.getInstance().atualizarCliente(indexNaLista, new Cliente(todasInfoEmString));
+						((MyTableModelCliente)table.getModel()).updateData();
+						table.repaint();
+					}
+					else{
+						System.out.println("Operação invalida. Deixe vazio para adicionar, -id para remover e id para atualizar");
+					}//AQUI
+				
+				
 			}
 		});
+		
+		
+		
+	
+		
+		*/
 		
 		this.guiManager.getCards().add(this);
 	}
 	
-	private void adicionarCliente(JTextField[] textFields, JTable table) throws ArrayIndexOutOfBoundsException {
+	private void fazerAcao(JTextField[] textFields, JTable table, Acao acao) throws ArrayIndexOutOfBoundsException {
 		String[] camposEmTexto = servicoDeDigito.transformarCamposEmTexto(textFields);
-		Acao acao = servicoDeDigito.conferirAcao(camposEmTexto[0]);
+	//	Acao acao = servicoDeDigito.conferirAcao(camposEmTexto[0]);
 		System.out.println(acao);
 		
 		if(acao == Acao.ADICIONAR){
@@ -204,11 +253,11 @@ public class TelaCliente extends JPanel {
 			
 		}
 		else if(acao == Acao.REMOVER){
-			String idSelecionado = camposEmTexto[0].substring(1, camposEmTexto[0].length());
+			String idSelecionado = camposEmTexto[0];
 			int id = -1;
 			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
 			System.out.println(id);
-			if(id != -1 && id < ClienteManager.getInstance().getTodosClientes().size()){
+			if(id >= 0 && id < ClienteManager.getInstance().getTodosClientes().size()){
 				Cliente cliente = ClienteManager.getInstance().getClientePeloId(id);
 				JOptionPane.showConfirmDialog(this, "Cliente: " + cliente.getNome(), "Confirmar Remoção", JOptionPane.OK_CANCEL_OPTION);
 				ClienteManager.getInstance().removerCliente(id);
@@ -224,7 +273,8 @@ public class TelaCliente extends JPanel {
 			String idSelecionado = camposEmTexto[0];
 			int id = -1;
 			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
-			if(id != -1 && id < ClienteManager.getInstance().getTodosClientes().size()){
+			System.out.println("id do atualizar" + id);
+			if(id >= 0 && id < ClienteManager.getInstance().getTodosClientes().size()){
 				Cliente novoCliente = new Cliente(camposEmTexto);
 				Cliente cliente = ClienteManager.getInstance().getClientePeloId(id);
 				Cliente clienteASerAdicionado = cliente;

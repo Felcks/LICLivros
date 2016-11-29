@@ -35,8 +35,7 @@ public class TelaInicial extends JPanel {
 		this.setLayout(new GridBagLayout());
         this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         GridBagConstraints c = new GridBagConstraints();
-        
-       
+            
         c.weightx = 1;
         c.weighty = 1;
         //this.add(new JButton("Esquerda"), c);
