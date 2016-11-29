@@ -21,8 +21,8 @@ public class JavaConnection {
 		try{
 			Class.forName("org.sqlite.JDBC");
 			connection = DriverManager.getConnection("jdbc:sqlite:liclivros.sqlite");
-			JOptionPane.showMessageDialog(null, "CONEX√O ESTABELECIDA");
-			EstoqueManager.getInstance().getLivrosDoBancoDeDados();
+			JOptionPane.showMessageDialog(null, "CONEX√ÉO ESTABELECIDA");
+			//EstoqueManager.getInstance().getLivrosDoBancoDeDados();
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, e);
 		}

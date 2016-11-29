@@ -22,6 +22,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import principais.ClienteManager;
 import principais.EstoqueManager;
 import utilidades.Screen;
 
@@ -73,7 +74,7 @@ public class TelaInicial extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 		this.add(teste2, c);*/
-		
+        
         
 		JLabel txt_Title = new JLabel("LIC - Livros Ideias Cultura", SwingConstants.CENTER);
 		txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));

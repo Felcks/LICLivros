@@ -1,12 +1,20 @@
 package principais;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import bd.JavaConnection;
+import bd.OperacoesClientes;
 
 public class ClienteManager
 {
 	private static ClienteManager clienteManager;
 	private List<Cliente> clientes;
+	private Statement stmt;
+	private Connection conn = null;
 	
 	private ClienteManager(){
 		this.clientes = new ArrayList<Cliente>();
@@ -14,10 +22,11 @@ public class ClienteManager
 		/*
 		 * Só para teste
 		 */
-		this.clientes.add(new Cliente(this.clientes.size(),"Matheus", "Guadalupe", "Monteiro da Silva", "158", "", ""));
-		this.clientes.add(new Cliente(this.clientes.size(),"Pedro", "Guadalupe", "Monteiro da Silva", "158", "", ""));
-		this.clientes.add(new Cliente(this.clientes.size(),"c", "Guadalupe", "Monteiro da Silva", "158", "", ""));
-	}
+		//this.clientes.add(new Cliente(this.clientes.size(),"Matheus", "Guadalupe", "Monteiro da Silva", "158", "", ""));
+		//this.clientes.add(new Cliente(this.clientes.size(),"Pedro", "Guadalupe", "Monteiro da Silva", "158", "", ""));
+		//this.clientes.add(new Cliente(this.clientes.size(),"c", "Guadalupe", "Monteiro da Silva", "158", "", ""));
+		
+		}
 	
 	public static ClienteManager getInstance(){
 		if(clienteManager == null)
@@ -28,11 +37,26 @@ public class ClienteManager
 
 	
 	public void getTodosClientesDoBD(){
-		//Pega a conexão com o BD - outro código
-		//Faz o request - Pega as informações
-		//Outro metodo de pegar todas as informacoes e criar clientes
-		//Joga na lista
+		try{
+			JavaConnection.getInstance().ConnectBd();
+			conn = JavaConnection.getInstance().connection;
+			stmt = conn.createStatement();
+			
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM CLIENTES");
+			this.clientes.clear();
+			while (resultSet.next()){
+				Cliente cliente = new Cliente(resultSet);
+				this.clientes.add(cliente);
+			}
+			resultSet.close();
+			stmt.close();
+		} catch(Exception e){}
+		
+		//OperacoesClientes opC = new OperacoesClientes();
+		//opC.INSERT_CLIENTES(new Cliente(this.clientes.size(),"Matheus", "Guadalupe", "Monteiro da Silva", "158", "", ""));
 	}
+	
+	
 	
 	public List<String> getTodosNomesClientes(){
 		List<String> todosNomes = new ArrayList<String>();

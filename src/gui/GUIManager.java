@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import principais.ClienteManager;
 import utilidades.Screen;
 
 public class GUIManager{
@@ -52,6 +53,11 @@ public class GUIManager{
 	}
 	
 	public void mudarParaTela(String tela){		
+		if(tela.equals("telaCliente")){
+				ClienteManager.getInstance().getTodosClientesDoBD();
+				this.telaCliente.repintarTabela();
+		}
+		
 		CardLayout cl = (CardLayout)(this.cards.getLayout());
 		cl.show(cards, tela);
 	}

@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 import javax.swing.table.AbstractTableModel;
 
+import bd.OperacoesClientes;
 import principais.Cliente;
 import principais.ClienteManager;
 import principais.Editora;
@@ -30,6 +31,7 @@ public class TelaCliente extends JPanel {
 	
 	private GUIManager guiManager;
 	private ServicoDeDigito servicoDeDigito;
+	private JTable table;
 	
 	public TelaCliente(GUIManager guiManager){
 		this.guiManager = guiManager;
@@ -94,7 +96,7 @@ public class TelaCliente extends JPanel {
 		c.anchor = GridBagConstraints.CENTER;
 		this.add(txt_Title, c);
 		
-		JTable table = new JTable(new MyTableModelCliente());
+		table = new JTable(new MyTableModelCliente());
 		table.getColumnModel().getColumn(0).setMinWidth(30);
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -164,6 +166,9 @@ public class TelaCliente extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO AQUI ENTRA O MÈTODO DE SALVAR NO BANCO DE DADOS
+				OperacoesClientes opC = new OperacoesClientes();
+				opC.INSERT_TODOSCLIENTES(ClienteManager.getInstance().getTodosClientes());
+			
 			}
 		});
 		
@@ -303,6 +308,13 @@ public class TelaCliente extends JPanel {
 			}
 		}
 	}
+	
+	public void repintarTabela(){
+		if(table != null){
+			((MyTableModelCliente)table.getModel()).updateData();
+			table.repaint();
+		}
+	}
 }
 
 class MyTableModelCliente extends AbstractTableModel {
@@ -329,6 +341,8 @@ class MyTableModelCliente extends AbstractTableModel {
     	for(int i = 0; i < data.length; i++){
     		data[i] = ClienteManager.getInstance().getTodosClientes().get(i).pegarTodosParametros();
     	}	
+    	
+    	
     }
     
     
@@ -345,7 +359,7 @@ class MyTableModelCliente extends AbstractTableModel {
         return columnNames[col];
     }
 
-    public Object getValueAt(int row, int col) {
+    public Object getValueAt(int row, int col) throws NullPointerException {
         return data[row][col];
     }
 
@@ -356,7 +370,9 @@ class MyTableModelCliente extends AbstractTableModel {
      * rather than a check box.
      */
     public Class getColumnClass(int c) {
-        return getValueAt(0, c).getClass();
+    	System.out.println(getValueAt(0, c));
+    	return getValueAt(0, c).getClass();
+    	
     }
 
     /*

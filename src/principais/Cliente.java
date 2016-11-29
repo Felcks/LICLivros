@@ -1,5 +1,7 @@
 package principais;
 
+import java.sql.ResultSet;
+
 public class Cliente implements Comparable<Cliente> {
 	
 	private int id;
@@ -28,6 +30,28 @@ public class Cliente implements Comparable<Cliente> {
 		this.complemento = info[4];
 		this.telefone = info[5];
 		this.celular = info[6];
+	}
+	
+	public Cliente(ResultSet rs)
+	{
+		try{
+			int id = rs.getInt("ID");
+			this.setId(id);
+			String nome = rs.getString("NOME");
+			this.setNome(nome);
+			String bairro = rs.getString("BAIRRO");
+			this.setBairro(bairro);
+			String rua = rs.getString("RUA");
+			this.setRua(rua);
+			String complemento = rs.getString("COMPLEMENTO");
+			this.setComplemento(complemento);
+			String telefone = rs.getString("TELEFONE");
+			this.setTelefone(telefone);
+			String celular = rs.getString("CELULAR");
+			this.setCelular(celular);
+			
+			//System.out.println(id + " " + nome + " " + bairro);
+		} catch(Exception e){}
 	}
 
 	public Cliente(){
