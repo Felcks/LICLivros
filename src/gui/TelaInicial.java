@@ -26,7 +26,7 @@ import principais.ClienteManager;
 import principais.EstoqueManager;
 import utilidades.Screen;
 
-public class TelaInicial extends JPanel {
+public class TelaInicial extends JPanel{
 	
 	private GUIManager guiManager;
 	

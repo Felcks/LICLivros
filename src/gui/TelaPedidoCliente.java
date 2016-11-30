@@ -10,17 +10,24 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
+import principais.Cliente;
 import principais.ClienteManager;
 import utilidades.AutoSuggestor;
 import utilidades.Screen;
 
-public class TelaPedidoCliente extends JPanel {
+public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
 
 	private GUIManager guiManager;
+	AutoSuggestor autoSuggestor;
+	private Boolean clienteValido = false;
+	
 	public TelaPedidoCliente(GUIManager guiManager){
 		this.guiManager = guiManager;
 		
@@ -91,26 +98,96 @@ public class TelaPedidoCliente extends JPanel {
 		c.fill = GridBagConstraints.BOTH;
 		c.gridy = 9;
 		this.add(btn_Avancar, c);
+		
+		JButton btn_Voltar = new JButton("Voltar");
+		c.gridx = 0;
+		c.gridy = 9;
+		this.add(btn_Voltar, c);
         
-		AutoSuggestor autoSuggestor = new AutoSuggestor(textFields[0], guiManager.getJanela(), ClienteManager.getInstance().getTodosNomesClientes(), 
+		autoSuggestor = new AutoSuggestor(textFields[0], guiManager.getJanela(), ClienteManager.getInstance().getTodosNomesClientes(), 
 				Color.white.brighter(), Color.blue, Color.red, 0.75f);
 		
-		textFields[0].addActionListener(new ActionListener() {
+		
+		textFields[0].getDocument().addDocumentListener(new DocumentListener() {	
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				checarNome(textFields[0].getText(), textFields);
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				checarNome(textFields[0].getText(), textFields);
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				checarNome(textFields[0].getText(), textFields);
+			}
+		});
+		
+		btn_Avancar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				List<String> todosNomesClientes = ClienteManager.getInstance().getTodosNomesClientes();
-				if(todosNomesClientes.contains(textFields[0].getText()) ||
-				todosNomesClientes.contains(textFields[0].getText().substring(0, textFields[0].getText().length()-1))){
-					System.out.println("nome de cliente valido");
-					for(int i = 1; i < textFields.length; i++){
-						//textFields[i] = 
-					}
-				}
-				
+				avancar();
+			}
+		});
+		
+		btn_Voltar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				guiManager.mudarParaTela("telaInicial");
 			}
 		});
 		
 		guiManager.getCards().add(this, "telaPedidoCliente");
+	}
+	
+	private void checarNome(String nome, JTextField[] textFields){
+		if(nome.length() == 0)
+			return;
+		
+		List<String> todosNomesClientes = ClienteManager.getInstance().getTodosNomesClientes();
+		if(todosNomesClientes.contains(nome))
+		{
+			atualizarCampos(textFields, nome);
+		}
+		else if(todosNomesClientes.contains(nome.substring(0, nome.length()-1)))
+		{
+			atualizarCampos(textFields,nome.substring(0, nome.length()-1));
+		}
+		else
+			limparCampos(textFields);
+	}
+	
+	private void atualizarCampos(JTextField[] campos, String nomeCliente){
+		this.clienteValido = true;
+		Cliente cliente = ClienteManager.getInstance().getClientePeloNome(nomeCliente);
+		Object[] parametros = cliente.pegarTodosParametros();
+		
+		for(int i = 1; i < campos.length; i++){
+			campos[i].setText(parametros[i+1].toString());
+		}
+	}
+	
+	private void limparCampos(JTextField[] campos){
+		this.clienteValido = false;
+		for(int i = 1; i < campos.length; i++)
+			campos[i].setText("");
+	}
+	
+	private void avancar(){
+		if(clienteValido == true){
+			System.out.println("Cliente Válido. Podemos avançar!");
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(this, "Insira um cliente","Cliente Inválido", JOptionPane.OK_CANCEL_OPTION);
+		}
+	}
+	
+	@Override
+	public void prepararComponentes(){
+		autoSuggestor = new AutoSuggestor(autoSuggestor.getTextField(), guiManager.getJanela(), ClienteManager.getInstance().getTodosNomesClientes(), 
+										  Color.white.brighter(), Color.blue, Color.red, 0.75f);
 	}
 }

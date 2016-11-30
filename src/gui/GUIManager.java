@@ -34,6 +34,7 @@ public class GUIManager{
 		this.cards.add(this.telaCliente, "telaCliente");
 		this.cards.add(this.telaPedidoCliente, "telaPedidoCliente");
 		
+		this.prepararComponentes();
 		this.mudarParaTela("telaInicial");
 	}
 	
@@ -56,6 +57,9 @@ public class GUIManager{
 		if(tela.equals("telaCliente")){
 			this.telaCliente.prepararComponentes();
 		}
+		else if(tela.equals("telaPedidoCliente")){
+			this.telaPedidoCliente.prepararComponentes();
+		}
 		
 		CardLayout cl = (CardLayout)(this.cards.getLayout());
 		cl.show(cards, tela);
@@ -67,6 +71,10 @@ public class GUIManager{
 	
 	public JFrame getJanela(){
 		return this.janela;
+	}
+	
+	private void prepararComponentes(){
+		ClienteManager.getInstance().getTodosClientesDoBD();
 	}
 	
 }

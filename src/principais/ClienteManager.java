@@ -59,9 +59,12 @@ public class ClienteManager
 		return this.clientes;
 	}
 	public Cliente getClientePeloNome(String nome){
-		Cliente c = new Cliente();
+		Cliente cliente = new Cliente();
+		for(Cliente c : this.clientes)
+			if(c.getNome().equals(nome))
+				cliente = c;
 		
-		return c;
+		return cliente;
 	}
 	public void adicionarNovoCliente(Cliente cliente){
 		this.clientes.add(cliente);
