@@ -1,25 +1,51 @@
 package principais;
 
-public enum Editora {
-	ED_ATICA("Editora Ã�tica", 0), EDITORA_CONSTRUIR("Editora Construir", 100), EDITORA_DO_BRASIL("Editora do Brasil", 200);
-	
+import java.sql.ResultSet;
+
+public class Editora {
 	private String nome;
-	private final int idInicial;
+	private int id;
 	
-	Editora(String nome, int idInicial){
+	public Editora(int id, String nome){
 		this.nome = nome;
-		this.idInicial = idInicial;
+		this.id = id;
 	}
+	
+	public Editora(){}
 	
 	public String getNome(){
 		return this.nome;
 	}
-	
-	public int getIdInicial(){
-		return this.idInicial;
+	public void setNome(String nome){
+		this.nome = nome;
 	}
 	
-	public static Editora getEditoraDeUmaString(String valor){
+	public int getId(){
+		return this.id;
+	}
+	public void setId(int id){	
+		this.id = id;
+	}
+	
+	public Editora(ResultSet rs){
+		try{
+			int id = rs.getInt("ID");
+			this.setId(id);
+			String nome = rs.getString("NOME");
+			this.setNome(nome);
+		}
+		catch (Exception e){}
+	}
+	
+	public Object[] pegarTodosParametros(){
+		Object[] object = new Object[2];
+		object[0] = this.getId();
+		object[1] = this.getNome();
+		
+		return object;
+	}
+	
+	/*public static Editora getEditoraDeUmaString(String valor){
 		Editora editora = Editora.ED_ATICA;
 		for(int i = 0; i < Editora.values().length; i++){
 			if(valor.equalsIgnoreCase(Editora.values()[i].getNome())){
@@ -28,5 +54,5 @@ public enum Editora {
 		}
 		
 		return editora;
-	}
+	}*/
 }

@@ -52,10 +52,10 @@ public class EstoqueManager {
 		}catch(Exception e){}
 	}
 	
-	public List<Livro> getLivrosDeUmaEditora(Editora editora){
+	public List<Livro> getLivrosDeUmaEditora(String editora){
 		List<Livro> livrosDeEditora = new ArrayList<Livro>();
 		for(int i = 0; i < this.getLivros().size(); i++){
-			if(this.getLivros().get(i).getEditora().getNome() ==  editora.getNome()){
+			if(this.getLivros().get(i).getEditora().equals(editora)){
 				livrosDeEditora.add(this.getLivros().get(i));
 			}
 		}
@@ -72,29 +72,30 @@ public class EstoqueManager {
 		return todosOsNomesDosLivros;
 	}
 	
-	public int gerarId(Editora editora){
-		int id = 0;
+	public int gerarId(){
+		/*int id = 0;
 		if(getLivrosDeUmaEditora(editora).size() != 0){
 			for(int i = 0; i < getLivrosDeUmaEditora(editora).size(); i++){
 				if(getLivrosDeUmaEditora(editora).get(i).getId() + 1 != getLivrosDeUmaEditora(editora).get(i+1).getId()){
 					id = getLivrosDeUmaEditora(editora).get(i).getId() + 1;
 					break;
 				}else{
-					id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
+					//id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
 				}
 			}
 		}else
-			id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
+			//id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
 		
-		System.out.println(id);
-		return id;
+		System.out.println(id);*/
+		
+		return 0;
 	}
 	
 	public Livro getLivroPeloNome(String nome){
 		nome = nome.toUpperCase();
 		String nomeSemUmEspaco = nome.substring(0, nome.length() - 1);
 		
-		Livro livro = new Livro("LivroInexistente", Editora.ED_ATICA);
+		Livro livro = new Livro("LivroInexistente");
 		for(int i = 0; i < this.livros.size() ; i++){
 			if(nome.equals(this.livros.get(i).getNome().toUpperCase()) || nomeSemUmEspaco.equals(this.livros.get(i).getNome().toUpperCase())){
 				livro = this.livros.get(i);

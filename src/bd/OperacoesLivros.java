@@ -18,7 +18,7 @@ public class OperacoesLivros
 			conn.setAutoCommit(false);
 			int id = livro.getId();
 			String nome = livro.getNome();
-			String editora = livro.getEditora().getNome();
+			String editora = livro.getEditora();
 			int quantidade = livro.getQuantidade();
 			int comprar = livro.getComprar();
 			double preco = livro.getPreco();
@@ -48,7 +48,7 @@ public class OperacoesLivros
 			conn.setAutoCommit(false);
 			int id = livro.getId();
 			String nome = livro.getNome();
-			String editora = livro.getEditora().getNome();
+			String editora = livro.getEditora();
 			int quantidade = livro.getQuantidade();
 			int comprar = livro.getComprar();
 			double preco = livro.getPreco();

@@ -6,21 +6,10 @@ public class Livro {
 	
 	private int id;
 	private String nome;
-	private Editora editora;
+	private String editora;
 	private int quantidade;
 	private int comprar;
 	private double preco;
-	
-	public Livro(String nome, Editora editora, int id){
-		this.setNome(nome);
-		this.setEditora(editora);
-		this.setId(id);
-	}
-	
-	public Livro(String nome, Editora editora){
-		this.setNome(nome);
-		this.setEditora(editora);
-	}
 	
 	public Livro(ResultSet rs)
 	{
@@ -30,8 +19,8 @@ public class Livro {
 			String nome = rs.getString("NOME");
 			this.setNome(nome);
 			String editora = rs.getString("EDITORA");
-			System.out.println(editora);
-			this.setEditora(Editora.getEditoraDeUmaString(editora));
+			this.setEditora(editora);
+			System.out.println("erro em Livro linha 33!");
 			int quantidade = rs.getInt("QUANTIDADE");
 			this.setQuantidade(quantidade);
 			int comprar = rs.getInt("COMPRAR");
@@ -41,7 +30,11 @@ public class Livro {
 		}catch(Exception e){}
 	}
 	
-	public Livro(int id, String nome, Editora editora, int quantidade, int comprar, double preco){
+	public Livro(String nome){
+		this.setNome(nome);
+	}
+	
+	public Livro(int id, String nome, String editora, int quantidade, int comprar, double preco){
 		this.setId(id);
 		this.setNome(nome);
 		this.setEditora(editora);
@@ -54,7 +47,7 @@ public class Livro {
 		Object[] todosParametros = new Object[6];
 		todosParametros[0] = this.getId();
 		todosParametros[1] = this.getNome();
-		todosParametros[2] = this.getEditora().getNome();
+		todosParametros[2] = this.getEditora();
 		todosParametros[3] = this.getQuantidade();
 		todosParametros[4] = this.getComprar();
 		todosParametros[5] = this.getPreco();
@@ -65,7 +58,7 @@ public class Livro {
 		Object[] parametrosDePacote = new Object[4];
 		parametrosDePacote[0] = this.getId();
 		parametrosDePacote[1] = this.getNome();
-		parametrosDePacote[2] = this.getEditora().getNome();
+		parametrosDePacote[2] = this.getEditora();
 		parametrosDePacote[3] = this.getPreco();
 		return parametrosDePacote;
 	}
@@ -87,19 +80,19 @@ public class Livro {
 	}
 
 
-	public Editora getEditora() {
+	public String getEditora() {
 		return editora;
 	}
-	public void setEditora(Editora editora) {
+	public void setEditora(String editora) {
 		this.editora = editora;
 	}
 
 	public void setEditoraComoString(String s){
-		for(int i = 0; i < Editora.values().length;  i++){
+		/*for(int i = 0; i < Editora.values().length;  i++){
 			if(s.equals(Editora.values()[i])){
 				this.editora = Editora.values()[i];
 			}
-		}
+		}*/
 	}
 
 	public int getQuantidade() {

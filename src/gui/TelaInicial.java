@@ -112,6 +112,7 @@ public class TelaInicial extends JPanel{
 		c.gridy = 7;
 		this.add(btn_registrarPacoteLivros, c);
 		
+		
 	
 		btn_registrarCliente.addActionListener(new ActionListener() {
 			@Override
@@ -131,6 +132,13 @@ public class TelaInicial extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				guiManager.mudarParaTela("telaPedidoCliente");
+			}
+		});
+		
+		btn_registrarEditora.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				guiManager.mudarParaTela("telaEditora");
 			}
 		});
 		
