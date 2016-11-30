@@ -218,13 +218,13 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		
 		if(acao == Acao.ADICIONAR){
 			Cliente cliente = new Cliente(camposEmTexto);
-			if(cliente.isValidCliente()){
+			if(cliente.isValidCliente()) {
 				JOptionPane.showConfirmDialog(this, "Confirmar a adição do cliente: " + cliente.getNome(), "Confirmar Adição", JOptionPane.OK_CANCEL_OPTION);
 				ClienteManager.getInstance().adicionarNovoCliente(cliente);
 				((MyTableModelCliente)table.getModel()).updateData();
 				table.repaint();
 			}
-			else{
+			else {
 				JOptionPane.showMessageDialog(this, "Preencha todos os campos com informações válidas","Erro ao adicionar", JOptionPane.OK_CANCEL_OPTION);
 			}
 			
@@ -258,12 +258,12 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 				Object[] parametrosDoNovoCliente = novoCliente.pegarTodosParametros();
 				Object[] parametrosDoClienteASerAdicionado = clienteASerAdicionado.pegarTodosParametros();
 				for(int i = 1; i < camposEmTexto.length; i++){
-					if(parametrosDoNovoCliente[i].toString().length() > 0){
+					if(parametrosDoNovoCliente[i].toString().length() > 0) {
 						mensage = mensage.concat(cliente.pegarTodosParametros()[i] + " ---> " + novoCliente.pegarTodosParametros()[i] + "\n");
 						parametrosDoClienteASerAdicionado[i] = parametrosDoNovoCliente[i];
 					}
 				}
-				if(mensage.length() > 0){
+				if(mensage.length() > 0) {
 					JOptionPane.showConfirmDialog(this, mensage	,"Atualizacao", JOptionPane.OK_CANCEL_OPTION);
 					clienteASerAdicionado.setarTodosParametros(parametrosDoClienteASerAdicionado);
 					ClienteManager.getInstance().atualizarCliente(ClienteManager.getInstance().getIndexPeloId(id), clienteASerAdicionado);

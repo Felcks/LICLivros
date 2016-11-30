@@ -42,15 +42,15 @@ public class OperacoesClientes extends JavaConnection{
 		}
 	}
 	
-	public void INSERT_TODOSCLIENTES(List<Cliente> clientes){
-		try{
+	public void INSERT_TODOSCLIENTES(List<Cliente> clientes) {
+		try {
 			ConnectBd();
 			connection.setAutoCommit(false);
 			stmt  = connection.createStatement();
 			String delete = "DELETE FROM CLIENTES";
 			stmt.executeUpdate(delete);
 			
-			for(Cliente c : clientes){
+			for(Cliente c : clientes) {
 				int id = c.getId();
 				String nome = c.getNome();
 				String bairro = c.getBairro();
@@ -73,7 +73,7 @@ public class OperacoesClientes extends JavaConnection{
 		    connection.commit();
 			stmt.close();
 			connection.close();
-		}catch(Exception e){
+		} catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}

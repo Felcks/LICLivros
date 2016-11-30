@@ -74,17 +74,8 @@ public class EstoqueManager {
 	
 	public int gerarId(Editora editora){
 		int id = 0;
-		if(getLivrosDeUmaEditora(editora).size() != 0){
-			for(int i = 0; i < getLivrosDeUmaEditora(editora).size(); i++){
-				if(getLivrosDeUmaEditora(editora).get(i).getId() + 1 != getLivrosDeUmaEditora(editora).get(i+1).getId()){
-					id = getLivrosDeUmaEditora(editora).get(i).getId() + 1;
-					break;
-				}else{
-					id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
-				}
-			}
-		}else
-			id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
+		
+		id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
 		
 		System.out.println(id);
 		return id;

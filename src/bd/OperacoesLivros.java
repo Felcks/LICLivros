@@ -14,6 +14,7 @@ public class OperacoesLivros
 	
 	public void INSERT_LIVROS(Livro livro) {
 		try{
+			JavaConnection.getInstance().ConnectBd();
 			conn = JavaConnection.getInstance().connection;
 			conn.setAutoCommit(false);
 			int id = livro.getId();
@@ -44,6 +45,7 @@ public class OperacoesLivros
 	public void UPADTE_LIVROS(Livro livro)
 	{
 		try{
+			JavaConnection.getInstance().ConnectBd();
 			conn = JavaConnection.getInstance().connection;
 			conn.setAutoCommit(false);
 			int id = livro.getId();
