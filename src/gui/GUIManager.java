@@ -44,7 +44,6 @@ public class GUIManager{
 		this.janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.janela.setVisible(true);
 		this.janela.setTitle("LIC - LIVROS IDEIAS CULTURA");
-		//this.janela.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.janela.setLocationRelativeTo(null);
 	}
 	private void criarCards(){
@@ -53,9 +52,9 @@ public class GUIManager{
 	}
 	
 	public void mudarParaTela(String tela){		
+		// ESSE IF AQUI AINDA É RUIM. MAS FOI A MELHOR FORMA QUE ENCONTREI. PELO MENOS O MÉTODO ESTÁ NA INTERFACE.
 		if(tela.equals("telaCliente")){
-				ClienteManager.getInstance().getTodosClientesDoBD();
-				this.telaCliente.repintarTabela();
+			this.telaCliente.prepararComponentes();
 		}
 		
 		CardLayout cl = (CardLayout)(this.cards.getLayout());
@@ -69,4 +68,5 @@ public class GUIManager{
 	public JFrame getJanela(){
 		return this.janela;
 	}
+	
 }

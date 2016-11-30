@@ -49,8 +49,6 @@ public class Cliente implements Comparable<Cliente> {
 			this.setTelefone(telefone);
 			String celular = rs.getString("CELULAR");
 			this.setCelular(celular);
-			
-			//System.out.println(id + " " + nome + " " + bairro);
 		} catch(Exception e){}
 	}
 
@@ -145,7 +143,6 @@ public class Cliente implements Comparable<Cliente> {
 
 	@Override
 	public int compareTo(Cliente cliente) {
-		System.out.println( this.getNome().compareToIgnoreCase(cliente.getNome()));
 		return this.getNome().compareToIgnoreCase(cliente.getNome());
 		
 	}

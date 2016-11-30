@@ -17,16 +17,8 @@ public class ClienteManager
 	private Connection conn = null;
 	
 	private ClienteManager(){
-		this.clientes = new ArrayList<Cliente>();
-		
-		/*
-		 * Só para teste EDH THTRHTR
-		 */
-		//this.clientes.add(new Cliente(this.clientes.size(),"Matheus", "Guadalupe", "Monteiro da Silva", "158", "", ""));
-		//this.clientes.add(new Cliente(this.clientes.size(),"Pedro", "Guadalupe", "Monteiro da Silva", "158", "", ""));
-		//this.clientes.add(new Cliente(this.clientes.size(),"c", "Guadalupe", "Monteiro da Silva", "158", "", ""));
-		
-		}
+		this.clientes = new ArrayList<Cliente>();	
+	}
 	
 	public static ClienteManager getInstance(){
 		if(clienteManager == null)
@@ -51,9 +43,6 @@ public class ClienteManager
 			resultSet.close();
 			stmt.close();
 		} catch(Exception e){}
-		
-		//OperacoesClientes opC = new OperacoesClientes();
-		//opC.INSERT_CLIENTES(new Cliente(this.clientes.size(),"Matheus", "Guadalupe", "Monteiro da Silva", "158", "", ""));
 	}
 	
 	
@@ -114,7 +103,6 @@ public class ClienteManager
 	public void organizarEmOrdemAlfabetica(){
 		for(int i = 0; i < this.clientes.size() - 1; i++){
 			for(int j = i + 1; j < this.clientes.size(); j++){
-				System.out.println(this.clientes.get(i).getNome() + "bb" + this.clientes.get(j).getNome());
 				if(this.clientes.get(i).compareTo(this.clientes.get(j)) > 0 ){
 					Cliente temp = clientes.get(i);
 					clientes.set(i,clientes.get(j));

@@ -35,12 +35,10 @@ public class TelaInicial extends JPanel {
 		
 		this.setLayout(new GridBagLayout());
         this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        GridBagConstraints c = new GridBagConstraints();
-            
+        
+        GridBagConstraints c = new GridBagConstraints();    
         c.weightx = 1;
         c.weighty = 1;
-        //this.add(new JButton("Esquerda"), c);
-        //this.add(new JButton("Direita"), c);
         
         
        for(int i = 0; i < 12; i ++){
@@ -50,36 +48,11 @@ public class TelaInicial extends JPanel {
         		c.fill = GridBagConstraints.BOTH;
         		this.add(new JLabel(""), c);
         	}
-        }
-        
-        JLabel medida = new JLabel("Olá Mundo");
-       
-		/*c.fill = GridBagConstraints.CENTER;
-		JButton teste = new JButton("Teste");
-		c.gridx = 9;
-		c.gridy = 9;
-		this.add(teste, c);
-		
-		JButton teste3 = new JButton("Teste");
-		c.gridx = 0;
-		c.gridy = 9;
-		this.add(teste3, c);
-		
-		JButton teste4 = new JButton("Teste");
-		c.gridx = 9;
-		c.gridy = 0;
-		this.add(teste4, c);
-		
-		JButton teste2 = new JButton("Teste");
-		c.gridx = 0;
-		c.gridy = 0;
-		this.add(teste2, c);*/
-        
+        } 
         
 		JLabel txt_Title = new JLabel("LIC - Livros Ideias Cultura", SwingConstants.CENTER);
 		txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));
 		txt_Title.setSize(1000,100);
-		//c.fill = GridBagConstraints.BOTH;
 		c.gridx = 4;
 		c.gridy = 0;
 		c.gridwidth = 4;
@@ -94,16 +67,9 @@ public class TelaInicial extends JPanel {
 		c.insets = new Insets(10,10,10,10);
 		c.gridx = 4;
 		c.gridy = 2;
-		/*btn_FazerPedido.setBackground(Color.WHITE);
-		btn_FazerPedido.setForeground(Color.BLACK);
-		 Border line = new LineBorder(Color.BLACK);
-		  Border margin = new EmptyBorder(5, 15, 5, 15);
-		  Border compound = new CompoundBorder(line, margin);
-		  btn_FazerPedido.setBorder(compound);*/
 		this.add(btn_FazerPedido, c);
 		
 		JButton btn_verEstoque = new JButton("Checar Estoque");
-		//c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.CENTER;
 		c.gridwidth = 4;
 		c.gridheight = 2;
@@ -126,9 +92,6 @@ public class TelaInicial extends JPanel {
 		JButton btn_registrarEscola = new JButton("Registrar Escola");
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.CENTER;
-		//c.weighty = 1;
-		//c.gridwidth = 1;
-		//c.gridheight = 1;
 		c.gridx = 1;
 		c.gridy = 7;
 		c.ipadx = 0;
@@ -137,8 +100,6 @@ public class TelaInicial extends JPanel {
 		JButton btn_registrarCliente = new JButton("Registrar Cliente");
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.CENTER;
-		//c.gridwidth = 1;
-		//c.gridheight = 1;
 		c.gridx = 8;
 		c.gridy = 6;
 		c.ipadx = 0;
@@ -147,8 +108,6 @@ public class TelaInicial extends JPanel {
 		JButton btn_registrarPacoteLivros = new JButton("Registrar Pacote de Livros");
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.CENTER;
-		//c.gridwidth = 1;
-		//c.gridheight = 1;
 		c.gridx = 8;
 		c.gridy = 7;
 		this.add(btn_registrarPacoteLivros, c);
@@ -158,7 +117,6 @@ public class TelaInicial extends JPanel {
 			@Override
 			  public void actionPerformed(ActionEvent e) {
 				guiManager.mudarParaTela("telaCliente");
-				
 			  }
 		});
 		
@@ -166,7 +124,6 @@ public class TelaInicial extends JPanel {
 			@Override
 			  public void actionPerformed(ActionEvent e) {
 				guiManager.mudarParaTela("telaEstoque");
-				
 			  }
 		});
 		
@@ -174,7 +131,6 @@ public class TelaInicial extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				guiManager.mudarParaTela("telaPedidoCliente");
-				
 			}
 		});
 		

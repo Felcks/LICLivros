@@ -13,10 +13,7 @@ public class Screen {
 		Dimension dim = toolkit.getScreenSize();
 		width = (dim.width / 4) * 3;
 		height = (dim.height / 4) * 3;
-		
-		//width = 300;
-		//height = 100;
-	};
+	}
 	
 	
 }
