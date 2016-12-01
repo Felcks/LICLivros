@@ -246,6 +246,39 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 				JOptionPane.showMessageDialog(this, "Id inexistente!","Erro ao remover", JOptionPane.OK_CANCEL_OPTION);
 			}
 		}
+		else if(acao == Acao.ATUALIZAR){
+			String idSelecionado = camposEmTexto[0];
+			int id = -1;
+			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
+			if(id >= 0 && id < ClienteManager.getInstance().getTodosClientes().size()){
+				Livro novoLivro = new Livro(camposEmTexto);
+				Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
+				Livro livroASerAdicionado = livro;
+				
+				String mensage = "";
+				Object[] parametrosDoNovoLivro = novoLivro.pegarTodosParametros();
+				Object[] parametrosDoLivroASerAdicionado = livroASerAdicionado.pegarTodosParametros();
+				String[] nomeParametros = { "ID", "NOME", "EDITORA", "QUANTIDADE", "COMPRAR", "PREÇO"};
+				for(int i = 1; i < camposEmTexto.length; i++){
+					if(parametrosDoNovoLivro[i].toString().length() > 0){
+						mensage = mensage.concat(nomeParametros[i] + ": " + livro.pegarTodosParametros()[i] + " ---> " 
+												 + novoLivro.pegarTodosParametros()[i] + "\n");
+						parametrosDoLivroASerAdicionado[i] = parametrosDoNovoLivro[i];
+					}
+				}
+				if(mensage.length() > 0){
+					JOptionPane.showConfirmDialog(this, mensage	,"Atualizacao", JOptionPane.OK_CANCEL_OPTION);
+					livroASerAdicionado.setarTodosParametros(parametrosDoLivroASerAdicionado);
+					EstoqueManager.getInstance().atualizarLivro(id, livroASerAdicionado);
+					this.repintarTabela(comboBox.getSelectedItem().toString());
+				}
+				else
+					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
+		}
+			else{
+				JOptionPane.showMessageDialog(this, "Id Inexistente","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
+			}
+		}
 	}
 	
 	private void repintarTabela(String editora){

@@ -44,6 +44,10 @@ public class EstoqueManager {
 		this.livros.remove(id);
 	}
 	
+	public void atualizarLivro(int index, Livro livro){
+		this.livros.set(index, livro);
+	}
+	
 	public void reorganizarLista(){
 		for(int i = 0; i < this.livros.size(); i++){
 			this.livros.get(i).setId(i);
