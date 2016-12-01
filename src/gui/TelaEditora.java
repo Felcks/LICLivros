@@ -162,23 +162,50 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
 		
 		if(acao == Acao.ADICIONAR){
 			Editora editora = new Editora(EditoraManager.getInstance().getEditoras().size(), camposEmTexto[1]);
-			JOptionPane.showConfirmDialog(this, "Confirmar a adição da editora: " + editora.getNome(), "Confirmar Adição", JOptionPane.OK_CANCEL_OPTION);
+			JOptionPane.showConfirmDialog(this, "Confirmar a adição da editora: " + editora.getNome() + "?", "Confirmar Adição", JOptionPane.OK_CANCEL_OPTION);
 			EditoraManager.getInstance().adicionarNovaEditora(editora);
-			((MyTableModelEditora)table.getModel()).updateData();
-			table.repaint();
+			this.repintarTabela();
 		}
-		/*if(acao == Acao.ADICIONAR){
-			Cliente cliente = new Cliente(camposEmTexto);
-			if(cliente.isValidCliente()){
-				JOptionPane.showConfirmDialog(this, "Confirmar a adição do cliente: " + cliente.getNome(), "Confirmar Adição", JOptionPane.OK_CANCEL_OPTION);
-				ClienteManager.getInstance().adicionarNovoCliente(cliente);
-				((MyTableModelCliente)table.getModel()).updateData();
-				table.repaint();
+		else if(acao == Acao.REMOVER){
+			String idSelecionado = camposEmTexto[0];
+			int id = -1;
+			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
+			if(id >= 0 && id < EditoraManager.getInstance().getEditoras().size()){
+				Editora editora = EditoraManager.getInstance().getEditoras().get(id);
+				JOptionPane.showConfirmDialog(this, "Remover editora: " + editora.getNome() + "?", "Confirmar Remoção", JOptionPane.OK_CANCEL_OPTION);
+				EditoraManager.getInstance().removerEditora(id);
+				EditoraManager.getInstance().reorganizarLista();
+				this.repintarTabela();
 			}
-			else{
-				JOptionPane.showMessageDialog(this, "Preencha todos os campos com informações válidas","Erro ao adicionar", JOptionPane.OK_CANCEL_OPTION);
-			}	
-		}*/
+		}
+		else if (acao == Acao.ATUALIZAR){
+			String idSelecionado = camposEmTexto[0];
+			int id = -1;
+			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
+			if(id >= 0 && id < EditoraManager.getInstance().getEditoras().size()){
+				Editora velhaEditora = EditoraManager.getInstance().getEditoras().get(id);
+				Editora novaEditora = new Editora(camposEmTexto[1]);
+				
+				String mensage = "";
+				if(novaEditora.getNome().toString().length() > 0){
+					mensage = mensage.concat(velhaEditora.getNome() + " ---> " + novaEditora.getNome() + "\n");
+				}
+				
+				if(mensage.length() > 0){
+					JOptionPane.showConfirmDialog(this, mensage	,"Atualizacao", JOptionPane.OK_CANCEL_OPTION);
+					novaEditora.setId(velhaEditora.getId());
+					EditoraManager.getInstance().atualizarEditora(id, novaEditora);
+					this.repintarTabela();
+				}
+				else
+					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
+			}
+		}
+		else{
+			JOptionPane.showMessageDialog(this, "Id inexistente!","Erro ao remover", JOptionPane.OK_CANCEL_OPTION);
+		}
+			
+
 	}
 	
 	@Override

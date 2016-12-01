@@ -148,7 +148,6 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		this.add(btn_Voltar, c);
 		
 	
-		
 		btn_Voltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -162,131 +161,8 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 				atualizarLivros(table, comboBox, textFields[2]);
 			}
 		});
-		
-		/*
-		JTable table = new JTable(new MyTableModel(Editora.ED_ATICA));
-		table.setBounds(1366/2 - table.getPreferredSize().width/2 ,300, 500, 500);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.getColumnModel().getColumn(0).setPreferredWidth(75);
-		table.getColumnModel().getColumn(1).setPreferredWidth(497);
-		table.getColumnModel().getColumn(2).setPreferredWidth(200);
-		table.getColumnModel().getColumn(3).setPreferredWidth(75);
-		table.getColumnModel().getColumn(4).setPreferredWidth(75);
-		table.getColumnModel().getColumn(5).setPreferredWidth(75);		
-		//table.setDefaultRenderer(Boolean.class, new CustomCellRenderer());
-		JScrollPane scrollPane = new JScrollPane(table);
-		table.setFillsViewportHeight(true);
-		scrollPane.setSize(1000, 400);
-		scrollPane.setLocation(1366/2 - scrollPane.getSize().width/2 ,180);
-		this.add(scrollPane);
-		
 
-		String[] columns = {"ID", "NOME", "EDITORA", "QTD",  "COMPRAR", "PREÇO"};
-		JLabel[] labels = new JLabel[columns.length];
-		JTextField[] textFields = new JTextField[columns.length];
-		
-		for(int i = 0; i < labels.length; i++){
-			labels[i] = new JLabel(columns[i]);
-			labels[i].setSize(100, 30);
-			labels[i].setFont(labels[i].getFont().deriveFont(5));
-			
-			textFields[i] = new JTextField();
-			textFields[i].setSize(50, 30);
-			
-			this.add(textFields[i]);
-			this.add(labels[i]);	
-		}
-		
-		labels[0].setLocation(200, 590);
-		textFields[0].setLocation(185,610 );
-		
-		textFields[1].setSize(497, 30);
-		textFields[1].setLocation(270 ,610 );
-		labels[1].setLocation(480 ,590 );
-
-		textFields[2].setSize(200, 30);
-		textFields[2].setLocation(775 ,610 );
-		textFields[2].setEditable(false);
-		labels[2].setLocation(825 ,590 );
-		
-		textFields[3].setLocation(993 ,610 );
-		labels[3].setLocation(998 ,590 );
-		
-		textFields[4].setLocation(1063 ,610 );
-		labels[4].setLocation(1058 ,590 );
-		
-		textFields[5].setLocation(1133 ,610 );
-		labels[5].setLocation(1133 ,590 );
-
-		
-		String[] todasEditoras = new String[Editora.values().length];
-		for(int i = 0; i < todasEditoras.length; i++){
-			todasEditoras[i] = Editora.values()[i].getNome();
-		}
-		JComboBox comboBox = new JComboBox(todasEditoras);
-		comboBox.setSelectedItem(0);
-		comboBox.setBounds(1366/2 - 200, 110, 400, 40);
-		comboBox.setFont(comboBox.getFont().deriveFont(20.0f));
-		
-		ActionListener verEscolaSelecionada = new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				atualizarLivros(table, comboBox, textFields[2]);
-			}
-		};
-		comboBox.addActionListener(verEscolaSelecionada);
-		this.add(comboBox);
-		atualizarLivros(table, comboBox, textFields[2]);
-		
-		JButton btnVoltar = new JButton("Voltar");
-		btnVoltar.setLocation(30, 680);
-		btnVoltar.setSize(200, 50);
-		ActionListener irParaTelaInicial = new ActionListener() {
-			@Override
-			  public void actionPerformed(ActionEvent e) {
-			    guiManager.mudarParaTela("telaInicial");
-			  }
-			};
-		btnVoltar.addActionListener(irParaTelaInicial);
-		this.add(btnVoltar);
-		
-		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setLocation(1124, 680);
-		btnSalvar.setSize(200, 50);
-		ActionListener salvar = new ActionListener() {
-			@Override
-			  public void actionPerformed(ActionEvent e) {
-				atualizarLivros(table, comboBox, textFields[2]);
-			  }
-			};
-		btnSalvar.addActionListener(salvar);
-		this.add(btnSalvar);
-		
-		
-		JButton btnAdicionar = new JButton("Adicionar");
-		btnAdicionar.setLocation(1366/2 - 100, 670);
-		btnAdicionar.setSize(200, 50);
-		ActionListener adicionarOuAtualizar = new ActionListener() {
-			@Override
-			  public void actionPerformed(ActionEvent e) {
-				if(textFields[0].getText().length() > 0){
-					if(checarCampos(textFields, labels, true)){
-						atualizarUmLivro(textFields, comboBox, table);
-						atualizarLivros(table, comboBox, textFields[2]);
-					}
-				}
-				else{
-					if(checarCampos(textFields, labels, false)){
-						adicionarLivro(textFields, comboBox, table);
-					}
-				}
-				
-			  }
-			};
-		btnAdicionar.addActionListener(adicionarOuAtualizar);
-		this.add(btnAdicionar);
-		*/
-		
+		//table.setDefaultRenderer(Boolean.class, new CustomCellRenderer());		
 		
 		this.guiManager.getCards().add(this, "telaRegistrarLivro");
 	}

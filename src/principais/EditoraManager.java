@@ -50,4 +50,16 @@ public class EditoraManager {
 	public void adicionarNovaEditora(Editora editora){
 		this.editoras.add(editora);
 	}
+	public void removerEditora(int index){
+		this.editoras.remove(index);
+	}
+	public void atualizarEditora(int index, Editora editora){
+		this.editoras.set(index, editora);
+	}
+	
+	public void reorganizarLista(){
+		for(int i= 0; i < this.editoras.size(); i++){
+			this.editoras.get(i).setId(i);
+		}
+	}
 }

@@ -11,6 +11,10 @@ public class Editora {
 		this.id = id;
 	}
 	
+	public Editora(String nome){
+		this.setNome(nome);
+	}
+	
 	public Editora(){}
 	
 	public String getNome(){

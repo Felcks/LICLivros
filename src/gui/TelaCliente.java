@@ -238,8 +238,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 				JOptionPane.showConfirmDialog(this, "Cliente: " + cliente.getNome(), "Confirmar Remoção", JOptionPane.OK_CANCEL_OPTION);
 				ClienteManager.getInstance().removerCliente(id);
 				ClienteManager.getInstance().reorganizarLista();
-				((MyTableModelCliente)table.getModel()).updateData();
-				table.repaint();
+				this.repintarTabela();
 			}
 			else{
 				JOptionPane.showMessageDialog(this, "Id inexistente!","Erro ao remover", JOptionPane.OK_CANCEL_OPTION);
@@ -267,12 +266,11 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 					JOptionPane.showConfirmDialog(this, mensage	,"Atualizacao", JOptionPane.OK_CANCEL_OPTION);
 					clienteASerAdicionado.setarTodosParametros(parametrosDoClienteASerAdicionado);
 					ClienteManager.getInstance().atualizarCliente(ClienteManager.getInstance().getIndexPeloId(id), clienteASerAdicionado);
-					((MyTableModelCliente)table.getModel()).updateData();
-					table.repaint();
+					this.repintarTabela();
 				}
 				else
 					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
-			}
+		}
 			else{
 				JOptionPane.showMessageDialog(this, "Id Inexistente","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
 			}
