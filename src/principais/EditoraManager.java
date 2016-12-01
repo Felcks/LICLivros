@@ -56,6 +56,15 @@ public class EditoraManager {
 	public void atualizarEditora(int index, Editora editora){
 		this.editoras.set(index, editora);
 	}
+	public int getIndexPeloNome(String nome){
+		for(int i = 0; i < this.editoras.size(); i++){
+			if(this.editoras.get(i).getNome().equals(nome)){
+				return i;
+			}
+		}
+		
+		return -1;
+	}
 	
 	public void reorganizarLista(){
 		for(int i= 0; i < this.editoras.size(); i++){

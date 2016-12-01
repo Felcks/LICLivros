@@ -20,7 +20,6 @@ public class Livro {
 			this.setNome(nome);
 			String editora = rs.getString("EDITORA");
 			this.setEditora(editora);
-			System.out.println("erro em Livro linha 33!");
 			int quantidade = rs.getInt("QUANTIDADE");
 			this.setQuantidade(quantidade);
 			int comprar = rs.getInt("COMPRAR");
@@ -28,6 +27,17 @@ public class Livro {
 			double preco = rs.getDouble("PRECO");
 			this.setPreco(preco);
 		}catch(Exception e){}
+	}
+	
+	public Livro(String[] campos){
+		try{
+			this.setNome(campos[1]);
+			this.setEditora(campos[2]);
+			this.setQuantidade(Integer.parseInt(campos[3]));
+			this.setComprar(Integer.parseInt(campos[4]));
+			this.setPreco(Double.parseDouble(campos[5]));
+		}
+		catch (Exception e){}
 	}
 	
 	public Livro(String nome){
@@ -41,6 +51,20 @@ public class Livro {
 		this.setQuantidade(quantidade);
 		this.setComprar(comprar);
 		this.setPreco(preco);
+	}
+	
+	public Boolean isValidLivro(){
+		Object[] object = pegarTodosParametros();
+		
+		if(this.getId() <= 0)
+			return false;
+		
+		for(int i = 1; i < object.length - 1; i++){
+			if(object[i].toString().length() == 0)
+				return false;
+		}
+		
+		return true;
 	}
 	
 	public Object[] pegarTodosParametros(){

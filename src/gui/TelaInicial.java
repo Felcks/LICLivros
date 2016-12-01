@@ -67,6 +67,7 @@ public class TelaInicial extends JPanel{
 		c.insets = new Insets(10,10,10,10);
 		c.gridx = 4;
 		c.gridy = 2;
+		btn_FazerPedido.setFont(btn_FazerPedido.getFont().deriveFont((float)(Screen.width/40)));
 		this.add(btn_FazerPedido, c);
 		
 		JButton btn_verEstoque = new JButton("Checar Estoque");
@@ -75,6 +76,7 @@ public class TelaInicial extends JPanel{
 		c.gridheight = 2;
 		c.gridx = 4;
 		c.gridy = 4;
+		btn_verEstoque.setFont(btn_FazerPedido.getFont().deriveFont(Screen.width/25));
 		this.add(btn_verEstoque, c);
 		
 		JButton btn_registrarEditora = new JButton("Registrar Editora");

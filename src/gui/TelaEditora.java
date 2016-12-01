@@ -85,11 +85,11 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 1;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
-		c.gridwidth = 7;
+		c.gridwidth =5;
 		c.gridheight = 5;
 		this.add(scrollPane, c);
 		
@@ -243,8 +243,6 @@ class MyTableModelEditora extends AbstractTableModel {
     		data[i] = EditoraManager.getInstance().getEditoras().get(i).pegarTodosParametros();
     	}	 	
     }
-    
-    
 
     public int getColumnCount() {
         return columnNames.length;

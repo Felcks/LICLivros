@@ -36,6 +36,20 @@ public class EstoqueManager {
 		return this.livros;
 	}
 	
+	public Livro getLivroPeloId(int id){
+		return this.livros.get(id);
+	}
+	
+	public void removerLivro(int id){
+		this.livros.remove(id);
+	}
+	
+	public void reorganizarLista(){
+		for(int i = 0; i < this.livros.size(); i++){
+			this.livros.get(i).setId(i);
+		}
+	}
+	
 	public void getLivrosDoBancoDeDados(){
 		try{
 			conn = JavaConnection.getInstance().connection;
@@ -70,6 +84,10 @@ public class EstoqueManager {
 		}
 		
 		return todosOsNomesDosLivros;
+	}
+	
+	public void adicionarNovoLivro(Livro livro){
+		this.livros.add(livro);
 	}
 	
 	public int gerarId(){
