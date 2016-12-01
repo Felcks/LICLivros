@@ -73,7 +73,7 @@ public class ClienteManager
 		this.clientes.remove(this.getIndexPeloId(id));
 	}
 	public void atualizarCliente(int index, Cliente cliente){
-		this.clientes.set(index, cliente);
+		this.clientes.set(index, cliente);	
 	}
 	public void reorganizarLista(){
 		for(int i= 0; i < this.clientes.size(); i++){

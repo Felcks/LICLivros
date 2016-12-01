@@ -90,25 +90,10 @@ public class EstoqueManager {
 		return todosOsNomesDosLivros;
 	}
 	
-	public void adicionarNovoLivro(Livro livro){
-		this.livros.add(livro);
-	}
-	
-	public int gerarId(){
-		/*int id = 0;
-		if(getLivrosDeUmaEditora(editora).size() != 0){
-			for(int i = 0; i < getLivrosDeUmaEditora(editora).size(); i++){
-				if(getLivrosDeUmaEditora(editora).get(i).getId() + 1 != getLivrosDeUmaEditora(editora).get(i+1).getId()){
-					id = getLivrosDeUmaEditora(editora).get(i).getId() + 1;
-					break;
-				}else{
-					//id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
-				}
-			}
-		}else
-			//id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
+	public int gerarId(Editora editora){
+		int id = 0;
 		
-		System.out.println(id);*/
+		id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
 		
 		return 0;
 	}
