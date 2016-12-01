@@ -48,6 +48,10 @@ public class EstoqueManager {
 		this.livros.set(index, livro);
 	}
 	
+	public void adicionarNovoLivro(Livro livro){
+		this.livros.add(livro);
+	}
+	
 	public void reorganizarLista(){
 		for(int i = 0; i < this.livros.size(); i++){
 			this.livros.get(i).setId(i);
@@ -93,7 +97,7 @@ public class EstoqueManager {
 	public int gerarId(Editora editora){
 		int id = 0;
 		
-		id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
+		//id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
 		
 		return 0;
 	}

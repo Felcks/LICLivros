@@ -79,14 +79,9 @@ public class OperacoesLivros extends JavaConnection
 	public void UPADTE_LIVROS(Livro livro)
 	{
 		try{
-<<<<<<< HEAD
 			connection = JavaConnection.getInstance().connection;
 			connection.setAutoCommit(false);
-=======
-			JavaConnection.getInstance().ConnectBd();
-			conn = JavaConnection.getInstance().connection;
-			conn.setAutoCommit(false);
->>>>>>> b6453e4a27ba48a60c796e5538b1dcb5543b67c0
+
 			int id = livro.getId();
 			String nome = livro.getNome();
 			String editora = livro.getEditora();
