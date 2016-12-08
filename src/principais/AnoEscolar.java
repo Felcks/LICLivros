@@ -17,14 +17,20 @@ public enum AnoEscolar {
 		return this.nome;
 	}
 	
-	public static AnoEscolar getAnoEscolarDeUmaString(String valor){
-		AnoEscolar anoEscolar = AnoEscolar.JARDIM_1;
-		for(int i = 0; i < AnoEscolar.values().length; i++){
-			if(valor == AnoEscolar.values()[i].getNome()){
-				anoEscolar = AnoEscolar.values()[i];
-			}
+	public static String[] getTodosNomesAnosEscolares(){
+		String[] nome = new String[AnoEscolar.values().length];
+		for(int i = 0; i < nome.length; i++)
+			nome[i] = AnoEscolar.values()[i].getNome();
+		
+		return nome;
+	}
+	public static AnoEscolar getAnoEscolarPeloNome(String nome){
+		AnoEscolar ano = AnoEscolar.JARDIM_1;
+		for(int i = 0, n = AnoEscolar.values().length; i < n; i++){
+			if(nome.equals(AnoEscolar.values()[i].getNome()))
+				ano = AnoEscolar.values()[i];
 		}
 		
-		return anoEscolar;
+		return ano;
 	}
 }

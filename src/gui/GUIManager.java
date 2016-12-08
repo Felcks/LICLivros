@@ -9,7 +9,9 @@ import javax.swing.JPanel;
 
 import principais.ClienteManager;
 import principais.EditoraManager;
+import principais.EscolaManager;
 import principais.EstoqueManager;
+import principais.PacoteManager;
 import utilidades.Screen;
 
 public class GUIManager{
@@ -21,6 +23,7 @@ public class GUIManager{
 	private TelaCliente telaCliente;
 	private TelaEditora telaEditora;
 	private TelaPedidoCliente telaPedidoCliente;
+	private TelaEscola telaEscola;
 	
 	public GUIManager(){
 		this.criarJanela();
@@ -34,13 +37,14 @@ public class GUIManager{
 		this.telaCliente = new TelaCliente(this);
 		this.telaEditora = new TelaEditora(this);
 		this.telaPedidoCliente = new TelaPedidoCliente(this);
+		this.telaEscola = new TelaEscola(this);
 		this.cards.add(this.telaInicial, "telaInicial");
 		this.cards.add(this.telaEstoque, "telaEstoque");
 		this.cards.add(this.telaPacote, "telaPacote");
 		this.cards.add(this.telaCliente, "telaCliente");
 		this.cards.add(this.telaEditora, "telaEditora");
 		this.cards.add(this.telaPedidoCliente, "telaPedidoCliente");
-		
+		this.cards.add(this.telaEscola, "telaEscola");		
 		this.mudarParaTela("telaInicial");
 	}
 	
@@ -72,6 +76,12 @@ public class GUIManager{
 		else if(tela.equals("telaEditora")){
 			this.telaEditora.prepararComponentes();
 		}
+		else if(tela.equals("telaEscola")){
+			this.telaEscola.prepararComponentes();
+		}
+		else if(tela.equals("telaPacote")){
+			this.telaPacote.prepararComponentes();
+		}
 		
 		CardLayout cl = (CardLayout)(this.cards.getLayout());
 		cl.show(cards, tela);
@@ -89,6 +99,8 @@ public class GUIManager{
 		ClienteManager.getInstance().getTodosClientesDoBD();
 		EstoqueManager.getInstance().getLivrosDoBancoDeDados();
 		EditoraManager.getInstance().getTodasEditorasDoBD();
+		EscolaManager.getInstance().getTodasEscolasDoBD();
+		PacoteManager.getInstance().getTodosOsPacotesDoBD();
 	}
 	
 }

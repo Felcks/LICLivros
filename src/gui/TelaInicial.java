@@ -31,7 +31,7 @@ public class TelaInicial extends JPanel{
 	private GUIManager guiManager;
 	
 	public TelaInicial(GUIManager guiManager) {
-		this.guiManager = guiManager;
+		this.guiManager = guiManager;	
 		
 		this.setLayout(new GridBagLayout());
         this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -141,6 +141,20 @@ public class TelaInicial extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				guiManager.mudarParaTela("telaEditora");
+			}
+		});
+		
+		btn_registrarEscola.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				guiManager.mudarParaTela("telaEscola");
+			}
+		});
+		
+		btn_registrarPacoteLivros.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				guiManager.mudarParaTela("telaPacote");
 			}
 		});
 		

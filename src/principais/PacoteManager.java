@@ -1,7 +1,12 @@
 package principais;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import bd.JavaConnection;
 
 /**
  * Esquema parecido com a EstoqueManager
@@ -15,12 +20,18 @@ public class PacoteManager {
 	
 	private static PacoteManager pacoteManager;
 	private List<Pacote> pacotes;
+	private Statement stmt;
+	private Connection conn = null;
 	
 	public static PacoteManager getInstance(){
 		if(pacoteManager == null)
 			pacoteManager = new PacoteManager();
 		
 		return pacoteManager;
+	}
+	
+	public List<Pacote> getPacotes(){
+		return this.pacotes;
 	}
 	
 	private PacoteManager(){
@@ -49,14 +60,37 @@ public class PacoteManager {
 		this.pacotes.add(new Pacote(Escola.ESCOLA_2, AnoEscolar.JARDIM_1, livros3)); //Esse é para testar - Mudando só o ano se ele vai trocar*/
 	}
 	
+	public void getTodosOsPacotesDoBD(){
+		try{
+			JavaConnection.getInstance().ConnectBd();
+			conn = JavaConnection.getInstance().connection;
+			stmt = conn.createStatement();
+			
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM PACOTES");
+			this.pacotes.clear();
+			while (resultSet.next()){
+				Pacote pacote = new Pacote(resultSet);
+				this.pacotes.add(pacote);
+			}
+			resultSet.close();
+			stmt.close();
+		} catch(Exception e){}
+	}
+	
 	public Pacote getPacote(Escola escola, AnoEscolar anoEscolar){
-		Pacote pacote = new Pacote(Escola.ESCOLA_1, AnoEscolar.JARDIM_1, new ArrayList<Livro>());
+		Pacote pacote = new Pacote(-1, new Escola("EscolaInexistente"), anoEscolar, new ArrayList<Livro>());
+	
 		for(int i = 0; i < this.pacotes.size(); i++){
-			if(escola == this.pacotes.get(i).getEscola() && anoEscolar == this.pacotes.get(i).getAnoEscolar()){
+			if(escola.getNome().equals(this.pacotes.get(i).getEscola().getNome()) && anoEscolar == this.pacotes.get(i).getAnoEscolar()){
 				pacote = this.pacotes.get(i);
 			}
 		}
 		
+		if(pacote.getEscola().getNome().equals("EscolaInexistente")){
+			pacote = new Pacote(this.pacotes.size(), escola, anoEscolar, new ArrayList<Livro>());
+			this.pacotes.add(pacote);
+		}
+			
 		return pacote;
 	}
 

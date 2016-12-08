@@ -1,26 +1,52 @@
 package principais;
 
-public enum Escola {
-	ESCOLA_1("Escola 1"), ESCOLA_2("Escola 2");
-	
+import java.sql.ResultSet;
+
+public class Escola {
+	private int id;
 	private String nome;
 	
-	Escola(String nome){
+	public Escola(ResultSet rs){
+		try{
+			int id = rs.getInt("ID");
+			this.setId(id);
+			String nome = rs.getString("NOME");
+			this.setNome(nome);
+		}
+		catch (Exception e){}
+	}
+	
+	public Escola(){}
+	
+	public Escola(int id, String nome){
+		this.setId(id);
+		this.setNome(nome);
+	}
+	
+	public Escola(String nome){
+		this.setNome(nome);
+	}
+	
+	public Object[] pegarTodosParametros(){
+		Object[] object = new Object[2];
+		object[0] = this.getId();
+		object[1] = this.getNome();
+		
+		return object;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 	
-	public String getNome(){
-		return this.nome;
-	}
 	
-	public static Escola getEscolaDeUmaString(String valor){
-		Escola escola = Escola.ESCOLA_1;
-		for(int i = 0; i < Escola.values().length; i++){
-			if(valor == Escola.values()[i].getNome()){
-				escola = Escola.values()[i];
-			}
-		}
-		
-		return escola;
-	}
 }

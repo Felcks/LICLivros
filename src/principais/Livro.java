@@ -77,6 +77,14 @@ public class Livro {
 		todosParametros[5] = this.getPreco();
 		return todosParametros;
 	}
+	public Object[] pegarParametrosParaPacote(){
+		Object[] todosParametros = new Object[4];
+		todosParametros[0] = this.getId();
+		todosParametros[1] = this.getNome();
+		todosParametros[2] = this.getEditora();
+		todosParametros[3] = this.getPreco();
+		return todosParametros;
+	}
 	public void setarTodosParametros(Object[] object){
 		try{
 			this.setNome(object[1].toString());
