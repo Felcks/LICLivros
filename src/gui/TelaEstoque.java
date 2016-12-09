@@ -256,11 +256,15 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 				Livro livroASerAdicionado = livro;
 				
 				String mensage = "";
-				Object[] parametrosDoNovoLivro = novoLivro.pegarTodosParametros();
+				Object[] parametrosDoNovoLivro = novoLivro.pegarTodosParametrosValidos();
 				Object[] parametrosDoLivroASerAdicionado = livroASerAdicionado.pegarTodosParametros();
 				String[] nomeParametros = { "ID", "NOME", "EDITORA", "QUANTIDADE", "COMPRAR", "PREÇO"};
+				
+				
 				for(int i = 1; i < camposEmTexto.length; i++){
-					if(parametrosDoNovoLivro[i].toString().length() > 0){
+					if(parametrosDoNovoLivro[i].toString().length() > 0 &&
+							parametrosDoNovoLivro[i].equals(livro.pegarTodosParametros()[i]) == false){
+						
 						mensage = mensage.concat(nomeParametros[i] + ": " + livro.pegarTodosParametros()[i] + " ---> " 
 												 + novoLivro.pegarTodosParametros()[i] + "\n");
 						parametrosDoLivroASerAdicionado[i] = parametrosDoNovoLivro[i];

@@ -178,6 +178,7 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
 	private void avancar(){
 		if(clienteValido == true){
 			System.out.println("Cliente Válido. Podemos avançar!");
+			guiManager.mudarParaTela("telaPedidoPacote");
 		}
 		else
 		{

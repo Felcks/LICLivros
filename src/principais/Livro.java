@@ -33,11 +33,23 @@ public class Livro {
 		try{
 			this.setNome(campos[1]);
 			this.setEditora(campos[2]);
+			
+			this.setQuantidade(-999);
 			this.setQuantidade(Integer.parseInt(campos[3]));
-			this.setComprar(Integer.parseInt(campos[4]));
-			this.setPreco(Double.parseDouble(campos[5]));
 		}
 		catch (Exception e){}
+		
+		try{
+			this.setComprar(-999);
+			this.setComprar(Integer.parseInt(campos[4]));
+		}
+		catch(Exception e){}
+		
+		try{
+			this.setPreco(-999);
+			this.setPreco(Double.parseDouble(campos[5]));
+		}
+		catch(Exception e){}
 	}
 	
 	public Livro(String nome){
@@ -77,11 +89,29 @@ public class Livro {
 		todosParametros[5] = this.getPreco();
 		return todosParametros;
 	}
+	public Object[] pegarTodosParametrosValidos(){
+		Object[] todosParametros = new Object[6];
+		todosParametros[0] = this.getId();
+		todosParametros[1] = this.getNome();
+		todosParametros[2] = this.getEditora();
+		todosParametros[3] = (this.getQuantidade() == -999) ? "" : this.getQuantidade();
+		todosParametros[4] = (this.getComprar() == -999) ? "" : this.getComprar();
+		todosParametros[5] = (this.getPreco() == -999) ? "" : this.getPreco();
+		return todosParametros;
+	}
 	public Object[] pegarParametrosParaPacote(){
 		Object[] todosParametros = new Object[4];
 		todosParametros[0] = this.getId();
 		todosParametros[1] = this.getNome();
 		todosParametros[2] = this.getEditora();
+		todosParametros[3] = this.getPreco();
+		return todosParametros;
+	}
+	public Object[] pegarParametrosParaPedido(){
+		Object[] todosParametros = new Object[4];
+		todosParametros[0] = this.getNome();
+		todosParametros[1] = this.getEditora();
+		todosParametros[2] = this.getQuantidade();
 		todosParametros[3] = this.getPreco();
 		return todosParametros;
 	}
