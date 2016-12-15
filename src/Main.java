@@ -1,13 +1,16 @@
 import gui.GUIManager;
 import utilidades.Screen;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFTable;
-import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+//import org.apache.poi.xwpf.usermodel.XWPFDocument;
+//import org.apache.poi.xwpf.usermodel.XWPFTable;
+//import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import java.text.SimpleDateFormat;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -17,11 +20,22 @@ public class Main {
 		Locale.setDefault(new Locale("pt", "BR"));
 		Screen.start();
 		try {
-			createTableTest();
+		//	createTableTest();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		Locale locale = new Locale("pt","BR");
+		GregorianCalendar calendar = new GregorianCalendar(); 
+		System.out.println(calendar.get(Calendar.DAY_OF_MONTH));
+		System.out.println(calendar.get(Calendar.MONTH));
+		System.out.println(calendar.get(Calendar.YEAR));
+		System.out.println(calendar.get(Calendar.HOUR));
+		System.out.println(calendar.get(Calendar.MINUTE));
+		SimpleDateFormat formatador = new SimpleDateFormat("dd' de 'MMMMM' de 'yyyy' - 'HH':'mm'h'",locale);
+		System.out.println(formatador.format(calendar.getTime()));
+		
 		
 		// INICIAR TEMA
 		try {
@@ -43,7 +57,7 @@ public class Main {
 		new GUIManager();
 		 
 	}
-
+/*
 	public static void createTableTest() throws Exception{
 	
 			//Blank Document
@@ -75,4 +89,5 @@ public class Main {
 			   out.close();
 			   System.out.println("create_table.docx written successully");
 	}
+	*/
 }

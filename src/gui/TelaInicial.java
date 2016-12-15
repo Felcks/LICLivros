@@ -114,6 +114,13 @@ public class TelaInicial extends JPanel{
 		c.gridy = 7;
 		this.add(btn_registrarPacoteLivros, c);
 		
+		JButton btn_verPedidos = new JButton("Ver Pedidos");
+		c.anchor = GridBagConstraints.CENTER;
+		c.gridwidth = 2;
+		c.gridheight = 2;
+		c.gridx = 5;
+		c.gridy = 6;
+		this.add(btn_verPedidos, c);
 		
 	
 		btn_registrarCliente.addActionListener(new ActionListener() {
@@ -155,6 +162,13 @@ public class TelaInicial extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				guiManager.mudarParaTela("telaPacote");
+			}
+		});
+		
+		btn_verPedidos.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				guiManager.mudarParaTela("telaPedido");
 			}
 		});
 		

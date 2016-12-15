@@ -19,6 +19,7 @@ import javax.swing.event.DocumentListener;
 
 import principais.Cliente;
 import principais.ClienteManager;
+import principais.Pedido;
 import utilidades.AutoSuggestor;
 import utilidades.Screen;
 
@@ -27,6 +28,7 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
 	private GUIManager guiManager;
 	AutoSuggestor autoSuggestor;
 	private Boolean clienteValido = false;
+	private Cliente cliente;
 	
 	public TelaPedidoCliente(GUIManager guiManager){
 		this.guiManager = guiManager;
@@ -161,7 +163,7 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
 	
 	private void atualizarCampos(JTextField[] campos, String nomeCliente){
 		this.clienteValido = true;
-		Cliente cliente = ClienteManager.getInstance().getClientePeloNome(nomeCliente);
+		cliente = ClienteManager.getInstance().getClientePeloNome(nomeCliente);
 		Object[] parametros = cliente.pegarTodosParametros();
 		
 		for(int i = 1; i < campos.length; i++){
@@ -176,14 +178,19 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
 	}
 	
 	private void avancar(){
-		if(clienteValido == true){
+		if(clienteValido == true && this.cliente != null){
 			System.out.println("Cliente Válido. Podemos avançar!");
+			atualizarPedido();
 			guiManager.mudarParaTela("telaPedidoPacote");
 		}
 		else
 		{
 			JOptionPane.showMessageDialog(this, "Insira um cliente","Cliente Inválido", JOptionPane.OK_CANCEL_OPTION);
 		}
+	}
+	
+	private void atualizarPedido(){
+		Pedido.pedidoAtual = new Pedido(this.cliente); 
 	}
 	
 	@Override

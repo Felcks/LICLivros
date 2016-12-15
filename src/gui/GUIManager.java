@@ -12,6 +12,7 @@ import principais.EditoraManager;
 import principais.EscolaManager;
 import principais.EstoqueManager;
 import principais.PacoteManager;
+import principais.PedidoManager;
 import utilidades.Screen;
 
 public class GUIManager{
@@ -24,6 +25,8 @@ public class GUIManager{
 	private TelaEditora telaEditora;
 	private TelaPedidoCliente telaPedidoCliente;
 	private TelaPedidoPacote telaPedidoPacote;
+	private TelaPedidoFinalizacao telaPedidoFinalizacao;
+	private TelaPedido telaPedido;
 	private TelaEscola telaEscola;
 	
 	public GUIManager(){
@@ -39,7 +42,9 @@ public class GUIManager{
 		this.telaEditora = new TelaEditora(this);
 		this.telaPedidoCliente = new TelaPedidoCliente(this);
 		this.telaPedidoPacote = new TelaPedidoPacote(this);
+		this.telaPedidoFinalizacao = new TelaPedidoFinalizacao(this);
 		this.telaEscola = new TelaEscola(this);
+		this.telaPedido = new TelaPedido(this);
 		this.cards.add(this.telaInicial, "telaInicial");
 		this.cards.add(this.telaEstoque, "telaEstoque");
 		this.cards.add(this.telaPacote, "telaPacote");
@@ -47,7 +52,9 @@ public class GUIManager{
 		this.cards.add(this.telaEditora, "telaEditora");
 		this.cards.add(this.telaPedidoCliente, "telaPedidoCliente");
 		this.cards.add(this.telaPedidoPacote, "telaPedidoPacote");
+		this.cards.add(this.telaPedidoFinalizacao, "telaPedidoFinalizacao");
 		this.cards.add(this.telaEscola, "telaEscola");		
+		this.cards.add(this.telaPedido, "telaPedido");
 		this.mudarParaTela("telaInicial");
 	}
 	
@@ -88,6 +95,9 @@ public class GUIManager{
 		else if(tela.equals("telaPedidoPacote")){
 			this.telaPedidoPacote.prepararComponentes();
 		}
+		else if(tela.equals("telaPedido")){
+			this.telaPedido.prepararComponentes();
+		}
 		
 		CardLayout cl = (CardLayout)(this.cards.getLayout());
 		cl.show(cards, tela);
@@ -107,6 +117,7 @@ public class GUIManager{
 		EditoraManager.getInstance().getTodasEditorasDoBD();
 		EscolaManager.getInstance().getTodasEscolasDoBD();
 		PacoteManager.getInstance().getTodosOsPacotesDoBD();
+		PedidoManager.getInstance().getTodosPedidosBD();
 	}
 	
 }

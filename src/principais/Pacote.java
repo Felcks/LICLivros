@@ -18,6 +18,8 @@ public class Pacote {
 		this.livros =  livros;
 	}
 	
+	public Pacote(){}
+	
 	public Pacote(ResultSet rs){
 		this.livros = new ArrayList<Livro>();
 		try{

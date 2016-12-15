@@ -22,6 +22,7 @@ import principais.Escola;
 import principais.EscolaManager;
 import principais.Pacote;
 import principais.PacoteManager;
+import principais.Pedido;
 import utilidades.Acao;
 import utilidades.Screen;
 import utilidades.ServicoDeDigito;
@@ -34,7 +35,9 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 	JComboBox comboBox;
 	private Escola escolaSelecionada;
 	private AnoEscolar anoEscolarSelecionado;
+	Pacote pacote;
 	
+	private static int[] idsDosLivrosSelecionados;
 	private static JLabel labelPreco;
 	private static double precoTotal;
 	
@@ -141,6 +144,20 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 			}
 		});
 		
+		btn_Avancar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(pacote != null){
+					Pedido.pedidoAtual.setPacote(pacote);
+					Pedido.pedidoAtual.setPreco(precoTotal);
+					Pedido.pedidoAtual.setIdsDosLivrosComprados(idsDosLivrosSelecionados);
+					
+					guiManager.mudarParaTela("telaPedidoFinalizacao");
+				}
+				
+			}
+		});
+		
 		comboBox.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
@@ -165,6 +182,10 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 		this.guiManager.getCards().add(this, "telaPedidoPacote");
 	}
 	
+	private void atualizarPedido(){
+		Pedido.pedidoAtual.setPacote(pacote);
+	}
+	
 	@Override
 	public void prepararComponentes(){
 		comboBox.removeAllItems();
@@ -182,7 +203,11 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 			((MyTableModelPedidoPacote)this.table.getModel()).updateData(escolaSelecionada, anoEscolarSelecionado);
 			this.table.repaint();
 			
-			Pacote pacote = PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado);
+			pacote = PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado);
+			idsDosLivrosSelecionados = new int[pacote.getLivros().size()];
+			for(int i = 0; i < idsDosLivrosSelecionados.length; i++)
+				idsDosLivrosSelecionados[i] = pacote.getLivros().get(i).getId();
+			
 			precoTotal = 0;
 			for(int i = 0; i < pacote.getLivros().size(); i++){
 				precoTotal += pacote.getLivros().get(i).getPreco();
@@ -194,6 +219,12 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 	public static void atualizarPrecoTotal(double valor){
 		precoTotal += valor;
 		labelPreco.setText("R$ " + precoTotal);
+	}
+	
+	public static void adicionarOuRemoverId(int index){
+		idsDosLivrosSelecionados[index] += 1;
+		
+		idsDosLivrosSelecionados[index] *= -1;
 	}
 }
 
@@ -297,6 +328,8 @@ class MyTableModelPedidoPacote extends AbstractTableModel {
         		TelaPedidoPacote.atualizarPrecoTotal((double)data[row][3]);
         	else
         		TelaPedidoPacote.atualizarPrecoTotal(-(double)data[row][3]);
+        	
+        	TelaPedidoPacote.adicionarOuRemoverId(row);
         		
         }
 
