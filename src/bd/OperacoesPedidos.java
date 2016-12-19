@@ -64,4 +64,31 @@ public class OperacoesPedidos extends JavaConnection
 		}
 	}
 	
+	public void UPDATE_PEDIDO(Pedido pedido){
+		try{
+			ConnectBd();
+			connection.setAutoCommit(false);
+			int id = pedido.getId();
+			String statusEntrega = pedido.getStatusDaEntrega().toString();
+			String statusPagamento = pedido.getStatusDoPagamento().toString();
+			String status = pedido.getStatus().toString();
+			
+			stmt  = connection.createStatement();
+			String sql = "UPDATE PEDIDOS SET STATUS_DA_ENTREGA=?, STATUS_DO_PAGAMENTO=?, STATUS=? WHERE ID=?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, statusEntrega);
+			statement.setString(2, statusPagamento);
+			statement.setString(3, status);
+			statement.setInt(4, id);
+			
+			int a  = statement.executeUpdate();
+		     
+		    connection.commit();
+			stmt.close();
+			connection.close();
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
 }

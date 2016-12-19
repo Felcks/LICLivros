@@ -44,6 +44,20 @@ public class PedidoManager {
 		} catch(Exception e){}
 	}
 	
+	public Pedido getPedidoPeloId(int id){
+		Pedido pedido = new Pedido();
+		for(int i = 0; i < this.getPedidos().size(); i++){
+			if(this.pedidos.get(i).getId() == id)
+				return this.pedidos.get(i);
+		}
+		
+		return pedido;
+	}
+	
+	public void atualizarPedido(int id, Pedido pedido){
+		this.pedidos.set(id, pedido);
+	}
+	
 	public List<Pedido> getPedidos(){
 		return this.pedidos;
 	}

@@ -55,28 +55,35 @@ public class Pedido {
 		catch(Exception e){}
 	}
 	
+	public Pedido(){}
+	
 	public Object[] pegarTodosParametros(){
-		Object[] object = new Object[11];
+		Object[] object = new Object[10];
 		object[0] = this.getId();
 		object[1] = this.getCliente().getNome();
 		
 		String livros = "";
 		for(int i = 0; i < this.getPacote().getLivros().size(); i++)
-			if(this.getIdsDosLivrosComprados()[i] >= 0)
-				livros += this.getPacote().getLivros().get(i).getNome() + ", ";
+			if(i < this.getIdsDosLivrosComprados().length)
+				if(this.getIdsDosLivrosComprados()[i] >= 0)
+					livros += this.getPacote().getLivros().get(i).getNome() + ", ";
 		
 		object[2] = livros; 
 		
 		object[3] = this.getPreco();
 		object[4] = this.getFormaDeEntrega().getNome();
 		object[5] = this.getFormaDePagamento().getNome();
-		object[6] = this.getObs();
-		object[7] = this.getStatusDaEntrega().getNome();
-		object[8] = this.getStatusDoPagamento().getNome();
-		object[9] = this.getStatus().getNome();
-		object[10] = this.getData();
+		object[6] = this.getStatusDaEntrega().getNome();
+		object[7] = this.getStatusDoPagamento().getNome();
+		object[8] = this.getStatus().getNome();
+		object[9] = this.getData();
 		
 		return object;
+	}
+	
+	public Pedido(String stEntrega, String stPagamento){
+		this.statusDaEntrega = StatusDaEntrega.getStatusPeloNome(stEntrega);
+		this.statusDoPagamento = StatusDoPagamento.getStatusPeloNome(stPagamento);
 	}
 	
 	public int getId(){
@@ -105,6 +112,7 @@ public class Pedido {
 	public int[] getIdsDosLivrosComprados() {
 		return idsDosLivrosComprados;
 	}
+	
 	public String getIdsDosLivrosCompradosEmString(){
 		String s = "";
 		for(int i = 0; i < this.getIdsDosLivrosComprados().length; i++){
@@ -191,6 +199,20 @@ public class Pedido {
 
 	public void setStatusDoPagamento(StatusDoPagamento statusDoPagamento) {
 		this.statusDoPagamento = statusDoPagamento;
+		
+		if(this.statusDoPagamento == StatusDoPagamento.PAGO){
+			if(this.statusDaEntrega != null){
+				if(this.statusDaEntrega == StatusDaEntrega.ENTREGUE)
+					this.setStatus(Status.PRONTO);
+			}
+		}
+		
+		if(this.statusDoPagamento == StatusDoPagamento.CANCELADO){
+			if(this.statusDaEntrega != null){
+				if(this.statusDaEntrega == StatusDaEntrega.CANCELADO)
+					this.setStatus(Status.CANCELADO);
+			}
+		}
 	}
 
 	public StatusDaEntrega getStatusDaEntrega() {
@@ -212,7 +234,13 @@ public class Pedido {
 		int year = calendar.get(Calendar.YEAR);
 		int hour = calendar.get(Calendar.HOUR);
 		int min = calendar.get(Calendar.MINUTE);
-		this.data = day + "/" + month + "/" + year + "  " + hour + ":" + min + "h";
+		
+		String concatHora = (hour > 9) ? "" : "0";
+		String concatDay = (day > 9) ? "" : "0";
+		String concatMonth = (month > 9) ? "" : "0";
+		String concatMin = (min > 9) ? "" : "0";
+		
+		this.data = concatDay + day + "/" + concatMonth + month + "/" + year + " - " + concatHora + hour + ":" + concatMin + min + "h";
 		System.out.println(data);
 	}
 
