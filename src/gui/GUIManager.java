@@ -120,4 +120,8 @@ public class GUIManager{
 		PedidoManager.getInstance().getTodosPedidosBD();
 	}
 	
+	public TelaPedidoCliente getTelaPedidoCliente(){
+		return this.telaPedidoCliente;
+	}
+	
 }

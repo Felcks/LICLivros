@@ -11,17 +11,6 @@ public class ServicoDeDigito {
 		return camposEmTexto;
 	}
 	
-	public Acao conferirAcao(String textoId){
-		if(textoId.length() == 0)
-			return Acao.ADICIONAR;
-		if(textoId.charAt(0) == '-')
-			return Acao.REMOVER;
-		if(transformarStringEmInt(textoId) != -1)
-			return Acao.ATUALIZAR;
-		
-		return Acao.NENHUMA;
-	}
-	
 	public int transformarStringEmInt(String textoId)  {
 		int id = -1;
 		try{
@@ -30,6 +19,16 @@ public class ServicoDeDigito {
 		catch(NumberFormatException e){ }
 		
 		return id;
+	}
+	
+	public void limparCampos(JTextField[] textFields){
+		for(int i = 0; i < textFields.length; i++)
+			textFields[i].setText("");
+	}
+	public void limparCampos(JTextField[] textFields, int excessao){
+		for(int i = 0; i < textFields.length; i++)
+			if(i != excessao)
+				textFields[i].setText("");
 	}
 	
 	

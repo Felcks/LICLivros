@@ -6,9 +6,11 @@ import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.List;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,7 +21,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import bd.JavaConnection;
 import bd.OperacoesClientes;
@@ -51,7 +57,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
         c.weightx = 1;
         c.weighty = 1;
         
-        for(int i = 0; i < 6; i ++){
+        for(int i = 0; i < 24; i ++){
         	for(int j = 0; j < 10; j++){
         		c.gridx = i;
         		c.gridy = j;
@@ -60,14 +66,19 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
         	}
         }
         
-        JTextField[] textFields = new JTextField[6];
+        JTextField[] textFields = new JTextField[7];
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.gridy = 7;
 		c.fill = GridBagConstraints.HORIZONTAL;
+		int[] widthX = new int[] {1, 11, 4, 2, 2, 2, 2};
+		int posAtual = 0;
 		for(int i = 0; i < textFields.length; i++){
 			textFields[i] = new JTextField();
-			c.gridx = i ;
+			c.gridx = posAtual ;
+			c.gridwidth = widthX[i];
+			posAtual += widthX[i];
+			c.anchor = GridBagConstraints.PAGE_START;
 			if(i == 2){
 				textFields[i].setEditable(false);
 				textFields[i].setBackground(Color.lightGray);
@@ -76,14 +87,17 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 			this.add(textFields[i],c);
 		}
 		
-		String[] columnNames = {"ID", "NOME", "EDITORA", "QUANTIDADE", "COMPRAR", "PREÇO"};
+		String[] columnNames = {"ID", "NOME", "EDITORA", "QUANTIDADE", "COMPRAR", "VENDIDOS", "PREÇO"};
 		JLabel[] labels = new JLabel[7];
 		c.gridy = 6;
 		c.fill = GridBagConstraints.NONE;
-		c.anchor = GridBagConstraints.CENTER;
+		c.anchor = GridBagConstraints.PAGE_END;
+		posAtual = 0;
 		for(int i = 0; i < textFields.length; i++){
 			labels[i] = new JLabel(columnNames[i]);
-			c.gridx = i ;
+			c.gridx = posAtual ;
+			c.gridwidth = widthX[i];
+			posAtual += widthX[i];
 			this.add(labels[i],c);
 		}
         
@@ -93,7 +107,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
         c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 6;
+		c.gridwidth = 24;
 		c.gridheight = 1;
 		c.anchor = GridBagConstraints.CENTER;
 		this.add(txt_Title, c);
@@ -103,60 +117,58 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 			todasEditoras[i] = EditoraManager.getInstance().getEditoras().get(i).getNome();
 		}
 		comboBox = new JComboBox(todasEditoras);
-		c.gridx = 5;
+		c.gridx = 1;
 		c.gridy = 0;
-		c.gridwidth = 2;
+		c.gridwidth = 3;
 		c.gridheight = 1;
 		c.fill = GridBagConstraints.NONE;
 		this.add(comboBox,c);
 		
 		this.table = new JTable(new MyTableModel(""));
-		table.getColumnModel().getColumn(0).setMinWidth(30);
-		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		JScrollPane scrollPane  = new JScrollPane(this.table);
+		minimizarTamanhoDaColuna(table, 0, 40);
+		minimizarTamanhoDaColuna(table, 2, 175);
+		minimizarTamanhoDaColuna(table, 3, 90);
+		minimizarTamanhoDaColuna(table, 4, 90);
+		minimizarTamanhoDaColuna(table, 5, 90);
+		minimizarTamanhoDaColuna(table, 6, 90);
+		
 		table.setFillsViewportHeight(true);
 		c.gridx = 0;
 		c.gridy = 1;
-		c.gridwidth = 6;
+		c.gridwidth = 24;
 		c.gridheight = 5;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(scrollPane, c);
 		
 		
-		String[] acoes = new String[Acao.values().length - 1];
-		for(int i = 0; i < acoes.length; i++)
-			acoes[i] = Acao.values()[i].name();
+		String[] acoes = new String[2];
+		acoes[0] = Acao.ADICIONAR.name();
+		acoes[1] = Acao.ATUALIZAR.name();
 		JComboBox comboBoxAcoes = new JComboBox(acoes);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridwidth = 1;
+		c.gridwidth = 2;
 		c.gridheight = 1;
-		c.gridx = 2;
+		c.gridx = 10;
 		c.gridy = 8;
 		this.add(comboBoxAcoes, c);
 		
 		JButton btn_fazerAcao = new JButton("Fazer Ação!");
 		c.fill = GridBagConstraints.HORIZONTAL;;
-		c.gridx = 3;
+		c.gridx = 12;
 		c.gridy = 8;
-		c.gridwidth = 1;
+		c.gridwidth = 4;
 		c.gridheight = 1;
 		this.add(btn_fazerAcao, c);
 		
-		JButton btn_Salvar = new JButton("Salvar");
-		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 5;
-		c.gridy = 9;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		this.add(btn_Salvar, c);
 		
 		JButton btn_Voltar = new JButton("Voltar");
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 9;
-		c.gridwidth = 1;
+		c.gridwidth = 2;
 		c.gridheight = 1;
 		this.add(btn_Voltar, c);
 		
@@ -182,19 +194,82 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 				acao = Acao.valueOf(comboBoxAcoes.getSelectedItem().toString());
 				fazerAcao(textFields, table, acao);
 			}
-		});
+		});	
 		
-		btn_Salvar.addActionListener(new ActionListener() {
+		comboBoxAcoes.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				OperacoesLivros operacoesLivros = new OperacoesLivros();
-				operacoesLivros.INSERT_TODOSLIVROS(EstoqueManager.getInstance().getLivros());
+			public void actionPerformed(ActionEvent e) {;
+				servicoDeDigito.limparCampos(textFields, 2);
+				Acao acao = Acao.valueOf(comboBoxAcoes.getSelectedItem().toString());
+				prepararParaAcao(acao, textFields);
 			}
 		});
-
-		//table.setDefaultRenderer(Boolean.class, new CustomCellRenderer());		
+		
+		prepararParaAcao(Acao.ADICIONAR, textFields);
+		
+		textFields[0].getDocument().addDocumentListener(new DocumentListener() {	
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				checarId(textFields[0].getText(), textFields);
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				checarId(textFields[0].getText(), textFields);
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				checarId(textFields[0].getText(), textFields);
+			}
+		});
+		
 		
 		this.guiManager.getCards().add(this, "telaRegistrarLivro");
+	}
+	
+	private void minimizarTamanhoDaColuna(JTable table, int index, int tam){
+		table.getColumnModel().getColumn(index).setMinWidth(tam);
+		table.getColumnModel().getColumn(index).setPreferredWidth(tam);
+		table.getColumnModel().getColumn(index).setMaxWidth(tam);
+		DefaultTableCellRenderer left = new DefaultTableCellRenderer();
+		left.setHorizontalAlignment(SwingConstants.LEFT);
+		table.getColumnModel().getColumn(index).setCellRenderer(left);
+	}
+	
+	private void checarId(String text, JTextField[] textFields){
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run(){
+				String idSelecionado = text;
+				int id = -1;
+				id = servicoDeDigito.transformarStringEmInt(idSelecionado);
+				System.out.println(textFields[2].getText());
+				ArrayList<Livro> livros = (ArrayList<Livro>) EstoqueManager.getInstance().getLivrosDeUmaEditora(textFields[2].getText());
+				ArrayList<Integer> ids = new ArrayList<Integer>();
+				for(int i = 0; i < livros.size(); i++)
+					ids.add(livros.get(i).getId());
+
+				System.out.println(ids.size());
+				
+				if(id >= 0 && id < EstoqueManager.getInstance().getLivros().size() && ids.contains(id)){
+					Object[] params = EstoqueManager.getInstance().getLivroPeloId(id).pegarTodosParametros();
+					for(int i = 1; i < textFields.length; i++){
+						if(i != 2){
+							textFields[i].setText(params[i].toString());
+							textFields[i].setEditable(true);
+							textFields[i].setBackground(Color.WHITE);
+						}
+					}
+				}
+				else{
+					servicoDeDigito.limparCampos(textFields, 2);
+					prepararParaAcao(Acao.ATUALIZAR, textFields);
+				}
+			}
+		};
+		
+		SwingUtilities.invokeLater(runnable);
 	}
 	
 	@Override
@@ -216,6 +291,31 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		this.repintarTabela(editora);
 	}
 	
+	private void prepararParaAcao(Acao acao, JTextField[] textFields){
+		if(acao == Acao.ADICIONAR){
+			textFields[0].setEditable(false);
+			textFields[0].setBackground(Color.lightGray);
+			
+			for(int i = 1; i < textFields.length; i++){
+				if(i != 2){
+					textFields[i].setEditable(true);
+					textFields[i].setBackground(Color.WHITE);
+				}
+			}
+		}
+		else if(acao == Acao.ATUALIZAR){
+			textFields[0].setEditable(true);
+			textFields[0].setBackground(Color.WHITE);
+			
+			for(int i = 1; i < textFields.length; i++){
+				if(i != 2){
+					textFields[i].setEditable(false);
+					textFields[i].setBackground(Color.lightGray);
+				}
+			}
+		}
+	}
+	
 	private void fazerAcao(JTextField[] textFields, JTable table, Acao acao){
 		String[] camposEmTexto = servicoDeDigito.transformarCamposEmTexto(textFields);
 		
@@ -226,25 +326,12 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 				JOptionPane.showConfirmDialog(this, "Confirmar a adição do livro: " + livro.getNome(), "Confirmar Adição", JOptionPane.OK_CANCEL_OPTION);
 				EstoqueManager.getInstance().adicionarNovoLivro(livro);
 				this.repintarTabela(comboBox.getSelectedItem().toString());
+				OperacoesLivros opc = new OperacoesLivros();
+				opc.INSERT_LIVROS(livro);
 			}
 			else{
 				JOptionPane.showMessageDialog(this, "Preencha todos os campos com informações válidas","Erro ao adicionar", JOptionPane.OK_CANCEL_OPTION);
 			}	
-		}
-		else if(acao == Acao.REMOVER){
-			String idSelecionado = camposEmTexto[0];
-			int id = -1;
-			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
-			if(id >= 0 && id < EstoqueManager.getInstance().getLivros().size()){
-				Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
-				JOptionPane.showConfirmDialog(this, "Remover livro: " + livro.getNome(), "Confirmar Remoção", JOptionPane.OK_CANCEL_OPTION);
-				EstoqueManager.getInstance().removerLivro(id);
-				EstoqueManager.getInstance().reorganizarLista();
-				this.repintarTabela(comboBox.getSelectedItem().toString());
-			}
-			else{
-				JOptionPane.showMessageDialog(this, "Id inexistente!","Erro ao remover", JOptionPane.OK_CANCEL_OPTION);
-			}
 		}
 		else if(acao == Acao.ATUALIZAR){
 			String idSelecionado = camposEmTexto[0];
@@ -258,7 +345,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 				String mensage = "";
 				Object[] parametrosDoNovoLivro = novoLivro.pegarTodosParametrosValidos();
 				Object[] parametrosDoLivroASerAdicionado = livroASerAdicionado.pegarTodosParametros();
-				String[] nomeParametros = { "ID", "NOME", "EDITORA", "QUANTIDADE", "COMPRAR", "PREÇO"};
+				String[] nomeParametros = { "ID", "NOME", "EDITORA", "QUANTIDADE", "COMPRAR", "VENDIDOS", "PREÇO"};
 				
 				
 				for(int i = 1; i < camposEmTexto.length; i++){
@@ -275,6 +362,8 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 					livroASerAdicionado.setarTodosParametros(parametrosDoLivroASerAdicionado);
 					EstoqueManager.getInstance().atualizarLivro(id, livroASerAdicionado);
 					this.repintarTabela(comboBox.getSelectedItem().toString());
+					OperacoesLivros opc = new OperacoesLivros();
+					opc.UPADTE_LIVROS(livroASerAdicionado);
 				}
 				else
 					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
@@ -301,8 +390,9 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		String editora = textFields[2].getText();
 		int quantidade = Integer.parseInt(textFields[3].getText());
 		int comprar = Integer.parseInt(textFields[4].getText());
-		double preco = Float.parseFloat(textFields[5].getText());
-		Livro livro = new Livro(id, nome, editora, quantidade, comprar, preco);
+		int vendidos = Integer.parseInt(textFields[5].getText());
+		double preco = Float.parseFloat(textFields[6].getText());
+		Livro livro = new Livro(id, nome, editora, quantidade, comprar, vendidos, preco);
 		
 		OperacoesLivros op = new OperacoesLivros();
 		op.INSERT_LIVROS(livro);
@@ -393,6 +483,7 @@ class MyTableModel extends AbstractTableModel {
                                     "EDITORA",
                                     "QUANTIDADE",
                                     "COMPRAR",
+                                    "VENDIDOS",
                                     "PREÇO"};
    
     private Object[][] data;

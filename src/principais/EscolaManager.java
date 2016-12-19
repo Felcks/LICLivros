@@ -44,6 +44,14 @@ public class EscolaManager {
 		} catch(Exception e){}
 	}
 	
+	public Escola getEscolaPeloId(int id){
+		for(int i = 0; i < this.escolas.size(); i++)
+			if(this.escolas.get(i).getId() == id)
+				return this.escolas.get(i);
+		
+		return new Escola();
+	}
+	
 	public void adicionarNovaEscola(Escola escola){
 		this.escolas.add(escola);
 	}

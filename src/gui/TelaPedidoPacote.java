@@ -97,10 +97,15 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 		c.gridheight = 1;
 		c.gridx = 2;
 		c.gridy = 8;
+		c.anchor = GridBagConstraints.FIRST_LINE_END;
+		precoTotalEscrito.setFont(precoTotalEscrito.getFont().deriveFont(15F));
 		this.add(precoTotalEscrito, c);
+		
 		labelPreco = new JLabel("R$ 00,00");
+		labelPreco.setFont(precoTotalEscrito.getFont().deriveFont(15F));
 		c.gridx = 3;
 		c.gridy = 8;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		this.add(labelPreco, c);
 		
 		this.escolaSelecionada = new Escola(comboBox.getSelectedItem().toString());

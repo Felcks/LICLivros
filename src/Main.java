@@ -26,16 +26,6 @@ public class Main {
 			e1.printStackTrace();
 		}
 		
-		Locale locale = new Locale("pt","BR");
-		GregorianCalendar calendar = new GregorianCalendar(); 
-		System.out.println(calendar.get(Calendar.DAY_OF_MONTH));
-		System.out.println(calendar.get(Calendar.MONTH));
-		System.out.println(calendar.get(Calendar.YEAR));
-		System.out.println(calendar.get(Calendar.HOUR));
-		System.out.println(calendar.get(Calendar.MINUTE));
-		SimpleDateFormat formatador = new SimpleDateFormat("dd' de 'MMMMM' de 'yyyy' - 'HH':'mm'h'",locale);
-		System.out.println(formatador.format(calendar.getTime()));
-		
 		
 		// INICIAR TEMA
 		try {

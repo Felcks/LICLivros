@@ -22,15 +22,17 @@ public class OperacoesLivros extends JavaConnection
 			String editora = livro.getEditora();
 			int quantidade = livro.getQuantidade();
 			int comprar = livro.getComprar();
+			int vendidos = livro.getVendidos();
 			double preco = livro.getPreco();
 			
 			stmt  = connection.createStatement();
-			String sql = "INSERT INTO LIVROS (ID, NOME, EDITORA, QUANTIDADE, COMPRAR, PRECO)" +
+			String sql = "INSERT INTO LIVROS (ID, NOME, EDITORA, QUANTIDADE, COMPRAR, VENDIDOS, PRECO)" +
 			"VALUES (" + id + "," + 
 					"'" + nome + "'" + "," + 
 					"'" + editora + "'" + "," +
 					quantidade + "," + 
 					comprar + "," + 
+					vendidos + "," +
 					preco + ");";
 			stmt.executeUpdate(sql);
 		     
@@ -38,40 +40,6 @@ public class OperacoesLivros extends JavaConnection
 			stmt.close();
 			connection.close();
 			} catch(Exception e) {
-			JOptionPane.showMessageDialog(null, e);
-		}
-	}
-	
-	public void INSERT_TODOSLIVROS(List<Livro> livros){
-		try{
-			ConnectBd();
-			connection.setAutoCommit(false);
-			stmt  = connection.createStatement();
-			String delete = "DELETE FROM LIVROS";
-			stmt.executeUpdate(delete);
-			
-			for(Livro l : livros){
-				int id = l.getId();
-				String nome = l.getNome();
-				String editora = l.getEditora();
-				int quantidade = l.getQuantidade();
-				int comprar = l.getComprar();
-				double preco = l.getPreco();
-				
-				String sql = "INSERT INTO LIVROS (ID, NOME, EDITORA, QUANTIDADE, COMPRAR, PRECO)" +
-				"VALUES (" + id + "," + 
-						"'" + nome + "'" + "," + 
-						"'" + editora + "'" + "," +
-						"'" + quantidade + "'" + "," +
-						"'" + comprar + "'" + "," + 
-						"'" + preco + "'" + ");";
-				stmt.executeUpdate(sql);
-			}
-		     
-		    connection.commit();
-			stmt.close();
-			connection.close();
-		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
@@ -87,6 +55,7 @@ public class OperacoesLivros extends JavaConnection
 			String editora = livro.getEditora();
 			int quantidade = livro.getQuantidade();
 			int comprar = livro.getComprar();
+			int vendidos = livro.getVendidos();
 			double preco = livro.getPreco();
 			
 			stmt = connection.createStatement();
@@ -94,8 +63,9 @@ public class OperacoesLivros extends JavaConnection
 			"EDITORA = " + "'" + editora + "'," +
 			"QUANTIDADE = " + quantidade + "," +
 			"COMPRAR = " + comprar + "," +
-			"PRECO = " + preco + " " +
-			"WHERE ID = " + id +";";
+			"PRECO = " + preco + "," +
+			"VENDIDOS = " + vendidos  +
+			" WHERE ID = " + id ;
 			
 			stmt.executeUpdate(sql);
 			connection.commit();

@@ -17,6 +17,7 @@ public enum FormaDePagamento {
 	
 	public static FormaDePagamento getFormaDePagamentoPeloNome(String nome){
 		FormaDePagamento forma = FormaDePagamento.DINHEIRO;
+		System.out.println("FORMA DE PAGAMENTO" + nome);
 		for(int i = 0, n = FormaDePagamento.values().length; i < n; i++){
 			if(nome.equals(FormaDePagamento.values()[i].getNome()))
 				forma = FormaDePagamento.values()[i];

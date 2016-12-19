@@ -47,6 +47,15 @@ public class EditoraManager {
 		return this.editoras;
 	}
 	
+	public Editora getEditoraPeloId(int id){
+		Editora editora = new Editora();
+		for(int i = 0; i < editoras.size(); i++){
+			if(id == this.editoras.get(i).getId())
+				return  this.editoras.get(i);
+		}
+		return editora;
+	}
+	
 	public void adicionarNovaEditora(Editora editora){
 		this.editoras.add(editora);
 	}

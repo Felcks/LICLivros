@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import bd.OperacoesPedidos;
+import principais.EstoqueManager;
 import principais.Pedido;
 import principais.PedidoManager;
 import utilidades.Screen;
@@ -141,9 +142,6 @@ public class TelaPedidoFinalizacao extends JPanel{
 		btn_Avancar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//Concluir Pedido
-				//Aviso de quais livros estão sendo utilizados
-				//E o nome do cliente
 				atualizarPedido(comboBox_entrega, comboBox_pagamento, textField_obs);
 			
 			}
@@ -156,13 +154,14 @@ public class TelaPedidoFinalizacao extends JPanel{
 	private void atualizarPedido(JComboBox comboBox_pagamento, JComboBox comboBox_entrega, JTextField textField_obs){
 		String livrosNomes = "";
 		for(int i = 0; i < Pedido.pedidoAtual.getPacote().getLivros().size(); i++){
-			if(Pedido.pedidoAtual.getIdsDosLivrosComprados()[i] >= 0)
+			if(Pedido.pedidoAtual.getIdsDosLivrosComprados()[i] >= 0){
 				livrosNomes += Pedido.pedidoAtual.getPacote().getLivros().get(i).getNome() + ", ";
+				EstoqueManager.getInstance().retirarDoEstoque(Pedido.pedidoAtual.getIdsDosLivrosComprados()[i]);
+			}
 		}
 		
-		
-		Pedido.pedidoAtual.setFormaDePagamento(FormaDePagamento.getFormaDePagamentoPeloNome(comboBox_pagamento.getSelectedItem().toString()));
-		Pedido.pedidoAtual.setFormaDeEntrega(FormaDeEntrega.getFormaDeEntregaPeloNome(comboBox_entrega.getSelectedItem().toString()));
+		Pedido.pedidoAtual.setFormaDePagamento(FormaDePagamento.getFormaDePagamentoPeloNome(comboBox_entrega.getSelectedItem().toString()));
+		Pedido.pedidoAtual.setFormaDeEntrega(FormaDeEntrega.getFormaDeEntregaPeloNome(comboBox_pagamento.getSelectedItem().toString()));
 		Pedido.pedidoAtual.setObs(textField_obs.getText());
 		JOptionPane.showConfirmDialog(this, "Cliente: " + Pedido.pedidoAtual.getCliente().getNome() + 
 				"\nPreço: " + Pedido.pedidoAtual.getPreco() +
@@ -174,10 +173,13 @@ public class TelaPedidoFinalizacao extends JPanel{
 		Pedido.pedidoAtual.setStatus(Status.EM_ANDAMENTO);
 		Pedido.pedidoAtual.setStatusDaEntrega(StatusDaEntrega.NÂO_ENTREGUE);
 		Pedido.pedidoAtual.setStatusDoPagamento(StatusDoPagamento.NAO_PAGO);
+		Pedido.pedidoAtual.setData();
 		PedidoManager.getInstance().adicionarPedido(Pedido.pedidoAtual);
 		OperacoesPedidos op = new OperacoesPedidos();
 		op.INSERT_PEDIDOS(PedidoManager.getInstance().getPedidos());
 		
+		this.guiManager.mudarParaTela("telaInicial");
+		this.guiManager.getTelaPedidoCliente().limparCampos();
 	}
 	
     

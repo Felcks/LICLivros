@@ -22,6 +22,7 @@ import principais.ClienteManager;
 import principais.Pedido;
 import utilidades.AutoSuggestor;
 import utilidades.Screen;
+import utilidades.ServicoDeDigito;
 
 public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
 
@@ -29,6 +30,8 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
 	AutoSuggestor autoSuggestor;
 	private Boolean clienteValido = false;
 	private Cliente cliente;
+	JTextField[] textFields;
+	ServicoDeDigito servicoDeDigito;
 	
 	public TelaPedidoCliente(GUIManager guiManager){
 		this.guiManager = guiManager;
@@ -62,7 +65,7 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
   		c.anchor = GridBagConstraints.PAGE_START;
   		this.add(txt_Title, c);
   		
-  		JTextField[] textFields = new JTextField[6];
+  		textFields = new JTextField[6];
   		c.anchor = GridBagConstraints.CENTER;
 		c.gridx = 5;
 		c.gridwidth = 2;
@@ -137,6 +140,7 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
 		btn_Voltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				limparCampos();
 				guiManager.mudarParaTela("telaInicial");
 			}
 		});
@@ -197,5 +201,13 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
 	public void prepararComponentes(){
 		autoSuggestor = new AutoSuggestor(autoSuggestor.getTextField(), guiManager.getJanela(), ClienteManager.getInstance().getTodosNomesClientes(), 
 										  Color.white.brighter(), Color.blue, Color.red, 0.75f);
+		
+	}
+	
+	public void limparCampos(){
+		if(textFields.length > 0){
+			servicoDeDigito = new ServicoDeDigito();
+			servicoDeDigito.limparCampos(textFields);
+		}
 	}
 }

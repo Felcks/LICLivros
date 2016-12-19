@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bd.JavaConnection;
+import bd.OperacoesLivros;
 import principais.Livro;
 /**
  * Então essa class aqui deve pegar todos os livros na Database assim que iniciar
@@ -58,6 +59,14 @@ public class EstoqueManager {
 		}
 	}
 	
+	public List<String> getTodosLivrosNomes(){
+		List<String> nomes = new ArrayList<String>();
+		for(int i = 0; i < this.livros.size(); i++)
+			nomes.add(this.livros.get(i).getNome());
+		
+		return nomes;
+	}
+	
 	public void getLivrosDoBancoDeDados(){
 		try{
 			conn = JavaConnection.getInstance().connection;
@@ -103,18 +112,35 @@ public class EstoqueManager {
 	}
 	
 	public Livro getLivroPeloNome(String nome){
-		nome = nome.toUpperCase();
-		String nomeSemUmEspaco = nome.substring(0, nome.length() - 1);
-		
+		System.out.println(nome);
 		Livro livro = new Livro("LivroInexistente");
-		for(int i = 0; i < this.livros.size() ; i++){
-			if(nome.equals(this.livros.get(i).getNome().toUpperCase()) || nomeSemUmEspaco.equals(this.livros.get(i).getNome().toUpperCase())){
-				livro = this.livros.get(i);
-				break;
+		if(nome.length() > 0){
+			nome = nome.toUpperCase();
+			String nomeSemUmEspaco = nome.substring(0, nome.length() - 1);
+			
+			for(int i = 0; i < this.livros.size() ; i++){
+				if(nome.equals(this.livros.get(i).getNome().toUpperCase()) || nomeSemUmEspaco.equals(this.livros.get(i).getNome().toUpperCase())){
+					livro = this.livros.get(i);
+					break;
+				}
 			}
 		}
 		
 		return livro;
+	}
+	
+	public void retirarDoEstoque(int id){
+		Livro livro = this.getLivroPeloId(id);
+		
+		if(livro.getQuantidade() > 0)
+			livro.setQuantidade(livro.getQuantidade() - 1);
+		else
+			livro.setComprar(livro.getComprar() + 1);
+		
+		livro.setVendidos(id);
+		
+		OperacoesLivros opc = new OperacoesLivros();
+		opc.UPADTE_LIVROS(livro);
 	}
 	
 

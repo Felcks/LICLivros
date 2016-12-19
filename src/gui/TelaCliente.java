@@ -1,6 +1,8 @@
 package gui;
 
 import utilidades.ServicoDeDigito;
+
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,8 +18,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import bd.OperacoesClientes;
 import principais.Cliente;
@@ -43,7 +49,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
         c.weightx = 1;
         c.weighty = 1;
         
-        for(int i = 0; i < 7; i ++){
+        for(int i = 0; i < 24; i ++){
         	for(int j = 0; j < 10; j++){
         		c.gridx = i;
         		c.gridy = j;
@@ -53,11 +59,16 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
         }
      
 		JTextField[] textFields = new JTextField[7];
+		int[] widthX = new int[] { 1, 9, 4, 4, 2, 2, 2 };
+		int posicaoAtual = 0;
 		c.gridy = 7;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		for(int i = 0; i < textFields.length; i++){
 			textFields[i] = new JTextField();
-			c.gridx = i ;
+			c.gridx = posicaoAtual ;
+			c.gridwidth = widthX[i];
+			c.anchor = GridBagConstraints.PAGE_START;
+			posicaoAtual += widthX[i];
 			this.add(textFields[i],c);
 		}
 		
@@ -66,16 +77,19 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
                  "NOME",
                  "BAIRRO",
                  "RUA",
-                 "COMPLEMENTO",
+                 "Nº / COMPLEMENTO",
                  "TELEFONE",
                  "CELULAR"};
 		JLabel[] labels = new JLabel[7];
 		c.gridy = 6;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.CENTER;
+		posicaoAtual = 0;
 		for(int i = 0; i < textFields.length; i++){
 			labels[i] = new JLabel(columnNames[i]);
-			c.gridx = i ;
+			c.gridx = posicaoAtual ;
+			c.gridwidth = widthX[i];
+			posicaoAtual += widthX[i];
 			this.add(labels[i],c);
 		}
 		
@@ -86,72 +100,106 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
         c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 7;
+		c.gridwidth = 24;
 		c.gridheight = 1;
 		c.anchor = GridBagConstraints.CENTER;
 		this.add(txt_Title, c);
 		
 		table = new JTable(new MyTableModelCliente());
-		table.getColumnModel().getColumn(0).setMinWidth(30);
-		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		JScrollPane scrollPane = new JScrollPane(table);
+		for (int i = 0; i < (table.getColumnModel().getColumnCount()); i++) {
+	            table.getColumnModel().getColumn(i).setPreferredWidth(150);
+	    }
+		table.getColumnModel().getColumn(0).setMinWidth(40);
+		table.getColumnModel().getColumn(0).setPreferredWidth(40);
+		table.getColumnModel().getColumn(0).setMaxWidth(40);
+		DefaultTableCellRenderer left = new DefaultTableCellRenderer();
+		left.setHorizontalAlignment(SwingConstants.LEFT);
+		table.getColumnModel().getColumn(0).setCellRenderer(left);
 		table.setFillsViewportHeight(true);
 		c.gridx = 0;
 		c.gridy = 1;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
-		c.gridwidth = 7;
+		c.gridwidth = 24;
 		c.gridheight = 5;
 		this.add(scrollPane, c);
 		
-		String[] acoes = new String[Acao.values().length - 1];
-		for(int i = 0; i < acoes.length; i++)
-			acoes[i] = Acao.values()[i].name();
+		String[] acoes = new String[2];
+		acoes[0] = Acao.ADICIONAR.name();
+		acoes[1] = Acao.ATUALIZAR.name();
 		JComboBox comboBox = new JComboBox(acoes);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.gridx = 2;
+		c.gridwidth = 2;
+		c.gridheight = 2;
+		c.gridx = 13;
 		c.gridy = 8;
 		this.add(comboBox, c);
 		
 		JButton btn_fazerAcao = new JButton("Fazer Ação!");
 		c.fill = GridBagConstraints.HORIZONTAL;;
-		c.gridx = 3;
+		c.gridx = 15;
 		c.gridy = 8;
 		c.gridwidth = 2;
+		c.gridheight = 2;
 		this.add(btn_fazerAcao, c);
 		
 		JButton btn_Voltar = new JButton("Voltar");
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 9;
-		c.gridwidth = 1;
-		c.gridheight = 1;
+		c.gridy = 10;
+		c.gridwidth = 4;
+		c.gridheight = 2;
 		this.add(btn_Voltar, c);
 		
-		JButton btn_Salvar = new JButton("Salvar");
-		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 6;
-		c.gridy = 9;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		this.add(btn_Salvar, c);		
 		
 		JButton btn_OrdenarAlfabeticamente = new JButton("Ordem Alfabetica");
 		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 0;
+		c.gridwidth = 4;
+		c.gridheight = 1;
 		this.add(btn_OrdenarAlfabeticamente, c);
 		
 		JButton btn_OrdenarNumeralmente = new JButton("Ordem Numeral");
 		c.fill = GridBagConstraints.NONE;
-		c.gridx = 6;
+		c.gridx = 19;
 		c.gridy = 0;
-		c.gridwidth = 1;
+		c.gridwidth = 4;
 		c.gridheight = 1;
 		this.add(btn_OrdenarNumeralmente, c);
+		
+
+		textFields[0].setEditable(false);
+		textFields[0].setBackground(Color.lightGray);
+		
+		comboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				servicoDeDigito.limparCampos(textFields);
+				Acao acao = Acao.valueOf(comboBox.getSelectedItem().toString());
+				prepararParaAcao(acao, textFields);
+			}
+		});
+		
+		
+		textFields[0].getDocument().addDocumentListener(new DocumentListener() {	
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				checarId(textFields[0].getText(), textFields);
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				checarId(textFields[0].getText(), textFields);
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				checarId(textFields[0].getText(), textFields);
+			}
+		});
 		
 		btn_fazerAcao.addActionListener(new ActionListener() {
 			@Override
@@ -169,13 +217,6 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 			}
 		});
 		
-		btn_Salvar.addActionListener(new ActionListener() {	
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				OperacoesClientes operacoesClientes = new OperacoesClientes();
-				operacoesClientes.INSERT_TODOSCLIENTES(ClienteManager.getInstance().getTodosClientes());
-			}
-		});
 		
 		btn_OrdenarAlfabeticamente.addActionListener(new ActionListener() {
 			@Override
@@ -192,6 +233,52 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		});
 				
 		this.guiManager.getCards().add(this);
+	}
+	
+	private void prepararParaAcao(Acao acao, JTextField[] textFields){
+		if(acao == Acao.ADICIONAR){
+			textFields[0].setEditable(false);
+			textFields[0].setBackground(Color.lightGray);
+			
+			for(int i = 1; i < textFields.length; i++){
+				textFields[i].setEditable(true);
+				textFields[i].setBackground(Color.WHITE);
+			}
+		}
+		else if(acao == Acao.ATUALIZAR){
+			textFields[0].setEditable(true);
+			textFields[0].setBackground(Color.WHITE);
+			
+			for(int i = 1; i < textFields.length; i++){
+				textFields[i].setEditable(false);
+				textFields[i].setBackground(Color.lightGray);
+			}
+		}
+	}
+	
+	private void checarId(String text, JTextField[] textFields){
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run(){
+				String idSelecionado = text;
+				int id = -1;
+				id = servicoDeDigito.transformarStringEmInt(idSelecionado);
+				if(id >= 0 && id < ClienteManager.getInstance().getTodosClientes().size()){
+					Object[] params = ClienteManager.getInstance().getClientePeloId(id).pegarTodosParametros();
+					for(int i = 1; i < 7; i++){
+						textFields[i].setText(params[i].toString());
+						textFields[i].setEditable(true);
+						textFields[i].setBackground(Color.WHITE);
+					}
+				}
+				else{
+					servicoDeDigito.limparCampos(textFields);
+					prepararParaAcao(Acao.ATUALIZAR, textFields);
+				}
+			}
+		};
+		
+		SwingUtilities.invokeLater(runnable);
 	}
 	
 	@Override
@@ -223,26 +310,16 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 				ClienteManager.getInstance().adicionarNovoCliente(cliente);
 				((MyTableModelCliente)table.getModel()).updateData();
 				table.repaint();
+				servicoDeDigito.limparCampos(textFields);
+				
+				//teste
+				OperacoesClientes opc = new OperacoesClientes();
+				opc.INSERT_CLIENTE(cliente);
 			}
 			else {
 				JOptionPane.showMessageDialog(this, "Preencha todos os campos com informações válidas","Erro ao adicionar", JOptionPane.OK_CANCEL_OPTION);
 			}
 			
-		}
-		else if(acao == Acao.REMOVER){
-			String idSelecionado = camposEmTexto[0];
-			int id = -1;
-			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
-			if(id >= 0 && id < ClienteManager.getInstance().getTodosClientes().size()){
-				Cliente cliente = ClienteManager.getInstance().getClientePeloId(id);
-				JOptionPane.showConfirmDialog(this, "Cliente: " + cliente.getNome(), "Confirmar Remoção", JOptionPane.OK_CANCEL_OPTION);
-				ClienteManager.getInstance().removerCliente(id);
-				ClienteManager.getInstance().reorganizarLista();
-				this.repintarTabela();
-			}
-			else{
-				JOptionPane.showMessageDialog(this, "Id inexistente!","Erro ao remover", JOptionPane.OK_CANCEL_OPTION);
-			}
 		}
 		else if(acao == Acao.ATUALIZAR){
 			String idSelecionado = camposEmTexto[0];
@@ -267,6 +344,10 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 					clienteASerAdicionado.setarTodosParametros(parametrosDoClienteASerAdicionado);
 					ClienteManager.getInstance().atualizarCliente(ClienteManager.getInstance().getIndexPeloId(id), clienteASerAdicionado);
 					this.repintarTabela();
+					servicoDeDigito.limparCampos(textFields);
+					
+					OperacoesClientes opc = new OperacoesClientes();
+					opc.UPDATE_CLIENTE(clienteASerAdicionado);
 				}
 				else
 					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);

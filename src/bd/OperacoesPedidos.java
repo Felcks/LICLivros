@@ -38,9 +38,10 @@ public class OperacoesPedidos extends JavaConnection
 				String status = pedido.getStatus().toString();
 				String statusDoPagamento = pedido.getStatusDoPagamento().toString();
 				String statusDaEntrega = pedido.getStatusDaEntrega().toString();
+				String data = pedido.getData();
 				
 				String sql = "INSERT INTO PEDIDOS (ID, CLIENTE, PACOTE, IDS_DOS_LIVROS, PRECO, FORMA_DE_ENTREGA, "
-						+ "FORMA_DE_PAGAMENTO, OBS, STATUS, STATUS_DA_ENTREGA, STATUS_DO_PAGAMENTO)" +
+						+ "FORMA_DE_PAGAMENTO, OBS, STATUS, STATUS_DA_ENTREGA, STATUS_DO_PAGAMENTO, DATA)" +
 				"VALUES (" + id + "," + 
 						  cliente + "," + 
 						  pacote  + "," +
@@ -51,7 +52,8 @@ public class OperacoesPedidos extends JavaConnection
 						"'" + obs + "'" + "," +
 						"'" + status + "'" + "," +
 						"'" + statusDaEntrega + "'" + "," +
-						"'" + statusDoPagamento + "'" + ");";
+						"'" + statusDoPagamento + "'" + "," + 
+						"'" + data + "'" + ");";
 				stmt.executeUpdate(sql);
 			}
 			connection.commit();

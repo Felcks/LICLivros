@@ -1,6 +1,10 @@
 package principais;
 
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import utilidades.FormaDeEntrega;
 import utilidades.FormaDePagamento;
@@ -9,12 +13,6 @@ import utilidades.StatusDaEntrega;
 import utilidades.StatusDoPagamento;
 
 public class Pedido {
-	/*escrevendo um pouco
-	 * essa classe terá 1 CLIENTE - id do cliente no banco de dados!
-	 * essa classe terá 1 Pacote - id do pacote no banco de dados!
-	 * essa classe terá um array com os livros comprados - Varios IDs no banco de dados
-	 * essa classe terá uma forma de entrega, forma de pegamento e string obs
-	 */
 	
 	private int id;
 	private Cliente cliente;
@@ -27,7 +25,7 @@ public class Pedido {
 	private Status status;
 	private StatusDoPagamento statusDoPagamento;
 	private StatusDaEntrega statusDaEntrega;
-	//private date hehe faer isso depois
+	private String data;
 	
 	public static Pedido pedidoAtual;
 	
@@ -52,12 +50,13 @@ public class Pedido {
 			this.setStatus(Status.valueOf(rs.getString("STATUS")));
 			this.setStatusDoPagamento(StatusDoPagamento.valueOf(rs.getString("STATUS_DO_PAGAMENTO")));
 			this.setStatusDaEntrega(StatusDaEntrega.valueOf(rs.getString("STATUS_DA_ENTREGA")));
+			this.data = rs.getString("DATA");
 		}
 		catch(Exception e){}
 	}
 	
 	public Object[] pegarTodosParametros(){
-		Object[] object = new Object[10];
+		Object[] object = new Object[11];
 		object[0] = this.getId();
 		object[1] = this.getCliente().getNome();
 		
@@ -75,6 +74,7 @@ public class Pedido {
 		object[7] = this.getStatusDaEntrega().getNome();
 		object[8] = this.getStatusDoPagamento().getNome();
 		object[9] = this.getStatus().getNome();
+		object[10] = this.getData();
 		
 		return object;
 	}
@@ -199,6 +199,21 @@ public class Pedido {
 
 	public void setStatusDaEntrega(StatusDaEntrega statusDaEntrega) {
 		this.statusDaEntrega = statusDaEntrega;
+	}
+	
+	public String getData(){
+		return this.data;
+	}
+	public void setData(){
+		Locale locale = new Locale("pt","BR");
+		GregorianCalendar calendar = new GregorianCalendar(); 
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int year = calendar.get(Calendar.YEAR);
+		int hour = calendar.get(Calendar.HOUR);
+		int min = calendar.get(Calendar.MINUTE);
+		this.data = day + "/" + month + "/" + year + "  " + hour + ":" + min + "h";
+		System.out.println(data);
 	}
 
 }

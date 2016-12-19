@@ -3,7 +3,10 @@ package gui;
 import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -64,6 +67,21 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 		c.gridwidth = 7;
 		c.gridheight = 5;
 		this.add(scrollPane, c);
+		
+		JButton btn_Voltar = new JButton("Voltar");
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 9;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		this.add(btn_Voltar, c);
+		
+		btn_Voltar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				guiManager.mudarParaTela("telaInicial");
+			}
+		});
      
 		guiManager.getCards().add(this);
 	}
@@ -96,7 +114,8 @@ class MyTableModelPedido extends AbstractTableModel {
                                     "OBSERVAÇÃO",
                                     "ESTATUS ENTREGA",
                                     "ESTATUS PAGAMENTO",
-                                    "ESTATUS DO PEDIDO"};
+                                    "ESTATUS DO PEDIDO",
+                                    "DATA"};
    
     private Object[][] data;
     
