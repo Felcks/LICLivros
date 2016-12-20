@@ -1,4 +1,5 @@
 import gui.GUIManager;
+import utilidades.Print;
 import utilidades.Screen;
 
 import java.util.Calendar;
@@ -20,7 +21,7 @@ public class Main {
 		Locale.setDefault(new Locale("pt", "BR"));
 		Screen.start();
 		try {
-		//	createTableTest();
+			//Print.getInstance().printDocument(0);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

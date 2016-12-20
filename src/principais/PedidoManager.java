@@ -6,7 +6,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.itextpdf.text.DocumentException;
+
 import bd.JavaConnection;
+import utilidades.Print;
 
 public class PedidoManager {
 
@@ -64,6 +67,13 @@ public class PedidoManager {
 	
 	public void adicionarPedido(Pedido pedido){
 		this.pedidos.add(pedido);
+		try {
+			Print.getInstance().printDocument(pedido);
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public int gerarId(){
