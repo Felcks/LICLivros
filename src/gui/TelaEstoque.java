@@ -337,7 +337,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 			String idSelecionado = camposEmTexto[0];
 			int id = -1;
 			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
-			if(id >= 0 && id < ClienteManager.getInstance().getTodosClientes().size()){
+			if(id >= 0 && id < EstoqueManager.getInstance().getLivros().size()){
 				Livro novoLivro = new Livro(camposEmTexto);
 				Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
 				Livro livroASerAdicionado = livro;

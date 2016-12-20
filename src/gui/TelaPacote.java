@@ -372,7 +372,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 
 class MyTableModelPacote extends AbstractTableModel {
 	
-	private static Boolean DEBUG;
+	private static Boolean DEBUG = false;
 	
     private String[] columnNames = {"ID",
                                     "NOME",

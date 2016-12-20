@@ -80,11 +80,11 @@ public class TelaPedidoFinalizacao extends JPanel{
         c.gridy = 3;
         this.add(label_entrega, c);
         
-        JLabel label_obs = new JLabel("Observações: ", SwingConstants.CENTER);
+        /*JLabel label_obs = new JLabel("Observações: ", SwingConstants.CENTER);
         c.gridx = 2;
         c.gridy = 5;
         label_obs.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/50)));
-        this.add(label_obs, c);
+        this.add(label_obs, c);*/
         
         FormaDePagamento[] enumerado = FormaDePagamento.values();
         String[] formasPagamento = new String[enumerado.length];
@@ -113,7 +113,7 @@ public class TelaPedidoFinalizacao extends JPanel{
         c.gridy = 6;
         c.gridwidth = 3;
         c.gridheight = 3;
-        this.add(textField_obs, c);
+        //this.add(textField_obs, c);
         
         JButton btn_Avancar = new JButton("Concluir Pedido!");
 		c.fill = GridBagConstraints.BOTH;

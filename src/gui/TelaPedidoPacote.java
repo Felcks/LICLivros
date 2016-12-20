@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import bd.OperacoesPacotes;
 import principais.AnoEscolar;
@@ -98,11 +99,11 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 		c.gridx = 2;
 		c.gridy = 8;
 		c.anchor = GridBagConstraints.FIRST_LINE_END;
-		precoTotalEscrito.setFont(precoTotalEscrito.getFont().deriveFont(15F));
+		precoTotalEscrito.setFont(precoTotalEscrito.getFont().deriveFont(20F));
 		this.add(precoTotalEscrito, c);
 		
 		labelPreco = new JLabel("R$ 00,00");
-		labelPreco.setFont(precoTotalEscrito.getFont().deriveFont(15F));
+		labelPreco.setFont(precoTotalEscrito.getFont().deriveFont(20F));
 		c.gridx = 3;
 		c.gridy = 8;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -112,8 +113,10 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 		this.anoEscolarSelecionado = AnoEscolar.getAnoEscolarPeloNome(comboBoxAno.getSelectedItem().toString());
 		
 		this.table = new JTable(new MyTableModelPedidoPacote(escolaSelecionada, anoEscolarSelecionado));
-		table.getColumnModel().getColumn(0).setMinWidth(30);
-		table.getColumnModel().getColumn(0).setPreferredWidth(30);
+		minimizarTamanhoDaColuna(table, 1, 175, true);
+		minimizarTamanhoDaColuna(table, 2, 90, true);
+		minimizarTamanhoDaColuna(table, 3, 90, true);
+		minimizarTamanhoDaColuna(table, 4, 70, false);
 		JScrollPane scrollPane  = new JScrollPane(this.table);
 		table.setFillsViewportHeight(true);
 		c.gridx = 0;
@@ -187,6 +190,17 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 		this.guiManager.getCards().add(this, "telaPedidoPacote");
 	}
 	
+	private void minimizarTamanhoDaColuna(JTable table, int index, int tam, Boolean goLeft){
+		table.getColumnModel().getColumn(index).setMinWidth(tam);
+		table.getColumnModel().getColumn(index).setPreferredWidth(tam);
+		table.getColumnModel().getColumn(index).setMaxWidth(tam);
+		if(goLeft){
+			DefaultTableCellRenderer left = new DefaultTableCellRenderer();
+			left.setHorizontalAlignment(SwingConstants.LEFT);
+			table.getColumnModel().getColumn(index).setCellRenderer(left);
+		}
+	}
+	
 	private void atualizarPedido(){
 		Pedido.pedidoAtual.setPacote(pacote);
 	}
@@ -235,7 +249,7 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 
 class MyTableModelPedidoPacote extends AbstractTableModel {
 	
-	private static Boolean DEBUG = true;
+	private static Boolean DEBUG = false;
 	public static Boolean firstTime = true;
 	
     private String[] columnNames = {"NOME",
@@ -259,11 +273,7 @@ class MyTableModelPedidoPacote extends AbstractTableModel {
     		for(int j = 0; j < parametros.length; j++)
     			data[i][j] = parametros[j];
     	
-    			data[i][parametros.length] = true;
-        	
-    		
-    		System.out.println(getValueAt(i,parametros.length));
-    		
+    			data[i][parametros.length] = true;    		
     	}	
     }
     

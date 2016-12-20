@@ -78,7 +78,7 @@ public class Livro {
 	public Boolean isValidLivro(){
 		Object[] object = pegarTodosParametros();
 		
-		if(this.getId() <= 0)
+		if(this.getId() < 0)
 			return false;
 		
 		for(int i = 1; i < object.length - 1; i++){
