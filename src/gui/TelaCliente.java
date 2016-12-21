@@ -313,8 +313,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 				servicoDeDigito.limparCampos(textFields);
 				
 				//teste
-				OperacoesClientes opc = new OperacoesClientes();
-				opc.INSERT_CLIENTE(cliente);
+				ClienteManager.getInstance().getOperacoes().INSERT_DATA(cliente);
 			}
 			else {
 				JOptionPane.showMessageDialog(this, "Preencha todos os campos com informações válidas","Erro ao adicionar", JOptionPane.OK_CANCEL_OPTION);
@@ -346,8 +345,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 					this.repintarTabela();
 					servicoDeDigito.limparCampos(textFields);
 					
-					OperacoesClientes opc = new OperacoesClientes();
-					opc.UPDATE_CLIENTE(clienteASerAdicionado);
+					ClienteManager.getInstance().getOperacoes().UPDATE_DATA(clienteASerAdicionado);
 				}
 				else
 					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);

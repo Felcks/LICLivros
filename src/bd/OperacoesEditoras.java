@@ -1,6 +1,7 @@
 package bd;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
 
@@ -8,12 +9,14 @@ import javax.swing.JOptionPane;
 
 import principais.Cliente;
 import principais.Editora;
+import principais.EditoraManager;
+import principais.Pedido;
 
-public class OperacoesEditoras extends JavaConnection {
+public class OperacoesEditoras extends JavaConnection implements Operacoes{
 
-	private Statement stmt;
-	
-	public void INSERT_EDITORA(Editora editora){
+	public void INSERT_DATA(Object obj){
+		Editora editora = (Editora)obj;
+		
 		try{
 			ConnectBd();
 			connection.setAutoCommit(false);
@@ -30,14 +33,14 @@ public class OperacoesEditoras extends JavaConnection {
 			
 		     
 		    connection.commit();
-			stmt.close();
-			connection.close();
+		    this.closeConnections();
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
 	
-	public void UPDATE_EDITORA(Editora editora){
+	public void UPDATE_DATA(Object obj){
+		Editora editora = (Editora)obj;
 		try{
 			ConnectBd();
 			connection.setAutoCommit(false);
@@ -53,11 +56,26 @@ public class OperacoesEditoras extends JavaConnection {
 			int a  = statement.executeUpdate();
 			
 			connection.commit();
-			stmt.close();
-			connection.close();
+			statement.close();
+			this.closeConnections();
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, e);
 		}
+	}
+	
+	public void GET_AND_SET_ALL_DATA(){
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+			
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM EDITORAS");
+			while (resultSet.next()){
+				Editora editora = new Editora(resultSet);
+				EditoraManager.getInstance().adicionarNovaEditora(editora);
+			}
+			this.closeConnections();
+		} catch(Exception e){}
+
 	}
 
 }

@@ -1,6 +1,7 @@
 package principais;
 
 import java.sql.*;
+import java.text.NumberFormat;
 
 public class Livro {
 	
@@ -97,7 +98,9 @@ public class Livro {
 		todosParametros[3] = this.getQuantidade();
 		todosParametros[4] = this.getComprar();
 		todosParametros[5] = this.getVendidos();
-		todosParametros[6] = this.getPreco();
+		NumberFormat nf = NumberFormat.getCurrencyInstance();  
+		String formatado = nf.format (this.getPreco());
+		todosParametros[6] = formatado;
 		return todosParametros;
 	}
 	public Object[] pegarTodosParametrosValidos(){
@@ -108,7 +111,9 @@ public class Livro {
 		todosParametros[3] = (this.getQuantidade() == -999) ? "" : this.getQuantidade();
 		todosParametros[4] = (this.getComprar() == -999) ? "" : this.getComprar();
 		todosParametros[5] = this.getVendidos();
-		todosParametros[6] = (this.getPreco() == -999) ? "" : this.getPreco();
+		NumberFormat nf = NumberFormat.getCurrencyInstance();  
+		String formatado = nf.format (this.getPreco());
+		todosParametros[6] = formatado;
 		return todosParametros;
 	}
 	public Object[] pegarParametrosParaPacote(){
@@ -116,7 +121,9 @@ public class Livro {
 		todosParametros[0] = this.getId();
 		todosParametros[1] = this.getNome();
 		todosParametros[2] = this.getEditora();
-		todosParametros[3] = this.getPreco();
+		NumberFormat nf = NumberFormat.getCurrencyInstance();  
+		String formatado = nf.format (this.getPreco());
+		todosParametros[3] = formatado;
 		return todosParametros;
 	}
 	public Object[] pegarParametrosParaPedido(){
@@ -124,7 +131,9 @@ public class Livro {
 		todosParametros[0] = this.getNome();
 		todosParametros[1] = this.getEditora();
 		todosParametros[2] = this.getQuantidade();
-		todosParametros[3] = this.getPreco();
+		NumberFormat nf = NumberFormat.getCurrencyInstance();  
+		String formatado = nf.format (this.getPreco());
+		todosParametros[3] = formatado;
 		return todosParametros;
 	}
 	public void setarTodosParametros(Object[] object){
@@ -144,7 +153,9 @@ public class Livro {
 		parametrosDePacote[0] = this.getId();
 		parametrosDePacote[1] = this.getNome();
 		parametrosDePacote[2] = this.getEditora();
-		parametrosDePacote[3] = this.getPreco();
+		NumberFormat nf = NumberFormat.getCurrencyInstance();  
+		String formatado = nf.format (this.getPreco());
+		parametrosDePacote[3] = formatado;
 		return parametrosDePacote;
 	}
 	

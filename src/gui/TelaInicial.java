@@ -67,10 +67,10 @@ public class TelaInicial extends JPanel{
 		c.insets = new Insets(10,10,10,10);
 		c.gridx = 4;
 		c.gridy = 2;
-		btn_FazerPedido.setFont(btn_FazerPedido.getFont().deriveFont((float)(Screen.width/40)));
+		btn_FazerPedido.setFont(btn_FazerPedido.getFont().deriveFont((float)(Screen.width/25)));
 		this.add(btn_FazerPedido, c);
 		
-		JButton btn_verEstoque = new JButton("Checar Estoque");
+		JButton btn_verEstoque = new JButton("Estoque / Registro de Livros");
 		c.anchor = GridBagConstraints.CENTER;
 		c.gridwidth = 4;
 		c.gridheight = 2;

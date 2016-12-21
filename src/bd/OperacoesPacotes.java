@@ -1,17 +1,23 @@
 package bd;
 
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import principais.Pacote;
+import principais.PacoteManager;
 
-public class OperacoesPacotes extends JavaConnection
+public class OperacoesPacotes extends JavaConnection implements Operacoes
 {
-	private Statement stmt;
+	
+	public void UPDATE_DATA(Object obj)
+	{}
 
-	public void INSERT_PACOTE(Pacote pacote){
+	public void INSERT_DATA(Object obj){
+		Pacote pacote = (Pacote)obj;
+		
 		try{
 			ConnectBd();
 			connection.setAutoCommit(false);
@@ -73,11 +79,24 @@ public class OperacoesPacotes extends JavaConnection
 			stmt.executeUpdate(sql);
 		
 		    connection.commit();
-			stmt.close();
-			connection.close();
+		    this.closeConnections();
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, e);
 		}
+	}
+	
+	public void GET_AND_SET_ALL_DATA(){
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+			
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM PACOTES");
+			while (resultSet.next()){
+				Pacote pacote = new Pacote(resultSet);
+				PacoteManager.getInstance().adicionarNovoPacote(pacote);
+			}
+			this.closeConnections();
+		} catch(Exception e){}
 	}
 	
 }

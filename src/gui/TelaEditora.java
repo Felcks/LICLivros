@@ -237,8 +237,7 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
 			JOptionPane.showConfirmDialog(this, "Confirmar a adição da editora: " + editora.getNome() + "?", "Confirmar Adição", JOptionPane.OK_CANCEL_OPTION);
 			EditoraManager.getInstance().adicionarNovaEditora(editora);
 			this.repintarTabela();
-			OperacoesEditoras opc = new OperacoesEditoras();
-			opc.INSERT_EDITORA(editora);
+			EditoraManager.getInstance().getOperacoes().INSERT_DATA(editora);
 		}
 		else if (acao == Acao.ATUALIZAR){
 			String idSelecionado = camposEmTexto[0];
@@ -256,8 +255,7 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
 				if(mensage.length() > 0){
 					JOptionPane.showConfirmDialog(this, mensage	,"Atualizacao", JOptionPane.OK_CANCEL_OPTION);
 					novaEditora.setId(velhaEditora.getId());
-					OperacoesEditoras opc = new OperacoesEditoras();
-					opc.UPDATE_EDITORA(novaEditora);
+					EditoraManager.getInstance().getOperacoes().UPDATE_DATA(novaEditora);
 					servicoDeDigito.limparCampos(textFields);
 					EditoraManager.getInstance().atualizarEditora(id, novaEditora);
 					this.repintarTabela();

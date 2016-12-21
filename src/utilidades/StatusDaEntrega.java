@@ -1,7 +1,7 @@
 package utilidades;
 
 public enum StatusDaEntrega {
-	ENTREGUE("Entregue"), NÂO_ENTREGUE("Não entregue"), AGUARDANDO_BUSCA("Aguardando a busca"), CANCELADO("Cancelado");
+	ENTREGUE("Entregue"), NAO_ENTREGUE("Não entregue"), AGUARDANDO_BUSCA("Aguardando a busca"), CANCELADO("Cancelado");
 	
 	
 	private String nome;
@@ -23,7 +23,7 @@ public enum StatusDaEntrega {
 	}
 	
 	public static StatusDaEntrega getStatusPeloNome(String nome){
-		StatusDaEntrega st = StatusDaEntrega.NÂO_ENTREGUE;
+		StatusDaEntrega st = StatusDaEntrega.NAO_ENTREGUE;
 		for(int i = 0; i < StatusDaEntrega.values().length; i++){
 			if(StatusDaEntrega.values()[i].getNome().equals(nome)){
 				st = StatusDaEntrega.values()[i];

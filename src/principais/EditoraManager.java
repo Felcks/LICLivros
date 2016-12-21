@@ -7,16 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bd.JavaConnection;
+import bd.Operacoes;
+import bd.OperacoesEditoras;
 
 public class EditoraManager {
 	
 	private List<Editora> editoras;
-	private Statement stmt;
-	private Connection conn = null;
 	private static EditoraManager editoraManager;
+	private Operacoes operacoes;
 	
 	private EditoraManager(){
 		this.editoras = new ArrayList<Editora>();
+		this.operacoes = new OperacoesEditoras();
 	}
 	
 	public static EditoraManager getInstance(){
@@ -26,21 +28,14 @@ public class EditoraManager {
 		return editoraManager;
 	}
 	
+	public Operacoes getOperacoes(){
+		return this.operacoes;
+	}
+	
 	public void getTodasEditorasDoBD(){
-		try{
-			JavaConnection.getInstance().ConnectBd();
-			conn = JavaConnection.getInstance().connection;
-			stmt = conn.createStatement();
-			
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM EDITORAS");
-			this.editoras.clear();
-			while (resultSet.next()){
-				Editora editora = new Editora(resultSet);
-				this.editoras.add(editora);
-			}
-			resultSet.close();
-			stmt.close();
-		} catch(Exception e){}
+		this.editoras.clear();
+		
+		this.operacoes.GET_AND_SET_ALL_DATA();
 	}
 	
 	public List<Editora> getEditoras(){

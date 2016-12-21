@@ -320,9 +320,9 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 				JOptionPane.showConfirmDialog(this, "Confirmar a adição do livro: " + livro.getNome(), "Confirmar Adição", JOptionPane.OK_CANCEL_OPTION);
 				PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado).adicionarLivro(livro);
 				this.repintarTabela();
-				OperacoesPacotes opc = new OperacoesPacotes();
-				opc.DELETE_PACOTE(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado));
-				opc.INSERT_PACOTE(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado));
+				
+				((OperacoesPacotes)PacoteManager.getInstance().getOperacoes()).DELETE_PACOTE(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado));
+				PacoteManager.getInstance().getOperacoes().INSERT_DATA(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado));
 			}
 		}
 		else if(acao == Acao.REMOVER){
@@ -339,9 +339,8 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 					JOptionPane.showConfirmDialog(this, "Remover livro: " + livro.getNome(), "Confirmar Remoção", JOptionPane.OK_CANCEL_OPTION);
 					pacoteAtual.removerLivro(livro);
 					this.repintarTabela();
-					OperacoesPacotes opc = new OperacoesPacotes();
-					opc.DELETE_PACOTE(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado));
-					opc.INSERT_PACOTE(pacoteAtual);
+					((OperacoesPacotes)PacoteManager.getInstance().getOperacoes()).DELETE_PACOTE(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado));
+					PacoteManager.getInstance().getOperacoes().INSERT_DATA(pacoteAtual);
 				}
 			}
 			else{

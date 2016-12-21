@@ -223,8 +223,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 			EscolaManager.getInstance().adicionarNovaEscola(escola);
 			this.repintarTabela();
 			
-			OperacoesEscolas opc = new OperacoesEscolas();
-			opc.INSERT_ESCOLA(escola);
+			EscolaManager.getInstance().getOperacoes().INSERT_DATA(escola);
 		}
 		else if (acao == Acao.ATUALIZAR){
 			String idSelecionado = camposEmTexto[0];
@@ -246,8 +245,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 					this.repintarTabela();
 					
 
-					OperacoesEscolas opc = new OperacoesEscolas();
-					opc.UPDATE_ESCOLA(novaEscola);
+					EscolaManager.getInstance().getOperacoes().UPDATE_DATA(novaEscola);
 				}
 				else
 					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);

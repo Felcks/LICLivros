@@ -1,9 +1,12 @@
 package principais;
 
 import java.sql.ResultSet;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 import utilidades.FormaDeEntrega;
@@ -21,13 +24,14 @@ public class Pedido {
 	private Double preco;
 	private FormaDeEntrega formaDeEntrega;
 	private FormaDePagamento formaDePagamento;
-	private String obs;
+	private TipoPedido tipoPedido;
 	private Status status;
 	private StatusDoPagamento statusDoPagamento;
 	private StatusDaEntrega statusDaEntrega;
 	private String data;
 	
 	public static Pedido pedidoAtual;
+	public static TipoPedido tipoProximoPedido = TipoPedido.NORMAL;
 	
 	public Pedido(Cliente cliente){
 		this.setCliente(cliente);
@@ -39,6 +43,7 @@ public class Pedido {
 	
 	public Pedido(ResultSet rs){
 		try{
+			
 			this.setId(rs.getInt("ID"));
 			this.setCliente(ClienteManager.getInstance().getClientePeloId(rs.getInt("CLIENTE")));
 			this.setPacote(PacoteManager.getInstance().getPacotePeloId(rs.getInt("PACOTE")));
@@ -46,19 +51,20 @@ public class Pedido {
 			this.setPreco(rs.getDouble("PRECO"));
 			this.setFormaDeEntrega(FormaDeEntrega.valueOf(rs.getString("FORMA_DE_ENTREGA")));
 			this.setFormaDePagamento(FormaDePagamento.valueOf(rs.getString("FORMA_DE_PAGAMENTO")));
-			this.setObs(rs.getString("OBS"));
 			this.setStatus(Status.valueOf(rs.getString("STATUS")));
 			this.setStatusDoPagamento(StatusDoPagamento.valueOf(rs.getString("STATUS_DO_PAGAMENTO")));
 			this.setStatusDaEntrega(StatusDaEntrega.valueOf(rs.getString("STATUS_DA_ENTREGA")));
 			this.data = rs.getString("DATA");
+			this.setTipoPedido(TipoPedido.valueOf(rs.getString("OBS")));
 		}
-		catch(Exception e){}
+		catch(Exception e){
+		}
 	}
 	
 	public Pedido(){}
 	
-	public Object[] pegarTodosParametros(){
-		Object[] object = new Object[10];
+	public Object[] pegarTodosParametros() throws java.lang.NullPointerException {
+		Object[] object = new Object[11];
 		object[0] = this.getId();
 		object[1] = this.getCliente().getNome();
 		
@@ -70,13 +76,17 @@ public class Pedido {
 		
 		object[2] = livros; 
 		
-		object[3] = this.getPreco();
+		NumberFormat nf = NumberFormat.getCurrencyInstance();  
+		String formatado = nf.format (this.getPreco());
+		object[3] = formatado;
 		object[4] = this.getFormaDeEntrega().getNome();
 		object[5] = this.getFormaDePagamento().getNome();
+		System.out.println(this.cliente.getNome());
 		object[6] = this.getStatusDaEntrega().getNome();
 		object[7] = this.getStatusDoPagamento().getNome();
 		object[8] = this.getStatus().getNome();
 		object[9] = this.getData();
+		object[10] = this.getTipoPedido().toString();
 		
 		return object;
 	}
@@ -84,6 +94,21 @@ public class Pedido {
 	public Pedido(String stEntrega, String stPagamento){
 		this.statusDaEntrega = StatusDaEntrega.getStatusPeloNome(stEntrega);
 		this.statusDoPagamento = StatusDoPagamento.getStatusPeloNome(stPagamento);
+	}
+	
+	public List<Livro> getLivrosComprados(){
+		List<Livro> livrosComprados = new ArrayList<Livro>();
+		List<Livro> livrosDoPacote = this.pacote.getLivros();
+		List<Integer> idsEmLista = new ArrayList<Integer>();
+		//Primeiro passo os IdsPara uma lista
+		for(int i = 0; i < idsDosLivrosComprados.length; i++)
+			idsEmLista.add(idsDosLivrosComprados[i]);
+		//Depois verifica-se usando contains se o ID de qualquer livro do pacote contém nessa lista de idsComprados
+		for(int i = 0; i < livrosDoPacote.size(); i++)
+			if(idsEmLista.contains(livrosDoPacote.get(i).getId()))
+					livrosComprados.add(livrosDoPacote.get(i));
+			
+		return livrosComprados;
 	}
 	
 	public int getId(){
@@ -168,14 +193,6 @@ public class Pedido {
 		this.formaDePagamento = formaDePagamento;
 	}
 
-	public String getObs() {
-		return obs;
-	}
-
-	public void setObs(String obs) {
-		this.obs = obs;
-	}
-
 	public Double getPreco() {
 		return preco;
 	}
@@ -242,6 +259,14 @@ public class Pedido {
 		
 		this.data = concatDay + day + "/" + concatMonth + month + "/" + year + " - " + concatHora + hour + ":" + concatMin + min + "h";
 		System.out.println(data);
+	}
+
+	public TipoPedido getTipoPedido() {
+		return tipoPedido;
+	}
+
+	public void setTipoPedido(TipoPedido tipoPedido) {
+		this.tipoPedido = tipoPedido;
 	}
 
 }

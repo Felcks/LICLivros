@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bd.JavaConnection;
+import bd.Operacoes;
+import bd.OperacoesPacotes;
 
 /**
  * Esquema parecido com a EstoqueManager
@@ -20,8 +22,7 @@ public class PacoteManager {
 	
 	private static PacoteManager pacoteManager;
 	private List<Pacote> pacotes;
-	private Statement stmt;
-	private Connection conn = null;
+	Operacoes operacoes;
 	
 	public static PacoteManager getInstance(){
 		if(pacoteManager == null)
@@ -36,6 +37,11 @@ public class PacoteManager {
 	
 	private PacoteManager(){
 		this.pacotes = new ArrayList<Pacote>();
+		this.operacoes = new OperacoesPacotes();
+	}
+	
+	public Operacoes getOperacoes(){
+		return this.operacoes;
 	}
 	
 	public Pacote getPacotePeloId(int id){
@@ -50,21 +56,14 @@ public class PacoteManager {
 		return p;
 	}
 	
+	public void adicionarNovoPacote(Pacote pacote){
+		this.pacotes.add(pacote);
+	}
+	
 	public void getTodosOsPacotesDoBD(){
-		try{
-			JavaConnection.getInstance().ConnectBd();
-			conn = JavaConnection.getInstance().connection;
-			stmt = conn.createStatement();
-			
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM PACOTES");
-			this.pacotes.clear();
-			while (resultSet.next()){
-				Pacote pacote = new Pacote(resultSet);
-				this.pacotes.add(pacote);
-			}
-			resultSet.close();
-			stmt.close();
-		} catch(Exception e){}
+		this.pacotes.clear();
+		
+		operacoes.GET_AND_SET_ALL_DATA();
 	}
 	
 	public Pacote getPacote(Escola escola, AnoEscolar anoEscolar){

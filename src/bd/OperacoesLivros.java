@@ -7,15 +7,18 @@ import javax.swing.JOptionPane;
 
 import principais.Cliente;
 import principais.Editora;
+import principais.EstoqueManager;
 import principais.Livro;
 
-public class OperacoesLivros extends JavaConnection
+public class OperacoesLivros extends JavaConnection implements Operacoes 
 {
-	private Statement stmt;
 	
-	public void INSERT_LIVROS(Livro livro) {
+	public void INSERT_DATA(Object obj) {
+		Livro livro = (Livro)obj;
+		
 		try{
-			connection = JavaConnection.getInstance().connection;
+			this.ConnectBd();
+			
 			connection.setAutoCommit(false);
 			int id = livro.getId();
 			String nome = livro.getNome();
@@ -37,17 +40,19 @@ public class OperacoesLivros extends JavaConnection
 			stmt.executeUpdate(sql);
 		     
 			connection.commit();
-			stmt.close();
-			connection.close();
+			this.closeConnections();
+			
 			} catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
 	
-	public void UPADTE_LIVROS(Livro livro)
+	public void UPDATE_DATA(Object obj)
 	{
+		Livro livro = (Livro)obj;
+		
 		try{
-			connection = JavaConnection.getInstance().connection;
+			this.ConnectBd();
 			connection.setAutoCommit(false);
 
 			int id = livro.getId();
@@ -69,10 +74,25 @@ public class OperacoesLivros extends JavaConnection
 			
 			stmt.executeUpdate(sql);
 			connection.commit();
-			stmt.close();
+			this.closeConnections();
 			
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
+	
+	public void GET_AND_SET_ALL_DATA(){
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+			
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM LIVROS");
+			while (resultSet.next()){
+				Livro livro = new Livro(resultSet);
+				EstoqueManager.getInstance().adicionarNovoLivro(livro);
+			}
+			closeConnections();
+		}catch(Exception e){}
+	}
+	
 }

@@ -67,6 +67,7 @@ public class GUIManager{
 		this.janela.setTitle("LIC - LIVROS IDEIAS CULTURA");
 		this.janela.setLocationRelativeTo(null);
 	}
+	
 	private void criarCards(){
 		this.cards = new JPanel(new CardLayout());
 		this.janela.getContentPane().add(this.cards, BorderLayout.CENTER);
@@ -97,6 +98,9 @@ public class GUIManager{
 		}
 		else if(tela.equals("telaPedido")){
 			this.telaPedido.prepararComponentes();
+		}
+		else if(tela.equals("telaPedidoFinalizacao")){
+			this.telaPedidoFinalizacao.prepararComponentes();
 		}
 		
 		CardLayout cl = (CardLayout)(this.cards.getLayout());

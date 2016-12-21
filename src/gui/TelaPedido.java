@@ -226,7 +226,7 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 					this.repintarTabela();
 					
 					OperacoesPedidos opc = new OperacoesPedidos();
-					opc.UPDATE_PEDIDO(velhoPedido);
+					opc.UPDATE_DATA(velhoPedido);
 				}
 				else
 					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
@@ -315,7 +315,8 @@ class MyTableModelPedido extends AbstractTableModel {
                                     "ESTATUS ENTREGA",
                                     "ESTATUS PAGAMENTO",
                                     "ESTATUS DO PEDIDO",
-                                    "DATA"};
+                                    "DATA",
+                                    "TIPO"};
    
     private Object[][] data;
     

@@ -45,7 +45,9 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 	private ServicoDeDigito servicoDeDigito;
 	JTable table;
 	JComboBox comboBox;
-	
+	JComboBox comboBoxAcoes;
+	JTextField[] textFields;
+	 
 	public TelaEstoque(GUIManager guiManager) {
 		this.guiManager = guiManager;
 		this.servicoDeDigito = new ServicoDeDigito();
@@ -66,7 +68,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
         	}
         }
         
-        JTextField[] textFields = new JTextField[7];
+        textFields = new JTextField[7];
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.gridy = 7;
@@ -146,7 +148,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		String[] acoes = new String[2];
 		acoes[0] = Acao.ADICIONAR.name();
 		acoes[1] = Acao.ATUALIZAR.name();
-		JComboBox comboBoxAcoes = new JComboBox(acoes);
+		comboBoxAcoes = new JComboBox(acoes);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 2;
@@ -205,8 +207,6 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 			}
 		});
 		
-		prepararParaAcao(Acao.ADICIONAR, textFields);
-		
 		textFields[0].getDocument().addDocumentListener(new DocumentListener() {	
 			@Override
 			public void removeUpdate(DocumentEvent e) {
@@ -224,6 +224,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 			}
 		});
 		
+		prepararParaAcao(Acao.ADICIONAR, textFields);
 		
 		this.guiManager.getCards().add(this, "telaRegistrarLivro");
 	}
@@ -326,8 +327,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 				JOptionPane.showConfirmDialog(this, "Confirmar a adição do livro: " + livro.getNome(), "Confirmar Adição", JOptionPane.OK_CANCEL_OPTION);
 				EstoqueManager.getInstance().adicionarNovoLivro(livro);
 				this.repintarTabela(comboBox.getSelectedItem().toString());
-				OperacoesLivros opc = new OperacoesLivros();
-				opc.INSERT_LIVROS(livro);
+				EstoqueManager.getInstance().getOperacoes().INSERT_DATA(livro);
 			}
 			else{
 				JOptionPane.showMessageDialog(this, "Preencha todos os campos com informações válidas","Erro ao adicionar", JOptionPane.OK_CANCEL_OPTION);
@@ -362,8 +362,8 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 					livroASerAdicionado.setarTodosParametros(parametrosDoLivroASerAdicionado);
 					EstoqueManager.getInstance().atualizarLivro(id, livroASerAdicionado);
 					this.repintarTabela(comboBox.getSelectedItem().toString());
-					OperacoesLivros opc = new OperacoesLivros();
-					opc.UPADTE_LIVROS(livroASerAdicionado);
+					EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livroASerAdicionado);
+					servicoDeDigito.limparCampos(textFields);
 				}
 				else
 					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
@@ -379,74 +379,6 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 			((MyTableModel)this.table.getModel()).updateData(editora);
 			this.table.repaint();
 		}
-	}
-	
-	private void adicionarLivro(JTextField[] textFields, JComboBox comboBox, JTable table){
-		System.out.println("passar em TelaEstoque linha 300");
-		//Editora editora = Editora.getEditoraDeUmaString(comboBox.getSelectedItem().toString());
-		//int id = EstoqueManager.getInstance().gerarId(editora);//5;//Integer.parseInt(textFields[0].getText());
-		int id = 1;
-		String nome = textFields[1].getText();
-		String editora = textFields[2].getText();
-		int quantidade = Integer.parseInt(textFields[3].getText());
-		int comprar = Integer.parseInt(textFields[4].getText());
-		int vendidos = Integer.parseInt(textFields[5].getText());
-		double preco = Float.parseFloat(textFields[6].getText());
-		Livro livro = new Livro(id, nome, editora, quantidade, comprar, vendidos, preco);
-		
-		OperacoesLivros op = new OperacoesLivros();
-		op.INSERT_LIVROS(livro);
-		EstoqueManager.getInstance().getLivrosDoBancoDeDados();
-		
-		atualizarLivros(table, comboBox, null);
-	}
-	
-	private void atualizarUmLivro(JTextField[] textFields, JComboBox comboBox, JTable table){
-		//Editora editora = Editora.getEditoraDeUmaString(comboBox.getSelectedItem().toString());
-		
-		int id = Integer.parseInt(textFields[0].getText());
-		String nome = textFields[1].getText();
-		int quantidade = Integer.parseInt(textFields[3].getText());
-		int comprar = Integer.parseInt(textFields[4].getText());
-		double preco = Float.parseFloat(textFields[5].getText());
-		
-		for(int i = 0; i < EstoqueManager.getInstance().getLivros().size(); i++){
-			if((int)id == EstoqueManager.getInstance().getLivros().get(i).getId()){
-				 Livro livro = EstoqueManager.getInstance().getLivros().get(i);
-				 livro.setNome(nome);
-				 livro.setQuantidade(quantidade);
-				 livro.setPreco(preco);
-				 livro.setComprar(comprar);
-				 EstoqueManager.getInstance().getLivros().set(i, livro);
-				 OperacoesLivros op = new OperacoesLivros();
-				 op.UPADTE_LIVROS(livro);
-			}
-		}
-		atualizarLivros(table, comboBox, null);
-	}
-	
-	private boolean checarCampos(JTextField[] textFields, JLabel[] labels, Boolean checarId){
-		Boolean todosCamposPreenchidosCorretamente = true;
-		for(int i = 0; i < textFields.length; i ++){
-			if(textFields[i].getText().length() == 0){
-				if(checarId == true || checarId == false && i != 0){
-					todosCamposPreenchidosCorretamente = false;
-					JOptionPane.showMessageDialog(this, "O campo: " + labels[i].getText() + "\n não contém informações válidas!" , "Falha", JOptionPane.INFORMATION_MESSAGE);
-					break;	
-				}
-			}
-			if(i != 1 && i != 2){ 
-				if(isNumber(textFields[i].getText()) == false){
-					if(checarId == true || checarId == false && i != 0){
-						todosCamposPreenchidosCorretamente = false;
-						JOptionPane.showMessageDialog(this, "O campo: " + labels[i].getText() + "\n não contém informações válidas!" , "Falha", JOptionPane.INFORMATION_MESSAGE);
-						break;
-					}
-				}
-			}
-		}
-		
-		return todosCamposPreenchidosCorretamente;
 	}
 	
 	 private boolean isNumber(String text) {

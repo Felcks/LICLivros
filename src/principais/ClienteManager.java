@@ -7,17 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bd.JavaConnection;
+import bd.Operacoes;
 import bd.OperacoesClientes;
+import bd.OperacoesLivros;
 
 public class ClienteManager
 {
 	private static ClienteManager clienteManager;
 	private List<Cliente> clientes;
-	private Statement stmt;
-	private Connection conn = null;
+	private Operacoes operacoes;
 	
 	private ClienteManager(){
 		this.clientes = new ArrayList<Cliente>();	
+		this.operacoes = new OperacoesClientes();
 	}
 	
 	public static ClienteManager getInstance(){
@@ -29,23 +31,10 @@ public class ClienteManager
 
 	
 	public void getTodosClientesDoBD(){
-		try{
-			JavaConnection.getInstance().ConnectBd();
-			conn = JavaConnection.getInstance().connection;
-			stmt = conn.createStatement();
-			
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM CLIENTES");
-			this.clientes.clear();
-			while (resultSet.next()){
-				Cliente cliente = new Cliente(resultSet);
-				this.clientes.add(cliente);
-			}
-			resultSet.close();
-			stmt.close();
-		} catch(Exception e){}
+		this.clientes.clear();
+		
+		operacoes.GET_AND_SET_ALL_DATA();
 	}
-	
-	
 	
 	public List<String> getTodosNomesClientes(){
 		List<String> todosNomes = new ArrayList<String>();
@@ -54,6 +43,10 @@ public class ClienteManager
 		}
 		
 		return todosNomes;
+	}
+	
+	public Operacoes getOperacoes(){
+		return this.operacoes;
 	}
 	public List<Cliente> getTodosClientes(){
 		return this.clientes;

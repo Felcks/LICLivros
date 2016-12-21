@@ -5,25 +5,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import bd.JavaConnection;
+import bd.Operacoes;
 import bd.OperacoesLivros;
 import principais.Livro;
-/**
- * Então essa class aqui deve pegar todos os livros na Database assim que iniciar
- * Deve ter um método salvar que vai jogar todo o array de livro na dataBase de novo --> apaga toda a database e subir de novo!
- * (Isso por que vão ter livros novos e editados, daí pra não conferir apenas joga tudo de novo)
- * 
- * @author felcks
- *
- */
+
 public class EstoqueManager {
 	private static EstoqueManager estoqueManager;
 	private List<Livro> livros;
-	private Statement stmt;
-	private Connection conn = null;
+	private Operacoes operacoes;
 	
 	private EstoqueManager(){
 		this.livros = new ArrayList<Livro>();
+		this.operacoes = new OperacoesLivros();
 	}
 	
 	public static EstoqueManager getInstance(){
@@ -43,6 +36,10 @@ public class EstoqueManager {
 	
 	public void removerLivro(int id){
 		this.livros.remove(id);
+	}
+	
+	public Operacoes getOperacoes(){
+		return this.operacoes;
 	}
 	
 	public void atualizarLivro(int index, Livro livro){
@@ -68,21 +65,10 @@ public class EstoqueManager {
 	}
 	
 	public void getLivrosDoBancoDeDados(){
-		try{
-			conn = JavaConnection.getInstance().connection;
-			stmt = conn.createStatement();
-			
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM LIVROS");
-			livros.clear();
-			while (resultSet.next()){
-				Livro livro = new Livro(resultSet);
-				this.livros.add(livro);
-			}
-			resultSet.close();
-			stmt.close();
-		}catch(Exception e){}
+		this.livros.clear();
+		
+		operacoes.GET_AND_SET_ALL_DATA();	
 	}
-	
 	public List<Livro> getLivrosDeUmaEditora(String editora){
 		List<Livro> livrosDeEditora = new ArrayList<Livro>();
 		for(int i = 0; i < this.getLivros().size(); i++){
@@ -139,8 +125,7 @@ public class EstoqueManager {
 		
 		livro.setVendidos(id);
 		
-		OperacoesLivros opc = new OperacoesLivros();
-		opc.UPADTE_LIVROS(livro);
+		this.operacoes.UPDATE_DATA(livro);
 	}
 	
 

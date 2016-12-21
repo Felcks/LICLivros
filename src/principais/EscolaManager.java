@@ -3,6 +3,8 @@ package principais;
 import java.util.List;
 
 import bd.JavaConnection;
+import bd.Operacoes;
+import bd.OperacoesEscolas;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,12 +14,12 @@ import java.util.ArrayList;
 public class EscolaManager {
 	
 	private List<Escola> escolas;
-	private Statement stmt;
-	private Connection conn = null;
 	private static EscolaManager escolaManager;
+	private Operacoes operacoes;
 	
 	private EscolaManager(){
 		this.escolas = new ArrayList<Escola>();
+		this.operacoes = new OperacoesEscolas();
 	}
 	
 	public static EscolaManager getInstance(){
@@ -27,21 +29,14 @@ public class EscolaManager {
 		return escolaManager;
 	}
 	
+	public Operacoes getOperacoes(){
+		return this.operacoes;
+	}
+	
 	public void getTodasEscolasDoBD(){
-		try{
-			JavaConnection.getInstance().ConnectBd();
-			conn = JavaConnection.getInstance().connection;
-			stmt = conn.createStatement();
-			
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM ESCOLAS");
-			this.escolas.clear();
-			while (resultSet.next()){
-				Escola escola = new Escola(resultSet);
-				this.escolas.add(escola);
-			}
-			resultSet.close();
-			stmt.close();
-		} catch(Exception e){}
+		this.escolas.clear();
+		
+		this.operacoes.GET_AND_SET_ALL_DATA();
 	}
 	
 	public Escola getEscolaPeloId(int id){

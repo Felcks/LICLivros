@@ -1,18 +1,20 @@
 package bd;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import principais.Cliente;
+import principais.ClienteManager;
 
-public class OperacoesClientes extends JavaConnection{
+public class OperacoesClientes extends JavaConnection implements Operacoes{
 	
-	private Statement stmt;
-
-	public void INSERT_CLIENTE(Cliente cliente){
+	public void INSERT_DATA(Object obj){
+		Cliente cliente = (Cliente)obj;
+		
 		try{
 			ConnectBd();
 			connection.setAutoCommit(false);
@@ -36,14 +38,15 @@ public class OperacoesClientes extends JavaConnection{
 			stmt.executeUpdate(sql);
 		     
 		    connection.commit();
-			stmt.close();
-			connection.close();
+		    this.closeConnections();
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
 	
-	public void UPDATE_CLIENTE(Cliente cliente){
+	public void UPDATE_DATA(Object obj){
+		Cliente cliente = (Cliente)obj;
+		
 		try{
 			ConnectBd();
 			connection.setAutoCommit(false);
@@ -69,10 +72,25 @@ public class OperacoesClientes extends JavaConnection{
 			int a  = statement.executeUpdate();
 		     
 		    connection.commit();
-			stmt.close();
-			connection.close();
+		    statement.close();
+		    this.closeConnections();
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, e);
 		}
+	}
+	
+	public void GET_AND_SET_ALL_DATA(){
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+			
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM CLIENTES");
+			while (resultSet.next()){
+				Cliente cliente = new Cliente(resultSet);
+				ClienteManager.getInstance().adicionarNovoCliente(cliente);
+			}
+		    this.closeConnections();
+		    
+		} catch(Exception e){}
 	}
 }

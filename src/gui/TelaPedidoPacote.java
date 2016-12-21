@@ -1,10 +1,12 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -39,7 +41,7 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 	Pacote pacote;
 	
 	private static int[] idsDosLivrosSelecionados;
-	private static JLabel labelPreco;
+	private static JTextField textFieldPreco;
 	private static double precoTotal;
 	
 	
@@ -54,8 +56,8 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
         c.weightx = 1;
         c.weighty = 1;
         
-        for(int i = 0; i < 6; i ++){
-        	for(int j = 0; j < 10; j++){
+        for(int i = 0; i < 24; i ++){
+        	for(int j = 0; j < 24; j++){
         		c.gridx = i;
         		c.gridy = j;
         		c.fill = GridBagConstraints.BOTH;
@@ -70,44 +72,50 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
         c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 6;
-		c.gridheight = 1;
+		c.gridwidth = 24;
+		c.gridheight = 4;
 		c.anchor = GridBagConstraints.CENTER;
 		this.add(txt_Title, c);
 		
 		String[] todasEscolas = EscolaManager.getInstance().getTodosNomesEscolas();
 		comboBox = new JComboBox(todasEscolas);
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 2;
-		c.gridheight = 1;
+		c.gridheight = 4;
 		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.CENTER;
 		this.add(comboBox,c);
 		
 		String[] todosAnos = AnoEscolar.getTodosNomesAnosEscolares();
 		JComboBox comboBoxAno = new JComboBox(todosAnos);
-		c.gridx = 5;
+		c.gridx = 20;
 		c.gridy = 0;
 		c.gridwidth = 2;
-		c.gridheight = 1;
+		c.gridheight = 4;
 		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.CENTER;
 		this.add(comboBoxAno,c);
 		
 		JLabel precoTotalEscrito = new JLabel("Preço:");
 		c.gridwidth = 1;
+		c.gridx = 9;
+		c.gridy = 18;
 		c.gridheight = 1;
-		c.gridx = 2;
-		c.gridy = 8;
-		c.anchor = GridBagConstraints.FIRST_LINE_END;
+		c.anchor = GridBagConstraints.LAST_LINE_END;
 		precoTotalEscrito.setFont(precoTotalEscrito.getFont().deriveFont(20F));
 		this.add(precoTotalEscrito, c);
 		
-		labelPreco = new JLabel("R$ 00,00");
-		labelPreco.setFont(precoTotalEscrito.getFont().deriveFont(20F));
-		c.gridx = 3;
-		c.gridy = 8;
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		this.add(labelPreco, c);
+		textFieldPreco = new JTextField();
+		textFieldPreco.setFont(precoTotalEscrito.getFont().deriveFont(20F));
+		c.gridwidth = 1;
+		textFieldPreco.setEditable(false);
+		textFieldPreco.setBackground(Color.LIGHT_GRAY);
+		c.gridx = 10;
+		c.gridy = 18;
+		c.gridheight = 2;
+		c.anchor = GridBagConstraints.LINE_START;
+		this.add(textFieldPreco, c);
 		
 		this.escolaSelecionada = new Escola(comboBox.getSelectedItem().toString());
 		this.anoEscolarSelecionado = AnoEscolar.getAnoEscolarPeloNome(comboBoxAno.getSelectedItem().toString());
@@ -120,9 +128,9 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 		JScrollPane scrollPane  = new JScrollPane(this.table);
 		table.setFillsViewportHeight(true);
 		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = 6;
-		c.gridheight = 5;
+		c.gridy = 4;
+		c.gridwidth = 24;
+		c.gridheight = 14;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(scrollPane, c);
@@ -130,8 +138,8 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 		
 		JButton btn_Avancar = new JButton("Avançar");
 		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 5;
-		c.gridy = 9;
+		c.gridx = 23;
+		c.gridy = 23;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		this.add(btn_Avancar, c);
@@ -139,7 +147,7 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 		JButton btn_Voltar = new JButton("Voltar");
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 9;
+		c.gridy = 23;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		this.add(btn_Voltar, c);
@@ -231,13 +239,21 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 			for(int i = 0; i < pacote.getLivros().size(); i++){
 				precoTotal += pacote.getLivros().get(i).getPreco();
 			}
-			labelPreco.setText("R$ " + precoTotal);
+			
+			NumberFormat nf = NumberFormat.getCurrencyInstance();  
+			String formatado = nf.format (precoTotal);
+			
+			textFieldPreco.setText(formatado);
 		}
 	}
 	
 	public static void atualizarPrecoTotal(double valor){
 		precoTotal += valor;
-		labelPreco.setText("R$ " + precoTotal);
+		
+		NumberFormat nf = NumberFormat.getCurrencyInstance();  
+		String formatado = nf.format (precoTotal);
+		
+		textFieldPreco.setText(formatado);
 	}
 	
 	public static void adicionarOuRemoverId(int index){

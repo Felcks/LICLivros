@@ -9,17 +9,19 @@ import java.util.List;
 import com.itextpdf.text.DocumentException;
 
 import bd.JavaConnection;
+import bd.Operacoes;
+import bd.OperacoesPedidos;
 import utilidades.Print;
 
 public class PedidoManager {
 
 	private static PedidoManager pedidoManager;
 	private List<Pedido> pedidos;
-	private Statement stmt;
-	private Connection conn = null;
+	Operacoes operacoes;
 	
 	private PedidoManager(){
-		this.pedidos = new ArrayList<Pedido>();	
+		this.pedidos = new ArrayList<Pedido>();
+		this.operacoes = new OperacoesPedidos();
 	}
 	
 	public static PedidoManager getInstance(){
@@ -31,20 +33,13 @@ public class PedidoManager {
 
 	
 	public void getTodosPedidosBD(){
-		try{
-			JavaConnection.getInstance().ConnectBd();
-			conn = JavaConnection.getInstance().connection;
-			stmt = conn.createStatement();
-			
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM PEDIDOS");
-			this.pedidos.clear();
-			while (resultSet.next()){
-				Pedido pedido = new Pedido(resultSet);
-				this.pedidos.add(pedido);
-			}
-			resultSet.close();
-			stmt.close();
-		} catch(Exception e){}
+		this.pedidos.clear();
+		
+		operacoes.GET_AND_SET_ALL_DATA();
+	}
+	
+	public Operacoes getOperacoes(){
+		return this.operacoes;
 	}
 	
 	public Pedido getPedidoPeloId(int id){
