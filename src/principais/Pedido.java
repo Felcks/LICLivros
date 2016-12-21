@@ -49,13 +49,32 @@ public class Pedido {
 			this.setPacote(PacoteManager.getInstance().getPacotePeloId(rs.getInt("PACOTE")));
 			this.setIdsDosLivrosComprados(rs.getString("IDS_DOS_LIVROS"));
 			this.setPreco(rs.getDouble("PRECO"));
-			this.setFormaDeEntrega(FormaDeEntrega.valueOf(rs.getString("FORMA_DE_ENTREGA")));
-			this.setFormaDePagamento(FormaDePagamento.valueOf(rs.getString("FORMA_DE_PAGAMENTO")));
-			this.setStatus(Status.valueOf(rs.getString("STATUS")));
-			this.setStatusDoPagamento(StatusDoPagamento.valueOf(rs.getString("STATUS_DO_PAGAMENTO")));
-			this.setStatusDaEntrega(StatusDaEntrega.valueOf(rs.getString("STATUS_DA_ENTREGA")));
+			try{
+				this.setFormaDeEntrega(FormaDeEntrega.valueOf(rs.getString("FORMA_DE_ENTREGA")));
+			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
+			
+			try{
+				this.setFormaDePagamento(FormaDePagamento.valueOf(rs.getString("FORMA_DE_PAGAMENTO")));
+			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
+			
+			try{
+				this.setStatus(Status.valueOf(rs.getString("STATUS")));
+			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
+			
+			try{
+				this.setStatusDoPagamento(StatusDoPagamento.valueOf(rs.getString("STATUS_DO_PAGAMENTO")));
+			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
+			
+			try{
+				this.setStatusDaEntrega(StatusDaEntrega.valueOf(rs.getString("STATUS_DA_ENTREGA")));
+			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
+			
 			this.data = rs.getString("DATA");
-			this.setTipoPedido(TipoPedido.valueOf(rs.getString("OBS")));
+			
+			try{
+				System.out.println(rs.getString("OBS"));
+				this.setTipoPedido(TipoPedido.valueOf(rs.getString("OBS")));
+			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
 		}
 		catch(Exception e){
 		}
@@ -86,7 +105,9 @@ public class Pedido {
 		object[7] = this.getStatusDoPagamento().getNome();
 		object[8] = this.getStatus().getNome();
 		object[9] = this.getData();
+		try{
 		object[10] = this.getTipoPedido().toString();
+		}catch(Exception e){}
 		
 		return object;
 	}
