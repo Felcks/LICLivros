@@ -234,7 +234,7 @@ public class Print {
 	 	
 		Phrase phraseObs = new Phrase();
 		phraseObs.add(new Chunk("Observação: ", f));
-		phraseObs.add(new Chunk(p.getFormaDeEntrega() + " / " + p.getFormaDePagamento(), f2));
+		phraseObs.add(new Chunk(p.getFormaDeEntrega() + " / " + p.getFormaDePagamento() + " / " + p.getTipoPedido().toString(), f2));
 		
 		Phrase phraseDate = new Phrase();
 		phraseDate.add(new Chunk("Data: ", f));
