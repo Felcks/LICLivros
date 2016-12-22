@@ -128,5 +128,13 @@ public class EstoqueManager {
 		this.operacoes.UPDATE_DATA(livro);
 	}
 	
-
+	public void adicionarDoEstoque(int[] id){
+		for(int i = 0; i < id.length; i++)
+		{
+			Livro livro = this.getLivroPeloId(id[i]);
+			livro.setComprar(livro.getComprar() - 1);
+			
+			this.operacoes.UPDATE_DATA(livro);
+		}
+	}
 }

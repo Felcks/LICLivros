@@ -2,6 +2,7 @@
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -30,6 +31,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import principais.Cliente;
+import principais.EditoraManager;
 import principais.EstoqueManager;
 import principais.Livro;
 import principais.Pedido;
@@ -39,7 +41,9 @@ public class Print {
 	Document document =  null;
 	private OutputStream os = null;
 	private String PATH = "venda_n";
+	private String PATH_RELATORIO = "relatorio";
 	private List<Livro> livros = new ArrayList<>();
+	private double valorTotal = 0;
 	
 	public static Print print;
 	
@@ -56,12 +60,6 @@ public class Print {
 			sb_PATH.append(PATH);
 			sb_PATH.append(pedido.getId());
 			sb_PATH.append(".pdf");
-			livros.add(new Livro("Brasil"));
-			livros.add(new Livro("Argentina"));
-			livros.add(new Livro("Bélgica"));
-			livros.add(new Livro("Uruguai"));
-			livros.add(new Livro("Itália"));
-			
 			document = new Document(PageSize.A4);
 			os = new FileOutputStream(sb_PATH.toString());
 			
@@ -76,6 +74,7 @@ public class Print {
 			document.add(tableClientSpecs(fontSubTittle, fontSubTittle2, pedido));
 			document.add(tableOrders(fontSubTittle, pedido));
 			document.add(tableBooks(livros,fontSubTittle, fontSubTittle2, pedido));
+			document.add(tableTotal(valorTotal));
 			
 			System.out.println("Documento gerado com sucesso!");
 		} finally {
@@ -86,6 +85,79 @@ public class Print {
 				os.close();
 		}
 	}
+	
+	public void printRelatorio() throws DocumentException, IOException{
+		try{
+		StringBuilder sb_PATH = new StringBuilder();
+		sb_PATH.append(PATH_RELATORIO);
+		sb_PATH.append(".pdf");
+		
+
+		System.out.println(EditoraManager.getInstance().getEditoras().size());
+		
+		for(int i = 0; i < EditoraManager.getInstance().getEditoras().size(); i++){
+			String editoraName = EditoraManager.getInstance().getEditoras().get(i).getNome();
+			for(int j = 0; j < EstoqueManager.getInstance().getLivrosDeUmaEditora(editoraName).size(); j++){
+				livros.add(EstoqueManager.getInstance().getLivrosDeUmaEditora(editoraName).get(i));
+			}
+		}
+		
+		document = new Document(PageSize.A4);
+		os = new FileOutputStream(sb_PATH.toString());
+		
+		PdfWriter.getInstance(document, os);
+
+		Font fontSubTittle = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
+		Font fontSubTittle2 = new Font(FontFamily.HELVETICA, 8);
+		
+		
+		document.open();
+		
+		document.add(tableSpecs(fontSubTittle, fontSubTittle2));
+		document.add(tableRelatorio(livros, fontSubTittle, fontSubTittle2));
+		
+		} finally {
+			if(document != null)
+				document.close();
+				
+			if(os != null)
+				os.close();
+		}
+		
+	}
+	
+	private PdfPTable tableRelatorio(List<Livro> l, Font f, Font f2){
+		PdfPTable table = new PdfPTable(new float[] {1, 3, 2, 1, 1, 1, 1});
+		table.setWidthPercentage(100f);
+		
+		PdfPCell cellID = new PdfPCell(new Phrase(new Chunk("ID", f)));
+		PdfPCell cellNome= new PdfPCell(new Phrase(new Chunk("NOME", f)));
+		PdfPCell celEditora = new PdfPCell(new Phrase(new Chunk("EDITORA", f)));
+		PdfPCell cellQuantidade = new PdfPCell(new Phrase(new Chunk("QUANTIDADE", f)));
+		PdfPCell cellComprar = new PdfPCell(new Phrase(new Chunk("COMPRAR", f)));
+		PdfPCell cellVendidos= new PdfPCell(new Phrase(new Chunk("VENDIDOS", f)));
+		PdfPCell cellPreco = new PdfPCell(new Phrase(new Chunk("PRECO", f)));
+		
+		table.addCell(cellID);
+		table.addCell(cellNome);
+		table.addCell(celEditora); 
+		table.addCell(cellQuantidade);
+		table.addCell(cellComprar);
+		table.addCell(cellVendidos);
+		table.addCell(cellPreco);
+		
+		for(int i = 0; i < l.size(); i++) {
+			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getId()))));
+			table.addCell(new PdfPCell(new Phrase(l.get(i).getNome())));
+			table.addCell(new PdfPCell(new Phrase(l.get(i).getEditora())));
+			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getQuantidade()))));
+			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getComprar()))));
+			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getVendidos()))));
+			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getPreco()))));
+		}
+		
+		return table;
+	} 
 	
 	private PdfPTable tableSpecs(Font f, Font f2){
 		Paragraph specs = new Paragraph("LIC LIVROS \n"
@@ -136,31 +208,31 @@ public class Print {
 		
 		Phrase phraseName = new Phrase();
 		phraseName.add(new Chunk("Nome: ", f));
-		phraseName.add(new Chunk("nome", f2));
+		phraseName.add(new Chunk(p.getCliente().getNome(), f2));
 		
 		Phrase phraseId = new Phrase();
 		phraseId.add(new Chunk("ID: ", f));
-		phraseId.add(new Chunk("id", f2));
+		phraseId.add(new Chunk(String.valueOf(p.getCliente().getId()), f2));
 		
 		Phrase phraseAdress = new Phrase();
-		phraseAdress.add(new Chunk("Endereço: ", f));
-		phraseAdress.add(new Chunk("endereço", f2));
+		phraseAdress.add(new Chunk("Rua: ", f));
+		phraseAdress.add(new Chunk(p.getCliente().getRua(), f2));
 		
 		Phrase phrasePhone = new Phrase();
 		phrasePhone.add(new Chunk("Telefone: ", f));
-		phrasePhone.add(new Chunk("telefone", f2));
+		phrasePhone.add(new Chunk(p.getCliente().getCelular() + "/ " + p.getCliente().getTelefone(), f2));
 		
 		Phrase phraseAdressAddOn = new Phrase();
 		phraseAdressAddOn.add(new Chunk("Complemento: ", f));
-		phraseAdressAddOn.add(new Chunk("complemento", f2));
+		phraseAdressAddOn.add(new Chunk(p.getCliente().getComplemento(), f2));
 		
 		Phrase phraseNeighboor = new Phrase();
 		phraseNeighboor.add(new Chunk("Bairro: ", f));
-		phraseNeighboor.add(new Chunk("bairro", f2));
-		
+		phraseNeighboor.add(new Chunk(p.getCliente().getBairro(), f2));
+	 	
 		Phrase phraseObs = new Phrase();
 		phraseObs.add(new Chunk("Observação: ", f));
-		phraseObs.add(new Chunk("observacao", f2));
+		phraseObs.add(new Chunk(p.getFormaDeEntrega() + " / " + p.getFormaDePagamento(), f2));
 		
 		Phrase phraseDate = new Phrase();
 		phraseDate.add(new Chunk("Data: ", f));
@@ -211,15 +283,15 @@ public class Print {
 			for(int i = 0; i < p.getIdsDosLivrosComprados().length; i++){
 				int id = p.getIdsDosLivrosComprados()[i];
 				if(id >= 0){
-					Livro livro = p.getPacote().getLivros().get(i);
-					table.addCell(new PdfPCell(new Phrase(livro.getEditora())));
-					table.addCell(new PdfPCell(new Phrase(livro.getNome())));
-					table.addCell(new PdfPCell(new Phrase(livro.getQuantidade())));
-					table.addCell(new PdfPCell(new Phrase((float)livro.getPreco())));
-					table.addCell(new PdfPCell(new Phrase(p.getDesconto())));
-					float novoPreco = (float) ((livro.getPreco() * p.getDesconto()) / 100);
-					novoPreco = (float)livro.getPreco() - novoPreco;
-					table.addCell(new PdfPCell(new Phrase(novoPreco)));
+					double total = (((p.getPacote().getLivros().get(i).getPreco() * (p.getDesconto()) / 100)));
+					total = p.getPacote().getLivros().get(i).getPreco() - total;
+					table.addCell(new PdfPCell(new Phrase(p.getPacote().getLivros().get(i).getEditora())));
+					table.addCell(new PdfPCell(new Phrase(p.getPacote().getLivros().get(i).getNome())));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getPacote().getLivros().get(i).getQuantidade()))));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getPacote().getLivros().get(i).getPreco()))));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getDesconto()+ "%"))));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(total))));
+					valorTotal = valorTotal + total;
 				}
 			}
 		}
@@ -229,18 +301,26 @@ public class Print {
 				int id = p.getIdsDosLivrosComprados()[i];
 				if(id >= 0){
 					Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
-					table.addCell(new PdfPCell(new Phrase(livro.getEditora())));
-					table.addCell(new PdfPCell(new Phrase(livro.getNome())));
-					table.addCell(new PdfPCell(new Phrase(livro.getQuantidade())));
-					table.addCell(new PdfPCell(new Phrase((float)livro.getPreco())));
-					table.addCell(new PdfPCell(new Phrase(p.getDesconto())));
 					float novoPreco = (float) ((livro.getPreco() * p.getDesconto()) / 100);
 					novoPreco = (float)livro.getPreco() - novoPreco;
-					table.addCell(new PdfPCell(new Phrase(novoPreco)));
+					table.addCell(new PdfPCell(new Phrase(livro.getEditora())));
+					table.addCell(new PdfPCell(new Phrase(livro.getNome())));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(livro.getQuantidade()))));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(livro.getPreco()))));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getDesconto()+ "%"))));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(novoPreco))));
+					valorTotal = valorTotal + novoPreco;
 				}
 			}
 		}
 		
+		return table;
+	}
+	private PdfPTable tableTotal(double total){
+		PdfPTable table = new PdfPTable(1);
+		table.addCell(new Phrase(new Chunk("Total: " + String.valueOf(total))));
+		table.setWidthPercentage(100f);
+		valorTotal = 0;
 		return table;
 	}
 }

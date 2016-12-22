@@ -29,6 +29,7 @@ import bd.OperacoesPedidos;
 import principais.ClienteManager;
 import principais.Escola;
 import principais.EscolaManager;
+import principais.EstoqueManager;
 import principais.Pedido;
 import principais.PedidoManager;
 import utilidades.Acao;
@@ -214,6 +215,8 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 				if(novoPedido.getStatusDaEntrega() != velhoPedido.getStatusDaEntrega()){
 					mensage = mensage.concat(velhoPedido.getStatusDaEntrega().getNome() + " ---> " + novoPedido.getStatusDaEntrega().getNome() + "\n");
 					velhoPedido.setStatusDaEntrega(novoPedido.getStatusDaEntrega());
+					if(novoPedido.getStatusDaEntrega().getNome().equalsIgnoreCase("entregue"))
+						EstoqueManager.getInstance().adicionarDoEstoque(velhoPedido.getIdsDosLivrosComprados());				
 				}
 				if(novoPedido.getStatusDoPagamento() != velhoPedido.getStatusDoPagamento()){
 					mensage = mensage.concat(velhoPedido.getStatusDoPagamento().getNome() + " ---> " + novoPedido.getStatusDoPagamento().getNome() + "\n");
