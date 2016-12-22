@@ -67,6 +67,7 @@ public class Print {
 			
 			Font fontSubTittle = new Font(FontFamily.HELVETICA, 10, Font.BOLD);
 			Font fontSubTittle2 = new Font(FontFamily.HELVETICA, 10);
+			Font fontSubTittle3 = new Font(FontFamily.HELVETICA, 7);
 			
 			document.open();
 			
@@ -263,7 +264,7 @@ public class Print {
 	
 	private PdfPTable tableBooks(List<Livro> list, Font f, Font f2, Pedido p){
 		
-		PdfPTable table = new PdfPTable(new float[] {1.5f, 4, 1.5f, 1, 1, 1});
+		PdfPTable table = new PdfPTable(new float[] {1.5f, 4, 1.25f, 1.25f, 1, 1.25f});
 		table.setWidthPercentage(100f);
 		PdfPCell cellReferencia = new PdfPCell(new Phrase(new Chunk("Referência", f)));
 		PdfPCell cellDescrição = new PdfPCell(new Phrase(new Chunk("Descrição", f)));
@@ -287,10 +288,16 @@ public class Print {
 					total = p.getPacote().getLivros().get(i).getPreco() - total;
 					table.addCell(new PdfPCell(new Phrase(p.getPacote().getLivros().get(i).getEditora())));
 					table.addCell(new PdfPCell(new Phrase(p.getPacote().getLivros().get(i).getNome())));
-					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getPacote().getLivros().get(i).getQuantidade()))));
-					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getPacote().getLivros().get(i).getPreco()))));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(1))));
+					
+					NumberFormat nf = NumberFormat.getCurrencyInstance();  
+					String precoFormatado = nf.format (p.getPacote().getLivros().get(i).getPreco());
+					table.addCell(new PdfPCell(new Phrase(precoFormatado)));
+					
 					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getDesconto()+ "%"))));
-					table.addCell(new PdfPCell(new Phrase(String.valueOf(total))));
+					
+					String totalFormatado = nf.format(total);
+					table.addCell(new PdfPCell(new Phrase(totalFormatado)));
 					valorTotal = valorTotal + total;
 				}
 			}
@@ -305,10 +312,16 @@ public class Print {
 					novoPreco = (float)livro.getPreco() - novoPreco;
 					table.addCell(new PdfPCell(new Phrase(livro.getEditora())));
 					table.addCell(new PdfPCell(new Phrase(livro.getNome())));
-					table.addCell(new PdfPCell(new Phrase(String.valueOf(livro.getQuantidade()))));
-					table.addCell(new PdfPCell(new Phrase(String.valueOf(livro.getPreco()))));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(1))));
+					
+					NumberFormat nf = NumberFormat.getCurrencyInstance();  
+					String precoFormatado = nf.format (livro.getPreco());
+					table.addCell(new PdfPCell(new Phrase(precoFormatado)));
+					
 					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getDesconto()+ "%"))));
-					table.addCell(new PdfPCell(new Phrase(String.valueOf(novoPreco))));
+					
+					String novoPrecoFormatado = nf.format(novoPreco);
+					table.addCell(new PdfPCell(new Phrase(novoPrecoFormatado)));
 					valorTotal = valorTotal + novoPreco;
 				}
 			}
@@ -318,7 +331,9 @@ public class Print {
 	}
 	private PdfPTable tableTotal(double total){
 		PdfPTable table = new PdfPTable(1);
-		table.addCell(new Phrase(new Chunk("Total: " + String.valueOf(total))));
+		NumberFormat nf = NumberFormat.getCurrencyInstance();  
+		String totalFormatado = nf.format (total);
+		table.addCell(new Phrase(new Chunk("Total: " + totalFormatado)));
 		table.setWidthPercentage(100f);
 		valorTotal = 0;
 		return table;
