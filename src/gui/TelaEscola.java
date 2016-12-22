@@ -218,12 +218,18 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 		String[] camposEmTexto = servicoDeDigito.transformarCamposEmTexto(textFields);
 		
 		if(acao == Acao.ADICIONAR){
+			if(camposEmTexto[1].length() == 0)
+			{
+				JOptionPane.showMessageDialog(this, "O campo nome encontra-se vazio.","Erro ao Adicionar", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+			
 			Escola escola = new Escola(EscolaManager.getInstance().getEscolas().size(), camposEmTexto[1]);
-			JOptionPane.showConfirmDialog(this, "Confirmar a adição da escola: " + escola.getNome() + "?", "Confirmar Adição", JOptionPane.OK_CANCEL_OPTION);
 			EscolaManager.getInstance().adicionarNovaEscola(escola);
 			this.repintarTabela();
-			
 			EscolaManager.getInstance().getOperacoes().INSERT_DATA(escola);
+			JOptionPane.showMessageDialog(this, "Nova escola: " + camposEmTexto[1],"Adicionado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
+			servicoDeDigito.limparCampos(textFields);
 		}
 		else if (acao == Acao.ATUALIZAR){
 			String idSelecionado = camposEmTexto[0];
@@ -234,12 +240,12 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 				Escola novaEscola = new Escola(camposEmTexto[1]);
 				
 				String mensage = "";
-				if(novaEscola.getNome().toString().length() > 0){
+				if(novaEscola.getNome().toString().length() > 0 && velhaEscola.getNome().equals(novaEscola.getNome()) == false){
 					mensage = mensage.concat(velhaEscola.getNome() + " ---> " + novaEscola.getNome() + "\n");
 				}
 				
 				if(mensage.length() > 0){
-					JOptionPane.showConfirmDialog(this, mensage	,"Atualizacao", JOptionPane.OK_CANCEL_OPTION);
+					JOptionPane.showMessageDialog(this, mensage	,"Atualizacao", JOptionPane.INFORMATION_MESSAGE);
 					novaEscola.setId(velhaEscola.getId());
 					EscolaManager.getInstance().atualizarEscola(id, novaEscola);
 					this.repintarTabela();
@@ -248,7 +254,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 					EscolaManager.getInstance().getOperacoes().UPDATE_DATA(novaEscola);
 				}
 				else
-					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
+					JOptionPane.showMessageDialog(this, "Não há informação para se atualizar.","Erro ao atualizar!", JOptionPane.CANCEL_OPTION);
 			}
 		}
 		else{

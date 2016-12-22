@@ -32,6 +32,7 @@ import principais.EscolaManager;
 import principais.EstoqueManager;
 import principais.Pedido;
 import principais.PedidoManager;
+import principais.TipoPedido;
 import utilidades.Acao;
 import utilidades.Screen;
 import utilidades.ServicoDeDigito;
@@ -240,20 +241,32 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 			int id = -1;
 			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
 			if(id >= 0 && id < PedidoManager.getInstance().getPedidos().size()){
+				
 				Pedido pedido = PedidoManager.getInstance().getPedidoPeloId(id);
 				String clienteNome = pedido.getCliente().getNome() + "\n";
 				String numeroPedido = "Nº PEDIDO: " + pedido.getId() + "\n";
 				String livros = "LIVROS: \n";
-				List<Integer> b = new ArrayList<Integer>();
-				for(int i = 0; i < pedido.getIdsDosLivrosComprados().length; i++)
-					b.add(pedido.getIdsDosLivrosComprados()[i]);
 				
-				for(int i =0; i < pedido.getPacote().getLivros().size(); i++){
-					if(b.contains(pedido.getPacote().getLivros().get(i).getId())){
-						livros = livros.concat(pedido.getPacote().getLivros().get(i).getNome() + "\n");
+
+				if(pedido.getTipoPedido() == TipoPedido.NORMAL){
+					List<Integer> b = new ArrayList<Integer>();
+					for(int i = 0; i < pedido.getIdsDosLivrosComprados().length; i++)
+						b.add(pedido.getIdsDosLivrosComprados()[i]);
+					
+					for(int i =0; i < pedido.getPacote().getLivros().size(); i++){
+						if(b.contains(pedido.getPacote().getLivros().get(i).getId())){
+							livros = livros.concat(pedido.getPacote().getLivros().get(i).getNome() + "\n");
+						}
 					}
 				}
-				
+				else{
+					for(int i = 0; i < pedido.getIdsDosLivrosComprados().length; i++){
+						if(pedido.getIdsDosLivrosComprados()[i] >= 0){
+							livros = livros.concat(EstoqueManager.getInstance().getLivroPeloId(pedido.getIdsDosLivrosComprados()[i]).getNome() + "\n");
+						}
+					}
+				}
+			
 				JOptionPane.showMessageDialog(this, clienteNome + numeroPedido + livros,"INFORMAÇÕES DO PEDIDO", JOptionPane.OK_CANCEL_OPTION);
 				
 				

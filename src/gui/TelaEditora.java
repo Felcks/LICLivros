@@ -234,11 +234,17 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
 		String[] camposEmTexto = servicoDeDigito.transformarCamposEmTexto(textFields);
 		
 		if(acao == Acao.ADICIONAR){
+			if(camposEmTexto[1].length() == 0)
+			{
+				JOptionPane.showMessageDialog(this, "O campo nome encontra-se vazio.","Erro ao Adicionar", JOptionPane.CANCEL_OPTION);
+				return;
+			}
 			Editora editora = new Editora(EditoraManager.getInstance().getEditoras().size(), camposEmTexto[1]);
-			JOptionPane.showConfirmDialog(this, "Confirmar a adição da editora: " + editora.getNome() + "?", "Confirmar Adição", JOptionPane.OK_CANCEL_OPTION);
 			EditoraManager.getInstance().adicionarNovaEditora(editora);
 			this.repintarTabela();
 			EditoraManager.getInstance().getOperacoes().INSERT_DATA(editora);
+			JOptionPane.showMessageDialog(this, "Nova editora: " + camposEmTexto[1],"Adicionado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
+			servicoDeDigito.limparCampos(textFields);
 		}
 		else if (acao == Acao.ATUALIZAR){
 			String idSelecionado = camposEmTexto[0];
@@ -249,20 +255,21 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
 				Editora novaEditora = new Editora(camposEmTexto[1]);
 				
 				String mensage = "";
-				if(novaEditora.getNome().toString().length() > 0){
+				if(novaEditora.getNome().toString().length() > 0 &&  velhaEditora.getNome().equals(novaEditora.getNome()) == false){
 					mensage = mensage.concat(velhaEditora.getNome() + " ---> " + novaEditora.getNome() + "\n");
 				}
 				
 				if(mensage.length() > 0){
-					JOptionPane.showConfirmDialog(this, mensage	,"Atualizacao", JOptionPane.OK_CANCEL_OPTION);
+					JOptionPane.showMessageDialog(this, mensage	,"Atualizacao", JOptionPane.INFORMATION_MESSAGE);
 					novaEditora.setId(velhaEditora.getId());
 					EditoraManager.getInstance().getOperacoes().UPDATE_DATA(novaEditora);
 					servicoDeDigito.limparCampos(textFields);
 					EditoraManager.getInstance().atualizarEditora(id, novaEditora);
 					this.repintarTabela();
+					
 				}
 				else
-					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
+					JOptionPane.showMessageDialog(this, "Não há informação para se atualizar.","Erro ao atualizar!", JOptionPane.CANCEL_OPTION);
 			}
 		}
 		else{

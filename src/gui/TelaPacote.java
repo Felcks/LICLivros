@@ -277,6 +277,9 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 			comboBox.addItem(todasEscolas[i]);
 		}
 
+		autoSuggestor = new AutoSuggestor(autoSuggestor.getTextField(), guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
+				  Color.white.brighter(), Color.blue, Color.red, 0.75f);
+		
 		this.repintarTabela();
 	}
 	
@@ -317,7 +320,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 			}
 			else
 			{
-				JOptionPane.showConfirmDialog(this, "Confirmar a adição do livro: " + livro.getNome(), "Confirmar Adição", JOptionPane.OK_CANCEL_OPTION);
+				JOptionPane.showMessageDialog(this, "Livro Adicionado: " + livro.getNome(), "Adicionado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
 				PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado).adicionarLivro(livro);
 				this.repintarTabela();
 				
@@ -336,7 +339,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 					JOptionPane.showMessageDialog(this, "Esse livro não pertence a esse pacote.","Erro ao remover", JOptionPane.OK_CANCEL_OPTION);
 				}
 				else{
-					JOptionPane.showConfirmDialog(this, "Remover livro: " + livro.getNome(), "Confirmar Remoção", JOptionPane.OK_CANCEL_OPTION);
+					JOptionPane.showMessageDialog(this, "Livro removido: " + livro.getNome(), "Removido com sucesso!", JOptionPane.OK_CANCEL_OPTION);
 					pacoteAtual.removerLivro(livro);
 					this.repintarTabela();
 					((OperacoesPacotes)PacoteManager.getInstance().getOperacoes()).DELETE_PACOTE(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado));

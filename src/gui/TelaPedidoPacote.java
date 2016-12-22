@@ -198,10 +198,7 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 				repintarTabela();
 			}
 		});
-	
-
-		//table.setDefaultRenderer(Boolean.class, new CustomCellRenderer());		
-		
+			
 		this.guiManager.getCards().add(this, "telaPedidoPacote");
 	}
 	

@@ -89,18 +89,16 @@ public class Print {
 	
 	public void printRelatorio() throws DocumentException, IOException{
 		try{
-		StringBuilder sb_PATH = new StringBuilder();
-		sb_PATH.append(PATH_RELATORIO);
-		sb_PATH.append(".pdf");
-		
-
-		System.out.println(EditoraManager.getInstance().getEditoras().size());
-		
-		for(int i = 0; i < EditoraManager.getInstance().getEditoras().size(); i++){
-			String editoraName = EditoraManager.getInstance().getEditoras().get(i).getNome();
-			for(int j = 0; j < EstoqueManager.getInstance().getLivrosDeUmaEditora(editoraName).size(); j++){
-				livros.add(EstoqueManager.getInstance().getLivrosDeUmaEditora(editoraName).get(i));
-			}
+			StringBuilder sb_PATH = new StringBuilder();
+			sb_PATH.append(PATH_RELATORIO);
+			sb_PATH.append(".pdf");
+			
+			for(int i = 0; i < EditoraManager.getInstance().getEditoras().size(); i++){
+				String editoraName = EditoraManager.getInstance().getEditoras().get(i).getNome();
+				for(int j = 0; j < EstoqueManager.getInstance().getLivrosDeUmaEditora(editoraName).size(); j++){
+					livros.add(EstoqueManager.getInstance().getLivrosDeUmaEditora(editoraName).get(j));
+				
+				}
 		}
 		
 		document = new Document(PageSize.A4);
@@ -128,7 +126,7 @@ public class Print {
 	}
 	
 	private PdfPTable tableRelatorio(List<Livro> l, Font f, Font f2){
-		PdfPTable table = new PdfPTable(new float[] {1, 3, 2, 1, 1, 1, 1});
+		PdfPTable table = new PdfPTable(new float[] {1, 3, 2, 1.1F, 1.1F, 1.1F, 1.1F});
 		table.setWidthPercentage(100f);
 		
 		PdfPCell cellID = new PdfPCell(new Phrase(new Chunk("ID", f)));
@@ -154,7 +152,10 @@ public class Print {
 			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getQuantidade()))));
 			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getComprar()))));
 			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getVendidos()))));
-			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getPreco()))));
+			
+			NumberFormat nf = NumberFormat.getCurrencyInstance();  
+			String precoFormatado = nf.format (l.get(i).getPreco());
+			table.addCell(new PdfPCell(new Phrase(precoFormatado)));
 		}
 		
 		return table;

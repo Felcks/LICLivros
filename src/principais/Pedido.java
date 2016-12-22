@@ -90,10 +90,19 @@ public class Pedido {
 		object[1] = this.getCliente().getNome();
 		
 		String livros = "";
-		for(int i = 0; i < this.getPacote().getLivros().size(); i++)
-			if(i < this.getIdsDosLivrosComprados().length)
-				if(this.getIdsDosLivrosComprados()[i] >= 0)
-					livros += this.getPacote().getLivros().get(i).getNome() + ", ";
+		if(this.getTipoPedido() == TipoPedido.NORMAL){
+			for(int i = 0; i < this.getPacote().getLivros().size(); i++)
+				if(i < this.getIdsDosLivrosComprados().length)
+					if(this.getIdsDosLivrosComprados()[i] >= 0)
+						livros += this.getPacote().getLivros().get(i).getNome() + ", ";
+		}
+		else{
+			for(int i = 0; i < idsDosLivrosComprados.length; i++){
+				int id = idsDosLivrosComprados[i];
+				if(id >= 0)
+					livros += EstoqueManager.getInstance().getLivroPeloId(id).getNome();
+			}
+		}
 		
 		object[2] = livros; 
 		

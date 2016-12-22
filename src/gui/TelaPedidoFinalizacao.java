@@ -295,11 +295,11 @@ public class TelaPedidoFinalizacao extends JPanel implements IPrepararComponente
 		
 		NumberFormat nf = NumberFormat.getCurrencyInstance();  
 		String formatado = nf.format (novoPreco);
-		JOptionPane.showConfirmDialog(this, "Cliente: " + Pedido.pedidoAtual.getCliente().getNome() + 
+		JOptionPane.showMessageDialog(this, "Cliente: " + Pedido.pedidoAtual.getCliente().getNome() + 
 				"\nPreço: " + formatado +
 				"\nFormaDePagamento: " + Pedido.pedidoAtual.getFormaDePagamento().getNome() +
 				"\nFormaDeEntrega: " + Pedido.pedidoAtual.getFormaDeEntrega().getNome() +
-				"\nLivros: " + livrosNomes, "Finalização", JOptionPane.OK_CANCEL_OPTION);
+				"\nLivros: " + livrosNomes, "Finalização", JOptionPane.INFORMATION_MESSAGE);
 		
 		Pedido.pedidoAtual.setId(PedidoManager.getInstance().gerarId());
 		Pedido.pedidoAtual.setStatus(Status.EM_ANDAMENTO);

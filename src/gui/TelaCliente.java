@@ -153,7 +153,6 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		c.gridheight = 2;
 		this.add(btn_Voltar, c);
 		
-		
 		JButton btn_OrdenarAlfabeticamente = new JButton("Ordem Alfabetica");
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
@@ -306,7 +305,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		if(acao == Acao.ADICIONAR){
 			Cliente cliente = new Cliente(camposEmTexto);
 			if(cliente.isValidCliente()) {
-				JOptionPane.showConfirmDialog(this, "Confirmar a adição do cliente: " + cliente.getNome(), "Confirmar Adição", JOptionPane.OK_CANCEL_OPTION);
+				JOptionPane.showMessageDialog(this, "Novo cliente: " + cliente.getNome(), "Adicionado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
 				ClienteManager.getInstance().adicionarNovoCliente(cliente);
 				((MyTableModelCliente)table.getModel()).updateData();
 				table.repaint();
@@ -316,7 +315,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 				ClienteManager.getInstance().getOperacoes().INSERT_DATA(cliente);
 			}
 			else {
-				JOptionPane.showMessageDialog(this, "Preencha todos os campos com informações válidas","Erro ao adicionar", JOptionPane.OK_CANCEL_OPTION);
+				JOptionPane.showMessageDialog(this, "Preencha todos os campos com informações válidas","Erro ao adicionar", JOptionPane.CANCEL_OPTION);
 			}
 			
 		}
@@ -339,16 +338,16 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 					}
 				}
 				if(mensage.length() > 0) {
-					JOptionPane.showConfirmDialog(this, mensage	,"Atualizacao", JOptionPane.OK_CANCEL_OPTION);
 					clienteASerAdicionado.setarTodosParametros(parametrosDoClienteASerAdicionado);
 					ClienteManager.getInstance().atualizarCliente(ClienteManager.getInstance().getIndexPeloId(id), clienteASerAdicionado);
 					this.repintarTabela();
 					servicoDeDigito.limparCampos(textFields);
+					JOptionPane.showMessageDialog(this, mensage	,"Atualizado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
 					
 					ClienteManager.getInstance().getOperacoes().UPDATE_DATA(clienteASerAdicionado);
 				}
 				else
-					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
+					JOptionPane.showMessageDialog(this, "Não há informação para se atualizar","Erro ao atualizar", JOptionPane.CANCEL_OPTION);
 		}
 			else{
 				JOptionPane.showMessageDialog(this, "Id Inexistente","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);

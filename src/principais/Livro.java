@@ -103,6 +103,17 @@ public class Livro {
 		todosParametros[6] = formatado;
 		return todosParametros;
 	}
+	public Object[] pegarTodosParametrosParaEstoque(){
+		Object[] todosParametros = new Object[7];
+		todosParametros[0] = this.getId();
+		todosParametros[1] = this.getNome();
+		todosParametros[2] = this.getEditora();
+		todosParametros[3] = this.getQuantidade();
+		todosParametros[4] = this.getComprar();
+		todosParametros[5] = this.getVendidos();
+		todosParametros[6] = this.getPreco();
+		return todosParametros;
+	}
 	public Object[] pegarTodosParametrosValidos(){
 		Object[] todosParametros = new Object[7];
 		todosParametros[0] = this.getId();
@@ -111,9 +122,7 @@ public class Livro {
 		todosParametros[3] = (this.getQuantidade() == -999) ? "" : this.getQuantidade();
 		todosParametros[4] = (this.getComprar() == -999) ? "" : this.getComprar();
 		todosParametros[5] = this.getVendidos();
-		NumberFormat nf = NumberFormat.getCurrencyInstance();  
-		String formatado = nf.format (this.getPreco());
-		todosParametros[6] = formatado;
+		todosParametros[6] = this.getPreco();
 		return todosParametros;
 	}
 	public Object[] pegarParametrosParaPacote(){
@@ -143,6 +152,7 @@ public class Livro {
 			this.setComprar(Integer.parseInt(object[3].toString()));
 			this.setQuantidade(Integer.parseInt(object[4].toString()));
 			this.setVendidos(Integer.parseInt(object[5].toString()));
+			System.out.println(object[6].toString() + "zzzzzzz");
 			this.setPreco(Double.parseDouble(object[6].toString()));
 		}
 		catch (Exception e){}
