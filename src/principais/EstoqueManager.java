@@ -123,7 +123,6 @@ public class EstoqueManager {
 		else
 			livro.setComprar(livro.getComprar() + 1);
 		
-		livro.setVendidos(id);
 		
 		this.operacoes.UPDATE_DATA(livro);
 	}
@@ -132,9 +131,10 @@ public class EstoqueManager {
 		for(int i = 0; i < id.length; i++)
 		{
 			Livro livro = this.getLivroPeloId(id[i]);
-			livro.setComprar(livro.getComprar() - 1);
+			if(livro.getComprar() > 0){
+				livro.setComprar(livro.getComprar() - 1);
+			}
 			livro.setVendidos(livro.getVendidos() + 1);
-			
 			this.operacoes.UPDATE_DATA(livro);
 		}
 	}

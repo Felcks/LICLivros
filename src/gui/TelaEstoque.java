@@ -39,6 +39,7 @@ import principais.Editora;
 import principais.EditoraManager;
 import principais.EstoqueManager;
 import principais.Livro;
+import principais.Pedido;
 import utilidades.Acao;
 import utilidades.Print;
 import utilidades.Screen;
@@ -191,13 +192,14 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Print.getInstance().printRelatorio();
-					
+					showMessage();
 				} catch (DocumentException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		});
+	
 	
 		btn_Voltar.addActionListener(new ActionListener() {
 			@Override
@@ -296,6 +298,10 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		};
 		
 		SwingUtilities.invokeLater(runnable);
+	}
+	
+	private void showMessage(){
+		JOptionPane.showMessageDialog(this, "Relatório impresso com sucesso", "Impressão bem-sucedida!" , JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	@Override

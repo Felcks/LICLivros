@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,8 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 	private GUIManager guiManager;
 	private JTable table;
 	ServicoDeDigito servicoDeDigito;
+	JTextField textField_arrecadado;
+	private double total = 0;
 	
 	public TelaPedido(GUIManager guiManager){
 		this.guiManager = guiManager;
@@ -146,6 +149,23 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 		c.gridy = 20;
 		this.add(comboBoxAcoes, c);
 		
+		JLabel txt_totalArrecadado = new JLabel("Total Arrecadado:");
+		txt_totalArrecadado.setFont(txt_totalArrecadado.getFont().deriveFont(20F));
+		c.gridx = 8;
+		c.gridy = 21;
+		c.gridwidth = 1;
+		c.anchor = GridBagConstraints.LAST_LINE_END;
+		c.fill = GridBagConstraints.NONE;
+		this.add(txt_totalArrecadado, c);
+		
+		textField_arrecadado = new JTextField();
+		textField_arrecadado.setBackground(Color.LIGHT_GRAY);
+		c.gridx = 9;
+		c.gridwidth = 2;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		textField_arrecadado.setEditable(false);
+		this.add(textField_arrecadado, c);
 
 		JButton btn_fazerAcao = new JButton("Fazer Ação!");
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -222,6 +242,13 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 				if(novoPedido.getStatusDoPagamento() != velhoPedido.getStatusDoPagamento()){
 					mensage = mensage.concat(velhoPedido.getStatusDoPagamento().getNome() + " ---> " + novoPedido.getStatusDoPagamento().getNome() + "\n");
 					velhoPedido.setStatusDoPagamento(novoPedido.getStatusDoPagamento());
+					
+					if(novoPedido.getStatusDoPagamento() == StatusDoPagamento.PAGO){
+						NumberFormat nf = NumberFormat.getCurrencyInstance();  
+						total += velhoPedido.getPreco();
+						String formatado = nf.format (total);
+						textField_arrecadado.setText(formatado);
+					}
 				}
 				
 				if(mensage.length() > 0){
@@ -269,7 +296,6 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 			
 				JOptionPane.showMessageDialog(this, clienteNome + numeroPedido + livros,"INFORMAÇÕES DO PEDIDO", JOptionPane.OK_CANCEL_OPTION);
 				
-				
 			}
 		}
 	}
@@ -304,6 +330,16 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 	public void prepararComponentes(){
 		PedidoManager.getInstance().getTodosPedidosBD();
 		repintarTabela();
+		
+		for(int i = 0; i < PedidoManager.getInstance().getPedidos().size(); i++){
+			if(PedidoManager.getInstance().getPedidos().get(i).getStatusDoPagamento() == StatusDoPagamento.PAGO){
+				total += PedidoManager.getInstance().getPedidos().get(i).getPreco();
+			}
+		}
+		
+		NumberFormat nf = NumberFormat.getCurrencyInstance();  
+		String formatado = nf.format (total);
+		textField_arrecadado.setText(formatado);
 	}
 	
 	public void repintarTabela(){
