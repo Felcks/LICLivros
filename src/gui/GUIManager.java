@@ -25,6 +25,7 @@ public class GUIManager{
 	private TelaEditora telaEditora;
 	private TelaPedidoCliente telaPedidoCliente;
 	private TelaPedidoPacote telaPedidoPacote;
+	private TelaPedidoPacoteAvulso telaPedidoPacoteAvulso;
 	private TelaPedidoFinalizacao telaPedidoFinalizacao;
 	private TelaPedido telaPedido;
 	private TelaEscola telaEscola;
@@ -42,6 +43,7 @@ public class GUIManager{
 		this.telaEditora = new TelaEditora(this);
 		this.telaPedidoCliente = new TelaPedidoCliente(this);
 		this.telaPedidoPacote = new TelaPedidoPacote(this);
+		this.telaPedidoPacoteAvulso = new TelaPedidoPacoteAvulso(this);
 		this.telaPedidoFinalizacao = new TelaPedidoFinalizacao(this);
 		this.telaEscola = new TelaEscola(this);
 		this.telaPedido = new TelaPedido(this);
@@ -52,6 +54,7 @@ public class GUIManager{
 		this.cards.add(this.telaEditora, "telaEditora");
 		this.cards.add(this.telaPedidoCliente, "telaPedidoCliente");
 		this.cards.add(this.telaPedidoPacote, "telaPedidoPacote");
+		this.cards.add(this.telaPedidoPacoteAvulso, "telaPedidoPacoteAvulso");
 		this.cards.add(this.telaPedidoFinalizacao, "telaPedidoFinalizacao");
 		this.cards.add(this.telaEscola, "telaEscola");		
 		this.cards.add(this.telaPedido, "telaPedido");
@@ -95,6 +98,9 @@ public class GUIManager{
 		}
 		else if(tela.equals("telaPedidoPacote")){
 			this.telaPedidoPacote.prepararComponentes();
+		}
+		else if(tela.equals("telaPedidoPacoteAvulso")){
+			this.telaPedidoPacoteAvulso.prepararComponentes();
 		}
 		else if(tela.equals("telaPedido")){
 			this.telaPedido.prepararComponentes();

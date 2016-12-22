@@ -48,15 +48,4 @@ public class Editora {
 		
 		return object;
 	}
-	
-	/*public static Editora getEditoraDeUmaString(String valor){
-		Editora editora = Editora.ED_ATICA;
-		for(int i = 0; i < Editora.values().length; i++){
-			if(valor.equalsIgnoreCase(Editora.values()[i].getNome())){
-				editora = Editora.values()[i];
-			}
-		}
-		
-		return editora;
-	}*/
 }

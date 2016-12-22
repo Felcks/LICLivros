@@ -239,7 +239,7 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 			if(id >= 0 && id < PedidoManager.getInstance().getPedidos().size()){
 				Pedido pedido = PedidoManager.getInstance().getPedidoPeloId(id);
 				String clienteNome = pedido.getCliente().getNome() + "\n";
-				String numeroPedido = "nº pedido" + pedido.getId() + "\n";
+				String numeroPedido = "Nº PEDIDO: " + pedido.getId() + "\n";
 				String livros = "LIVROS: \n";
 				List<Integer> b = new ArrayList<Integer>();
 				for(int i = 0; i < pedido.getIdsDosLivrosComprados().length; i++)

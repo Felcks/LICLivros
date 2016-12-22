@@ -70,10 +70,18 @@ public class OperacoesEscolas extends JavaConnection implements Operacoes {
 			stmt = connection.createStatement();
 			
 			ResultSet resultSet = stmt.executeQuery("SELECT * FROM ESCOLAS");
+			
 			while (resultSet.next()){
 				Escola escola = new Escola(resultSet);
 				EscolaManager.getInstance().adicionarNovaEscola(escola);
 			}
+			if(EscolaManager.getInstance().getEscolas().size() == 0)
+			{
+				Escola escola = new Escola(0, "ESCOLA PADRÃO");
+				INSERT_DATA(escola);
+				EscolaManager.getInstance().adicionarNovaEscola(escola);
+			}
+			
 			this.closeConnections();
 		} catch(Exception e){}
 	

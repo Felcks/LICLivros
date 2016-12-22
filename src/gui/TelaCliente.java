@@ -50,7 +50,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
         c.weighty = 1;
         
         for(int i = 0; i < 24; i ++){
-        	for(int j = 0; j < 10; j++){
+        	for(int j = 0; j < 20; j++){
         		c.gridx = i;
         		c.gridy = j;
         		c.fill = GridBagConstraints.BOTH;
@@ -61,7 +61,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		JTextField[] textFields = new JTextField[7];
 		int[] widthX = new int[] { 1, 9, 4, 4, 2, 2, 2 };
 		int posicaoAtual = 0;
-		c.gridy = 7;
+		c.gridy = 18;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		for(int i = 0; i < textFields.length; i++){
 			textFields[i] = new JTextField();
@@ -81,9 +81,9 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
                  "TELEFONE",
                  "CELULAR"};
 		JLabel[] labels = new JLabel[7];
-		c.gridy = 6;
+		c.gridy = 17;
 		c.fill = GridBagConstraints.NONE;
-		c.anchor = GridBagConstraints.CENTER;
+		c.anchor = GridBagConstraints.PAGE_END;
 		posicaoAtual = 0;
 		for(int i = 0; i < textFields.length; i++){
 			labels[i] = new JLabel(columnNames[i]);
@@ -101,7 +101,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 24;
-		c.gridheight = 1;
+		c.gridheight = 2;
 		c.anchor = GridBagConstraints.CENTER;
 		this.add(txt_Title, c);
 		
@@ -118,11 +118,11 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		table.getColumnModel().getColumn(0).setCellRenderer(left);
 		table.setFillsViewportHeight(true);
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridwidth = 24;
-		c.gridheight = 5;
+		c.gridheight = 15;
 		this.add(scrollPane, c);
 		
 		String[] acoes = new String[2];
@@ -131,25 +131,25 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		JComboBox comboBox = new JComboBox(acoes);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridwidth = 2;
+		c.gridwidth = 3;
 		c.gridheight = 2;
-		c.gridx = 13;
-		c.gridy = 8;
+		c.gridx = 10;
+		c.gridy = 19;
 		this.add(comboBox, c);
 		
 		JButton btn_fazerAcao = new JButton("Fazer Ação!");
 		c.fill = GridBagConstraints.HORIZONTAL;;
-		c.gridx = 15;
-		c.gridy = 8;
-		c.gridwidth = 2;
+		c.gridx = 13;
+		c.gridy = 19;
+		c.gridwidth = 5;
 		c.gridheight = 2;
 		this.add(btn_fazerAcao, c);
 		
 		JButton btn_Voltar = new JButton("Voltar");
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
-		c.gridy = 10;
-		c.gridwidth = 4;
+		c.gridy = 20;
+		c.gridwidth = 2;
 		c.gridheight = 2;
 		this.add(btn_Voltar, c);
 		

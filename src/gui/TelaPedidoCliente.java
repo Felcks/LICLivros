@@ -20,6 +20,7 @@ import javax.swing.event.DocumentListener;
 import principais.Cliente;
 import principais.ClienteManager;
 import principais.Pedido;
+import principais.TipoPedido;
 import utilidades.AutoSuggestor;
 import utilidades.Screen;
 import utilidades.ServicoDeDigito;
@@ -44,8 +45,8 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
         c.weightx = 1;
         c.weighty = 1;
         
-       for(int i = 0; i < 12; i ++){
-        	for(int j = 0; j < 10; j++){
+       for(int i = 0; i < 24; i ++){
+        	for(int j = 0; j < 20; j++){
         		c.gridx = i;
         		c.gridy = j;
         		c.fill = GridBagConstraints.BOTH;
@@ -58,22 +59,21 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
   		txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));
   		txt_Title.setSize(100,100);
         c.fill = GridBagConstraints.NONE;
-  		c.gridx = 5;
+  		c.gridx = 0;
   		c.gridy = 0;
-  		c.gridwidth = 1;
-  		c.gridheight = 1;
+  		c.gridwidth = 24;
+  		c.gridheight = 5;
   		c.anchor = GridBagConstraints.PAGE_START;
   		this.add(txt_Title, c);
   		
   		textFields = new JTextField[6];
   		c.anchor = GridBagConstraints.CENTER;
-		c.gridx = 5;
-		c.gridwidth = 2;
+		c.gridx = 6;
+		c.gridwidth = 10;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 1;
 		for(int i = 0; i < textFields.length; i++){
 			textFields[i] = new JTextField();
-			c.gridy = i + 1 ;
+			c.gridy = i * 2 + 2 ;
 			if(i > 0){
 				textFields[i].setEditable(false);
 				textFields[i].setBackground(Color.LIGHT_GRAY);
@@ -88,25 +88,30 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
                  "TELEFONE",
                  "CELULAR"};
 		JLabel[] labels = new JLabel[6];
-		c.gridx = 3;
-		c.gridwidth = 2;
+		c.gridx = 2;
+		c.gridwidth = 4;
 		c.fill = GridBagConstraints.NONE;
-		c.anchor = GridBagConstraints.CENTER;
+		c.anchor = GridBagConstraints.LINE_END;
 		for(int i = 0; i < textFields.length; i++){
 			labels[i] = new JLabel(columnNames[i]);
-			c.gridy = i  + 1;
+			c.gridy = i  * 2 + 2;
+			labels[i].setFont(labels[i].getFont().deriveFont(15F));
 			this.add(labels[i],c);
 		}
 		
 		JButton btn_Avancar = new JButton("Avançar");
-		c.gridx = 10;
+		c.gridx = 23;
 		c.fill = GridBagConstraints.BOTH;
-		c.gridy = 9;
+		c.gridy = 19;
+		c.gridwidth = 1;
+		c.gridheight = 1;
 		this.add(btn_Avancar, c);
 		
 		JButton btn_Voltar = new JButton("Voltar");
 		c.gridx = 0;
-		c.gridy = 9;
+		c.gridy = 19;
+		c.gridwidth = 1;
+		c.gridheight = 1;
 		this.add(btn_Voltar, c);
         
 		autoSuggestor = new AutoSuggestor(textFields[0], guiManager.getJanela(), ClienteManager.getInstance().getTodosNomesClientes(), 
@@ -185,7 +190,11 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
 		if(clienteValido == true && this.cliente != null){
 			System.out.println("Cliente Válido. Podemos avançar!");
 			atualizarPedido();
-			guiManager.mudarParaTela("telaPedidoPacote");
+			if(Pedido.tipoProximoPedido == TipoPedido.NORMAL)
+				guiManager.mudarParaTela("telaPedidoPacote");
+			else if(Pedido.tipoProximoPedido == TipoPedido.AVULSO){
+				guiManager.mudarParaTela("telaPedidoPacoteAvulso");
+			}
 		}
 		else
 		{

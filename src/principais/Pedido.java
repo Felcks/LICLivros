@@ -22,6 +22,8 @@ public class Pedido {
 	private Pacote pacote;
 	private int[] idsDosLivrosComprados;
 	private Double preco;
+	private Double precoNormal;
+	private int desconto;
 	private FormaDeEntrega formaDeEntrega;
 	private FormaDePagamento formaDePagamento;
 	private TipoPedido tipoPedido;
@@ -288,6 +290,22 @@ public class Pedido {
 
 	public void setTipoPedido(TipoPedido tipoPedido) {
 		this.tipoPedido = tipoPedido;
+	}
+
+	public Double getPrecoNormal() {
+		return precoNormal;
+	}
+
+	public void setPrecoNormal(Double precoNormal) {
+		this.precoNormal = precoNormal;
+	}
+
+	public int getDesconto() {
+		return desconto;
+	}
+
+	public void setDesconto(int desconto) {
+		this.desconto = desconto;
 	}
 
 }

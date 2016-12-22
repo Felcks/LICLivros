@@ -26,6 +26,7 @@ import principais.EstoqueManager;
 import principais.Livro;
 import principais.Pedido;
 import principais.PedidoManager;
+import principais.TipoPedido;
 import utilidades.Screen;
 import utilidades.ServicoDeDigito;
 import utilidades.Status;
@@ -183,9 +184,6 @@ public class TelaPedidoFinalizacao extends JPanel implements IPrepararComponente
         textField_valorDesconto.setBackground(Color.LIGHT_GRAY);
         this.add(textField_valorDesconto, c);
         
-        
-        
-        
         JButton btn_Avancar = new JButton("Concluir!");
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 23;
@@ -240,7 +238,6 @@ public class TelaPedidoFinalizacao extends JPanel implements IPrepararComponente
 	}
 	
 	private void aplicarDesconto(String text){
-		System.out.println(text);
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run(){
@@ -255,6 +252,7 @@ public class TelaPedidoFinalizacao extends JPanel implements IPrepararComponente
 					textField_comDesconto.setText(formatado);
 					textField_valorDesconto.setText(formatado2);
 					novoPreco = precoAtual - valorDoDesconto;
+					Pedido.pedidoAtual.setDesconto(desconto);
 				}
 				else{
 					NumberFormat nf = NumberFormat.getCurrencyInstance();  
@@ -262,20 +260,32 @@ public class TelaPedidoFinalizacao extends JPanel implements IPrepararComponente
 					textField_comDesconto.setText(formatado);
 					textField_valorDesconto.setText(formatado);
 					novoPreco = Pedido.pedidoAtual.getPreco();
+					Pedido.pedidoAtual.setDesconto(0);
 				}
 			}
 		};
 		
-
 		SwingUtilities.invokeLater(runnable);
 	}
 	
 	private void atualizarPedido(JComboBox comboBox_pagamento, JComboBox comboBox_entrega, JTextField textField_obs){
 		String livrosNomes = "";
-		for(int i = 0; i < Pedido.pedidoAtual.getPacote().getLivros().size(); i++){
-			if(Pedido.pedidoAtual.getIdsDosLivrosComprados()[i] >= 0){
-				livrosNomes += Pedido.pedidoAtual.getPacote().getLivros().get(i).getNome() + ", ";
-				EstoqueManager.getInstance().retirarDoEstoque(Pedido.pedidoAtual.getIdsDosLivrosComprados()[i]);
+		if(Pedido.pedidoAtual.getTipoPedido() == TipoPedido.NORMAL){
+			for(int i = 0; i < Pedido.pedidoAtual.getPacote().getLivros().size(); i++){
+				if(Pedido.pedidoAtual.getIdsDosLivrosComprados()[i] >= 0){
+					livrosNomes += Pedido.pedidoAtual.getPacote().getLivros().get(i).getNome() + ", ";
+					EstoqueManager.getInstance().retirarDoEstoque(Pedido.pedidoAtual.getIdsDosLivrosComprados()[i]);
+				}
+			}
+		}
+		else{
+			for(int i = 0; i < Pedido.pedidoAtual.getIdsDosLivrosComprados().length; i++){
+				int id = Pedido.pedidoAtual.getIdsDosLivrosComprados()[i];
+				if(id >= 0){
+					Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
+					livrosNomes += livro.getNome() + ", ";
+					EstoqueManager.getInstance().retirarDoEstoque(id);
+				}
 			}
 		}
 		
@@ -296,6 +306,7 @@ public class TelaPedidoFinalizacao extends JPanel implements IPrepararComponente
 		Pedido.pedidoAtual.setStatusDaEntrega(StatusDaEntrega.NAO_ENTREGUE);
 		Pedido.pedidoAtual.setStatusDoPagamento(StatusDoPagamento.NAO_PAGO);
 		Pedido.pedidoAtual.setData();
+		Pedido.pedidoAtual.setPrecoNormal(Pedido.pedidoAtual.getPreco());
 		Pedido.pedidoAtual.setPreco(novoPreco);
 		PedidoManager.getInstance().adicionarPedido(Pedido.pedidoAtual);
 		PedidoManager.getInstance().getOperacoes().INSERT_DATA(Pedido.pedidoAtual);

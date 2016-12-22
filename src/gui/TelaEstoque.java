@@ -165,7 +165,6 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		c.gridheight = 1;
 		this.add(btn_fazerAcao, c);
 		
-		
 		JButton btn_Voltar = new JButton("Voltar");
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
@@ -319,6 +318,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 	
 	private void fazerAcao(JTextField[] textFields, JTable table, Acao acao){
 		String[] camposEmTexto = servicoDeDigito.transformarCamposEmTexto(textFields);
+		camposEmTexto[camposEmTexto.length - 1] =  camposEmTexto[camposEmTexto.length - 1].replace(',', '.');
 		
 		if(acao == Acao.ADICIONAR){
 			Livro livro = new Livro(camposEmTexto);

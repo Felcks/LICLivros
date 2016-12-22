@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,8 +30,10 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import principais.Cliente;
+import principais.EstoqueManager;
 import principais.Livro;
 import principais.Pedido;
+import principais.TipoPedido;
 
 public class Print {
 	Document document =  null;
@@ -204,13 +207,38 @@ public class Print {
 		table.addCell(cellDesconto);
 		table.addCell(cellTotal);
 		
-		for(int i = 0; i < p.getPacote().getLivros().size(); i++) {
-			table.addCell(new PdfPCell(new Phrase(p.getPacote().getLivros().get(i).getEditora())));
-			table.addCell(new PdfPCell(new Phrase(p.getPacote().getLivros().get(i).getNome())));
-			table.addCell(new PdfPCell(new Phrase(p.getPacote().getLivros().get(i).getQuantidade())));
-			table.addCell(new PdfPCell(new Phrase((float)p.getPacote().getLivros().get(i).getPreco())));
-			table.addCell(new PdfPCell(new Phrase("X%")));
-			table.addCell(new PdfPCell(new Phrase("preco - desconto")));
+		if(p.getTipoPedido() == TipoPedido.NORMAL){
+			for(int i = 0; i < p.getIdsDosLivrosComprados().length; i++){
+				int id = p.getIdsDosLivrosComprados()[i];
+				if(id >= 0){
+					Livro livro = p.getPacote().getLivros().get(i);
+					table.addCell(new PdfPCell(new Phrase(livro.getEditora())));
+					table.addCell(new PdfPCell(new Phrase(livro.getNome())));
+					table.addCell(new PdfPCell(new Phrase(livro.getQuantidade())));
+					table.addCell(new PdfPCell(new Phrase((float)livro.getPreco())));
+					table.addCell(new PdfPCell(new Phrase(p.getDesconto())));
+					float novoPreco = (float) ((livro.getPreco() * p.getDesconto()) / 100);
+					novoPreco = (float)livro.getPreco() - novoPreco;
+					table.addCell(new PdfPCell(new Phrase(novoPreco)));
+				}
+			}
+		}
+		else
+		{
+			for(int i = 0; i < p.getIdsDosLivrosComprados().length; i++){
+				int id = p.getIdsDosLivrosComprados()[i];
+				if(id >= 0){
+					Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
+					table.addCell(new PdfPCell(new Phrase(livro.getEditora())));
+					table.addCell(new PdfPCell(new Phrase(livro.getNome())));
+					table.addCell(new PdfPCell(new Phrase(livro.getQuantidade())));
+					table.addCell(new PdfPCell(new Phrase((float)livro.getPreco())));
+					table.addCell(new PdfPCell(new Phrase(p.getDesconto())));
+					float novoPreco = (float) ((livro.getPreco() * p.getDesconto()) / 100);
+					novoPreco = (float)livro.getPreco() - novoPreco;
+					table.addCell(new PdfPCell(new Phrase(novoPreco)));
+				}
+			}
 		}
 		
 		return table;
