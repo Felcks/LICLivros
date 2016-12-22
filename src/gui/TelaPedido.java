@@ -225,7 +225,7 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 				}
 				
 				if(mensage.length() > 0){
-					JOptionPane.showConfirmDialog(this, velhoPedido.getCliente().getNome() + "\n" + mensage	,"Atualizacao", JOptionPane.OK_CANCEL_OPTION);
+					JOptionPane.showMessageDialog(this, velhoPedido.getCliente().getNome() + "\n" + mensage	,"Atualizacao bem sucedida!", JOptionPane.INFORMATION_MESSAGE);
 					PedidoManager.getInstance().atualizarPedido(id, velhoPedido);
 					this.repintarTabela();
 					

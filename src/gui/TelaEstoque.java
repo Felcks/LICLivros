@@ -352,7 +352,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 			Livro livro = new Livro(camposEmTexto);
 			livro.setId(EstoqueManager.getInstance().getLivros().size());
 			if(livro.isValidLivro()){
-				JOptionPane.showMessageDialog(this, "Novo livro adicionado: " + livro.getNome(), "Adicionado com sucesso!", JOptionPane.OK_CANCEL_OPTION);
+				JOptionPane.showMessageDialog(this, "Novo livro adicionado: " + livro.getNome(), "Adicionado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
 				EstoqueManager.getInstance().adicionarNovoLivro(livro);
 				this.repintarTabela(comboBox.getSelectedItem().toString());
 				EstoqueManager.getInstance().getOperacoes().INSERT_DATA(livro);

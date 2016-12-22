@@ -133,6 +133,7 @@ public class EstoqueManager {
 		{
 			Livro livro = this.getLivroPeloId(id[i]);
 			livro.setComprar(livro.getComprar() - 1);
+			livro.setVendidos(livro.getVendidos() + 1);
 			
 			this.operacoes.UPDATE_DATA(livro);
 		}
