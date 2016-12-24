@@ -204,7 +204,7 @@ public class TelaPedidoFinalizacao extends JPanel implements IPrepararComponente
 		btn_Voltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				guiManager.mudarParaTela("telaPedidoPacote");
+					guiManager.mudarParaTela("telaPedidoPacote");
 			}
 		});
 		

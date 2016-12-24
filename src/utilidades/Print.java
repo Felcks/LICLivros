@@ -1,5 +1,6 @@
  package utilidades;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.print.attribute.standard.DateTimeAtProcessing;
+import javax.swing.JOptionPane;
 
 import com.itextpdf.awt.geom.Rectangle;
 import com.itextpdf.text.Chunk;
@@ -41,7 +43,7 @@ public class Print {
 	Document document =  null;
 	private OutputStream os = null;
 	private String PATH = "venda_n";
-	private String PATH_RELATORIO = "relatorio";
+	private String PATH_RELATORIO = "relatorio_";
 	private List<Livro> livros = new ArrayList<>();
 	private double valorTotal = 0;
 	
@@ -73,10 +75,11 @@ public class Print {
 			
 			document.add(tableSpecs(fontSubTittle, fontSubTittle2));
 			document.add(tableClientSpecs(fontSubTittle, fontSubTittle2, pedido));
-			document.add(tableOrders(fontSubTittle, pedido));
+			document.add(tableOrders(pedido));
 			document.add(tableBooks(livros,fontSubTittle, fontSubTittle2, pedido));
 			document.add(tableTotal(valorTotal));
 			
+			Desktop.getDesktop().open(new File(sb_PATH.toString()));
 			System.out.println("Documento gerado com sucesso!");
 		} finally {
 			if(document != null)
@@ -89,8 +92,12 @@ public class Print {
 	
 	public void printRelatorio() throws DocumentException, IOException{
 		try{
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Calendar cal = Calendar.getInstance();
+			
 			StringBuilder sb_PATH = new StringBuilder();
 			sb_PATH.append(PATH_RELATORIO);
+			sb_PATH.append(dateFormat.format(cal.getTime()).toString());
 			sb_PATH.append(".pdf");
 			
 			for(int i = 0; i < EditoraManager.getInstance().getEditoras().size(); i++){
@@ -114,6 +121,7 @@ public class Print {
 		
 		document.add(tableSpecs(fontSubTittle, fontSubTittle2));
 		document.add(tableRelatorio(livros, fontSubTittle, fontSubTittle2));
+		livros.clear();
 		
 		} finally {
 			if(document != null)
@@ -177,7 +185,7 @@ public class Print {
 				+ "\n"
 				+ "Telefone: (21) 2290-8264"
 				+ "\n"
-				+ "E-mail: lic-livros@ig.com.br", f2);
+				+ "E-mail: liclivros@gmail.com", f2);
 		
 		PdfPTable table = new PdfPTable(2);
 		table.setWidthPercentage(100f);
@@ -187,8 +195,8 @@ public class Print {
 		return table;
 	}
 	
-	private PdfPTable tableOrders(Font f, Pedido p){
-		Paragraph orderNumber = new Paragraph("PEDIDO NÚMERO: " + p.getId() , f);
+	private PdfPTable tableOrders(Pedido p){
+		Paragraph orderNumber = new Paragraph("PEDIDO NÚMERO: " + p.getId() , new Font(FontFamily.HELVETICA, 12, Font.BOLD));
 		
 		PdfPTable table = new PdfPTable(2);
 		table.setWidthPercentage(100f);
