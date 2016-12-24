@@ -204,7 +204,10 @@ public class TelaPedidoFinalizacao extends JPanel implements IPrepararComponente
 		btn_Voltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(Pedido.tipoProximoPedido == TipoPedido.NORMAL)
 					guiManager.mudarParaTela("telaPedidoPacote");
+				else
+					guiManager.mudarParaTela("telaPedidoPacoteAvulso");
 			}
 		});
 		
@@ -308,7 +311,7 @@ public class TelaPedidoFinalizacao extends JPanel implements IPrepararComponente
 		Pedido.pedidoAtual.setData();
 		Pedido.pedidoAtual.setPrecoNormal(Pedido.pedidoAtual.getPreco());
 		Pedido.pedidoAtual.setPreco(novoPreco);
-		PedidoManager.getInstance().adicionarPedido(Pedido.pedidoAtual);
+		PedidoManager.getInstance().adicionarPedidoEAbrirDoc(Pedido.pedidoAtual);
 		PedidoManager.getInstance().getOperacoes().INSERT_DATA(Pedido.pedidoAtual);
 		
 		this.guiManager.mudarParaTela("telaInicial");

@@ -62,6 +62,10 @@ public class PedidoManager {
 	
 	public void adicionarPedido(Pedido pedido){
 		this.pedidos.add(pedido);
+	}
+	
+	public void adicionarPedidoEAbrirDoc(Pedido pedido){
+		this.pedidos.add(pedido);
 		try {
 			Print.getInstance().printDocument(pedido);
 		} catch (DocumentException e) {
