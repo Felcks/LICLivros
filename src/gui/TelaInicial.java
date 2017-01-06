@@ -149,7 +149,7 @@ public class TelaInicial extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Pedido.tipoProximoPedido = TipoPedido.NORMAL;
-				guiManager.mudarParaTela("telaPedidoCliente");
+				guiManager.mudarParaTela("telaPedidoUnico");
 			}
 		});
 		

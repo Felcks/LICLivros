@@ -21,32 +21,28 @@ public class OperacoesPedidos extends JavaConnection implements Operacoes
 				stmt  = connection.createStatement();
 			
 				int id = pedido.getId();
-				int cliente = pedido.getCliente().getId();
+				String cliente = pedido.getCliente().getNome();
 				int pacote = pedido.getPacote().getId();
 				String idsLivros = pedido.getIdsDosLivrosCompradosEmString();
 				double preco = pedido.getPreco();
-				String formaEntrega = pedido.getFormaDeEntrega().toString();
 				String formaPagamento = pedido.getFormaDePagamento().toString();
-				String obs = pedido.getTipoPedido().toString();
-				//obs = obs.concat(" ");
+				String obs = pedido.getObs();
+				obs = obs.concat(" ");
+				String tipo = pedido.getTipoPedido().toString();
 				String status = pedido.getStatus().toString();
-				String statusDoPagamento = pedido.getStatusDoPagamento().toString();
-				String statusDaEntrega = pedido.getStatusDaEntrega().toString();
 				String data = pedido.getData();
 				
-				String sql = "INSERT INTO PEDIDOS (ID, CLIENTE, PACOTE, IDS_DOS_LIVROS, PRECO, FORMA_DE_ENTREGA, "
-						+ "FORMA_DE_PAGAMENTO, OBS, STATUS, STATUS_DA_ENTREGA, STATUS_DO_PAGAMENTO, DATA)" +
+				String sql = "INSERT INTO PEDIDOS (ID, CLIENTE, PACOTE, IDS_DOS_LIVROS, PRECO,  "
+						+ "FORMA_DE_PAGAMENTO, OBS, STATUS, TIPO, DATA)" +
 				"VALUES (" + id + "," + 
-						  cliente + "," + 
+						 "'" + cliente + "'" + "," + 
 						  pacote  + "," +
 						"'" + idsLivros + "'" + "," + 
 						  preco + "," + 
-						"'" + formaEntrega + "'" + "," +
 						"'" + formaPagamento + "'" + "," +
 						"'" + obs + "'" + "," +
 						"'" + status + "'" + "," +
-						"'" + statusDaEntrega + "'" + "," +
-						"'" + statusDoPagamento + "'" + "," + 
+						"'" + tipo + "'" + "," +
 						"'" + data + "'" + ");";
 				stmt.executeUpdate(sql);
 			
@@ -64,17 +60,13 @@ public class OperacoesPedidos extends JavaConnection implements Operacoes
 			ConnectBd();
 			connection.setAutoCommit(false);
 			int id = pedido.getId();
-			String statusEntrega = pedido.getStatusDaEntrega().toString();
-			String statusPagamento = pedido.getStatusDoPagamento().toString();
 			String status = pedido.getStatus().toString();
 			
 			stmt  = connection.createStatement();
-			String sql = "UPDATE PEDIDOS SET STATUS_DA_ENTREGA=?, STATUS_DO_PAGAMENTO=?, STATUS=? WHERE ID=?";
+			String sql = "UPDATE PEDIDOS SET STATUS=? WHERE ID=?";
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, statusEntrega);
-			statement.setString(2, statusPagamento);
-			statement.setString(3, status);
-			statement.setInt(4, id);
+			statement.setString(1, status);
+			statement.setInt(2, id);
 			
 			int a  = statement.executeUpdate();
 		     

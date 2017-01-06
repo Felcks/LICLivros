@@ -25,12 +25,10 @@ public class Pedido {
 	private Double preco;
 	private Double precoNormal;
 	private int desconto;
-	private FormaDeEntrega formaDeEntrega;
 	private FormaDePagamento formaDePagamento;
 	private TipoPedido tipoPedido;
 	private Status status;
-	private StatusDoPagamento statusDoPagamento;
-	private StatusDaEntrega statusDaEntrega;
+	private String obs;
 	private String data;
 	
 	public static Pedido pedidoAtual;
@@ -48,37 +46,35 @@ public class Pedido {
 		try{
 			
 			this.setId(rs.getInt("ID"));
-			this.setCliente(ClienteManager.getInstance().getClientePeloId(rs.getInt("CLIENTE")));
+			
+			Cliente c = new Cliente();
+			c.setNome(rs.getString("CLIENTE"));
+			this.setCliente(c);
+			
 			this.setPacote(PacoteManager.getInstance().getPacotePeloId(rs.getInt("PACOTE")));
 			this.setIdsDosLivrosComprados(rs.getString("IDS_DOS_LIVROS"));
 			this.setPreco(rs.getDouble("PRECO"));
-			try{
-				this.setFormaDeEntrega(FormaDeEntrega.valueOf(rs.getString("FORMA_DE_ENTREGA")));
-			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
 			
 			try{
+				System.out.println(rs.getString("FORMA_DE_PAGAMENTO"));
 				this.setFormaDePagamento(FormaDePagamento.valueOf(rs.getString("FORMA_DE_PAGAMENTO")));
-			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
+			}catch(java.lang.NullPointerException e){ /*Algo de errado*/ 
+				System.out.println("aa");
+			}
 			
 			try{
+				System.out.println(rs.getString("STATUS"));
 				this.setStatus(Status.valueOf(rs.getString("STATUS")));
 			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
 			
-			try{
-				this.setStatusDoPagamento(StatusDoPagamento.valueOf(rs.getString("STATUS_DO_PAGAMENTO")));
-			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
-			
-			try{
-				this.setStatusDaEntrega(StatusDaEntrega.valueOf(rs.getString("STATUS_DA_ENTREGA")));
-			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
-			
+			this.obs = rs.getString("OBS");
 			this.data = rs.getString("DATA");
 			
 			try{
-				//System.out.println(rs.getString("OBS"));
-				this.setTipoPedido(TipoPedido.valueOf(rs.getString("OBS")));
+				this.setTipoPedido(TipoPedido.valueOf(rs.getString("TIPO")));
 			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
-		}
+			}
+		
 		catch(Exception e){
 		}
 	}
@@ -86,6 +82,7 @@ public class Pedido {
 	public Pedido(){}
 	
 	public Object[] pegarTodosParametros() throws java.lang.NullPointerException {
+		
 		Object[] object = new Object[11];
 		object[0] = this.getId();
 		object[1] = this.getCliente().getNome();
@@ -110,23 +107,18 @@ public class Pedido {
 		NumberFormat nf = NumberFormat.getCurrencyInstance();  
 		String formatado = nf.format (this.getPreco());
 		object[3] = formatado;
-		object[4] = this.getFormaDeEntrega().getNome();
-		object[5] = this.getFormaDePagamento().getNome();
-		//System.out.println(this.cliente.getNome());
-		object[6] = this.getStatusDaEntrega().getNome();
-		object[7] = this.getStatusDoPagamento().getNome();
-		object[8] = this.getStatus().getNome();
-		object[9] = this.getData();
-		try{
-		object[10] = this.getTipoPedido().toString();
-		}catch(Exception e){}
+		
+		object[4] = this.getFormaDePagamento().getNome();
+		object[5] = this.getStatus().getNome();
+		object[6] = this.getTipoPedido();
+		object[7] = this.getData();
+		
 		
 		return object;
 	}
 	
 	public Pedido(String stEntrega, String stPagamento){
-		this.statusDaEntrega = StatusDaEntrega.getStatusPeloNome(stEntrega);
-		this.statusDoPagamento = StatusDoPagamento.getStatusPeloNome(stPagamento);
+		
 	}
 	
 	public List<Livro> getLivrosComprados(){
@@ -210,13 +202,6 @@ public class Pedido {
 		}
 	}
 
-	public FormaDeEntrega getFormaDeEntrega() {
-		return formaDeEntrega;
-	}
-
-	public void setFormaDeEntrega(FormaDeEntrega formaDeEntrega) {
-		this.formaDeEntrega = formaDeEntrega;
-	}
 
 	public FormaDePagamento getFormaDePagamento() {
 		return formaDePagamento;
@@ -243,36 +228,6 @@ public class Pedido {
 		this.status = status;
 	}
 
-	public StatusDoPagamento getStatusDoPagamento() {
-		return statusDoPagamento;
-	}
-
-	public void setStatusDoPagamento(StatusDoPagamento statusDoPagamento) {
-		this.statusDoPagamento = statusDoPagamento;
-		
-		if(this.statusDoPagamento == StatusDoPagamento.PAGO){
-			if(this.statusDaEntrega != null){
-				if(this.statusDaEntrega == StatusDaEntrega.ENTREGUE)
-					this.setStatus(Status.PRONTO);
-			}
-		}
-		
-		if(this.statusDoPagamento == StatusDoPagamento.CANCELADO){
-			if(this.statusDaEntrega != null){
-				if(this.statusDaEntrega == StatusDaEntrega.CANCELADO)
-					this.setStatus(Status.CANCELADO);
-			}
-		}
-	}
-
-	public StatusDaEntrega getStatusDaEntrega() {
-		return statusDaEntrega;
-	}
-
-	public void setStatusDaEntrega(StatusDaEntrega statusDaEntrega) {
-		this.statusDaEntrega = statusDaEntrega;
-	}
-	
 	public String getData(){
 		return this.data;
 	}
@@ -316,6 +271,22 @@ public class Pedido {
 
 	public void setDesconto(int desconto) {
 		this.desconto = desconto;
+	}
+
+	public int[] getQtdDosLivrosComprados() {
+		return qtdDosLivrosComprados;
+	}
+
+	public void setQtdDosLivrosComprados(int[] qtdDosLivrosComprados) {
+		this.qtdDosLivrosComprados = qtdDosLivrosComprados;
+	}
+
+	public String getObs() {
+		return obs;
+	}
+
+	public void setObs(String obs) {
+		this.obs = obs;
 	}
 
 }

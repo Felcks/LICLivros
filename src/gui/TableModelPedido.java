@@ -36,6 +36,11 @@ class TableModelPedido extends AbstractTableModel {
     	}	
     }
     
+    public Object[][] getData()
+    {
+    	return this.data;
+    }
+    
     public int getColumnCount() {
         return columnNames.length;
     }
@@ -74,7 +79,7 @@ class TableModelPedido extends AbstractTableModel {
     public boolean isCellEditable(int row, int col) {
         //Note that the data/cell address is constant,
         //no matter where the cell appears onscreen.
-        if (col < 2) {
+        if (col != 2) {
             return false;
         } else {
             return true;
@@ -95,7 +100,7 @@ class TableModelPedido extends AbstractTableModel {
 
         data[row][col] = value;
         fireTableCellUpdated(row, col);
-        
+        TelaPedidoUnico.atualizarPreco(data);
 
         if (DEBUG) {
             System.out.println("New value of data:");

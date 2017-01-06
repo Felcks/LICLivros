@@ -293,7 +293,7 @@ public class TelaPedidoFinalizacao extends JPanel implements IPrepararComponente
 		}
 		
 		Pedido.pedidoAtual.setFormaDePagamento(FormaDePagamento.getFormaDePagamentoPeloNome(comboBox_entrega.getSelectedItem().toString()));
-		Pedido.pedidoAtual.setFormaDeEntrega(FormaDeEntrega.getFormaDeEntregaPeloNome(comboBox_pagamento.getSelectedItem().toString()));
+		//Pedido.pedidoAtual.setFormaDeEntrega(FormaDeEntrega.getFormaDeEntregaPeloNome(comboBox_pagamento.getSelectedItem().toString()));
 		Pedido.pedidoAtual.setTipoPedido(Pedido.tipoProximoPedido);
 		
 		NumberFormat nf = NumberFormat.getCurrencyInstance();  
@@ -301,13 +301,13 @@ public class TelaPedidoFinalizacao extends JPanel implements IPrepararComponente
 		JOptionPane.showMessageDialog(this, "Cliente: " + Pedido.pedidoAtual.getCliente().getNome() + 
 				"\nPreço: " + formatado +
 				"\nFormaDePagamento: " + Pedido.pedidoAtual.getFormaDePagamento().getNome() +
-				"\nFormaDeEntrega: " + Pedido.pedidoAtual.getFormaDeEntrega().getNome() +
+				//"\nFormaDeEntrega: " + Pedido.pedidoAtual.getFormaDeEntrega().getNome() +
 				"\nLivros: " + livrosNomes, "Finalização", JOptionPane.INFORMATION_MESSAGE);
 		
 		Pedido.pedidoAtual.setId(PedidoManager.getInstance().gerarId());
 		Pedido.pedidoAtual.setStatus(Status.EM_ANDAMENTO);
-		Pedido.pedidoAtual.setStatusDaEntrega(StatusDaEntrega.NAO_ENTREGUE);
-		Pedido.pedidoAtual.setStatusDoPagamento(StatusDoPagamento.NAO_PAGO);
+		//Pedido.pedidoAtual.setStatusDaEntrega(StatusDaEntrega.NAO_ENTREGUE);
+		//Pedido.pedidoAtual.setStatusDoPagamento(StatusDoPagamento.NAO_PAGO);
 		Pedido.pedidoAtual.setData();
 		Pedido.pedidoAtual.setPrecoNormal(Pedido.pedidoAtual.getPreco());
 		Pedido.pedidoAtual.setPreco(novoPreco);

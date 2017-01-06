@@ -18,6 +18,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import principais.AnoEscolar;
@@ -28,13 +31,16 @@ import principais.Pacote;
 import principais.PacoteManager;
 import principais.Pedido;
 import principais.PedidoManager;
+import principais.TipoPedido;
 import utilidades.AutoSuggestor;
 import utilidades.FormaDePagamento;
 import utilidades.ServicoDeDigito;
+import utilidades.Status;
 
 public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 {
 	private GUIManager guiManager;
+	private ServicoDeDigito servicoDeDigito;
 	
 	private Escola escolaSelecionada;
 	private AnoEscolar anoEscolarSelecionado;
@@ -42,13 +48,15 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	
 	Pacote pacote;
 	private static double precoTotal;
-	JTextField fieldPreco;
+	private static JTextField fieldPreco, fieldDesconto, fieldFinal, fieldDescontoDado;
 	
-	JTextField fieldNome, fieldBairro, fieldComplemento, fieldRua, fieldTelefone, fieldCel;
+	JTextField fieldNome, fieldBairro, fieldComplemento, fieldRua, fieldTelefone, fieldCel, fieldObs;
+	JComboBox pagamentoBox;
 	
 	public TelaPedidoUnico(GUIManager guiManager)
 	{
 		this.guiManager = guiManager;
+		this.servicoDeDigito = new ServicoDeDigito();
 		pacote = new Pacote();
 		
 		this.setLayout(new GridBagLayout());
@@ -154,8 +162,8 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        
        fieldTelefone = new JTextField();
        c.gridx = prox;
-       c.gridwidth = 7;
-       prox += 7;
+       c.gridwidth = 9;
+       prox += 9;
        c.fill = GridBagConstraints.HORIZONTAL;
        c.anchor = GridBagConstraints.CENTER;
        this.add(fieldTelefone, c);    
@@ -170,8 +178,8 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        
        fieldCel = new JTextField();
        c.gridx = prox;
-       c.gridwidth = 7;
-       prox += 7;
+       c.gridwidth = 8;
+       prox += 8;
        c.fill = GridBagConstraints.HORIZONTAL;
        c.anchor = GridBagConstraints.CENTER;
        this.add(fieldCel, c);
@@ -217,7 +225,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        c.anchor = GridBagConstraints.LINE_END;
        this.add(labelObs, c);
        
-       JTextField fieldObs = new JTextField();
+       fieldObs = new JTextField();
        c.gridx = prox;
        c.gridwidth = 17;
        prox += 17;
@@ -236,7 +244,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        String[] formasPagamento = new String[enumerado.length];
        for(int i = 0; i < formasPagamento.length; i++)
        	formasPagamento[i] = enumerado[i].getNome();
-       JComboBox pagamentoBox = new JComboBox(formasPagamento);
+       pagamentoBox = new JComboBox(formasPagamento);
        c.gridx = prox;
        c.gridwidth = 2;
        prox += 2;
@@ -262,7 +270,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		this.add(scrollPane, c);
 		
 		
-		prox = 15;
+		prox = 17;
 		c.gridy = 12;
 		
 		JLabel labelPreco = new JLabel("Preço: ");
@@ -276,8 +284,8 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	    fieldPreco = new JTextField();
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    c.gridx = prox;
-	    c.gridwidth = 7;
-	    prox += 7;
+	    c.gridwidth = 4;
+	    prox += 4;
 	    fieldPreco.setEditable(false);
 	    fieldPreco.setBackground(Color.LIGHT_GRAY);
 	    this.add(fieldPreco, c);
@@ -290,10 +298,10 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	    c.anchor = GridBagConstraints.LINE_END;
 	    this.add(labelDesconto, c);
 	    
-	    JTextField fieldDesconto = new JTextField();
+	    fieldDesconto = new JTextField();
 	    c.gridx = prox;
-	    c.gridwidth = 7;
-	    prox += 7;
+	    c.gridwidth = 1;
+	    prox += 1;
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    this.add(fieldDesconto, c);
 		
@@ -305,10 +313,10 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	    c.anchor = GridBagConstraints.LINE_END;
 	    this.add(labelDescontoDado, c);
 	    
-	    JTextField fieldDescontoDado = new JTextField();
+	    fieldDescontoDado = new JTextField();
 	    c.gridx = prox;
-	    c.gridwidth = 4;
-	    prox += 4;
+	    c.gridwidth = 2;
+	    prox += 2;
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    fieldDescontoDado.setEditable(false);
 	    fieldDescontoDado.setBackground(Color.LIGHT_GRAY);
@@ -322,10 +330,10 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	    c.anchor = GridBagConstraints.LINE_END;
 	    this.add(labelFinal, c);
 	    
-	    JTextField fieldFinal = new JTextField();
+	    fieldFinal = new JTextField();
 	    c.gridx = prox;
-	    c.gridwidth = 3;
-	    prox += 3;
+	    c.gridwidth = 5;
+	    prox += 5;
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    fieldFinal.setEditable(false);
 	    fieldFinal.setBackground(Color.LIGHT_GRAY);
@@ -384,6 +392,25 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 			}
 		});
 	    
+	    fieldDesconto.getDocument().addDocumentListener(new DocumentListener() {	
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				aplicarDesconto(fieldDesconto.getText());
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				aplicarDesconto(fieldDesconto.getText());
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				aplicarDesconto(fieldDesconto.getText());
+			}
+		});
+	    
+	    fieldDesconto.setText("0");
+	    aplicarDesconto(fieldDesconto.getText());
 	    repintarTabela();
 	}
 	
@@ -396,9 +423,40 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		pedido.setId(PedidoManager.getInstance().getPedidos().size());
 		pedido.setPacote(pacote);
 		
+		int[] idsDosLivrosComprados = new int[pacote.getLivros().size()];
+		for(int i = 0; i < idsDosLivrosComprados.length; i++)
+			idsDosLivrosComprados[i] = pacote.getLivros().get(i).getId();
+		pedido.setIdsDosLivrosComprados(idsDosLivrosComprados);
 		
+		Object[][] data = ((TableModelPedido)table.getModel()).getData();
+		int[] qtdDosLivrosComprados = new int[pacote.getLivros().size()];
+		for(int i = 0; i < qtdDosLivrosComprados.length; i++)
+			qtdDosLivrosComprados[i] = (int)data[i][2];
+		pedido.setQtdDosLivrosComprados(qtdDosLivrosComprados);
 		
-		System.out.println(cliente.getNome());
+		int desconto = 0;
+		if(fieldDesconto.getText().length() > 0)
+			desconto = Integer.parseInt(fieldDesconto.getText());
+		pedido.setDesconto(desconto);
+		
+		double precoFinal = precoTotal;
+		String precoEmString = fieldFinal.getText().substring(3, fieldFinal.getText().toString().length());
+		precoEmString = precoEmString.replace(',', '.');
+		precoFinal = ((double)Double.parseDouble(precoEmString));
+		pedido.setPreco(precoFinal);
+		
+		pedido.setPrecoNormal(precoTotal);
+		
+		pedido.setObs(fieldObs.getText());
+		pedido.setTipoPedido(TipoPedido.NORMAL);
+		pedido.setStatus(Status.EM_ANDAMENTO);
+		
+		FormaDePagamento fp = FormaDePagamento.getFormaDePagamentoPeloNome(pagamentoBox.getSelectedItem().toString());
+		pedido.setFormaDePagamento(fp);
+		pedido.setData();
+		
+		PedidoManager.getInstance().adicionarPedidoEAbrirDoc(pedido);
+		PedidoManager.getInstance().getOperacoes().INSERT_DATA(pedido);
 	}
 	
 	private Cliente criarCliente()
@@ -413,6 +471,56 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		
 		return cliente;
 	}
+	
+	public static void atualizarPreco(Object[][] data)
+	{
+		precoTotal = 0;
+		for(int i = 0; i < data.length; i++)
+		{
+			String precoEmString = data[i][3].toString().substring(3, data[i][3].toString().length());
+			precoEmString = precoEmString.replace(',', '.');
+			double preco = ((double)Double.parseDouble(precoEmString));
+			
+			//preço x quantidade
+			precoTotal += preco * (int)data[i][2];	
+		}
+		
+		NumberFormat nf = NumberFormat.getCurrencyInstance();  
+		String formatado = nf.format (precoTotal);
+		fieldPreco.setText(formatado);
+		
+		aplicarDesconto(fieldDesconto.getText());
+	}
+	
+	private static void aplicarDesconto(String text){
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run(){
+				ServicoDeDigito servicoDeDigito = new ServicoDeDigito();
+				int desconto = servicoDeDigito.transformarStringEmInt(text);
+				if(desconto >= 0 && desconto < 100){
+					double precoAtual = precoTotal;
+					double valorDoDesconto = ((precoAtual * desconto) / 100);
+					NumberFormat nf = NumberFormat.getCurrencyInstance();  
+					String formatado = nf.format (precoAtual - valorDoDesconto);
+					String formatado2 = nf.format(valorDoDesconto);
+					fieldFinal.setText(formatado);
+					fieldDescontoDado.setText(formatado2);
+				}
+				else{
+					NumberFormat nf = NumberFormat.getCurrencyInstance();  
+					String formatado = nf.format (00);
+					fieldDescontoDado.setText(formatado);
+					fieldFinal.setText(fieldPreco.getText());
+					fieldDesconto.setText("");
+
+				}
+			}
+		};
+		
+		SwingUtilities.invokeLater(runnable);
+	}
+	
 	
 	private void repintarTabela(){
 		if(this.table != null){
@@ -429,6 +537,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 			String formatado = nf.format (precoTotal);
 			
 			fieldPreco.setText(formatado);
+			aplicarDesconto(fieldDesconto.getText());
 		}
 	
 	}

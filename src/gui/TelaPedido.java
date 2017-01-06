@@ -2,10 +2,13 @@ package gui;
 
 import java.awt.Color;
 import java.awt.ComponentOrientation;
+import java.awt.Desktop;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,12 +84,30 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 		this.add(txt_Title, c);
         
         table = new JTable(new MyTableModelPedido());
-        table.getColumnModel().getColumn(3).setMinWidth(80);
-		table.getColumnModel().getColumn(3).setPreferredWidth(80);
-		table.getColumnModel().getColumn(3).setMaxWidth(80);
+        table.getColumnModel().getColumn(3).setMinWidth(100);
+		table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		table.getColumnModel().getColumn(3).setMaxWidth(100);
+
+        table.getColumnModel().getColumn(6).setMinWidth(80);
+		table.getColumnModel().getColumn(6).setPreferredWidth(80);
+		table.getColumnModel().getColumn(6).setMaxWidth(80);
+
+        table.getColumnModel().getColumn(4).setMinWidth(100);
+		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().getColumn(4).setMaxWidth(100);
+	
+        table.getColumnModel().getColumn(5).setMinWidth(150);
+		table.getColumnModel().getColumn(5).setPreferredWidth(150);
+		table.getColumnModel().getColumn(5).setMaxWidth(150);
+	
+        table.getColumnModel().getColumn(7).setMinWidth(150);
+		table.getColumnModel().getColumn(7).setPreferredWidth(150);
+		table.getColumnModel().getColumn(7).setMaxWidth(150);
+		
         table.getColumnModel().getColumn(0).setMinWidth(40);
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table.getColumnModel().getColumn(0).setMaxWidth(40);
+		
 		DefaultTableCellRenderer left = new DefaultTableCellRenderer();
 		left.setHorizontalAlignment(SwingConstants.LEFT);
 		table.getColumnModel().getColumn(0).setCellRenderer(left);;
@@ -139,7 +160,7 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 			posAtual += gridWidth[i];
 		}
 		
-		String[] acoes = {Acao.ATUALIZAR.toString(), Acao.INFORMAÇÕES.toString()};
+		String[] acoes = {Acao.ATUALIZAR.toString(), Acao.ABRIR_DOCUMENTO.toString()};
 		JComboBox comboBoxAcoes = new JComboBox(acoes);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -233,7 +254,7 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 				Pedido novoPedido = new Pedido(comboBoxes[0].getSelectedItem().toString(), comboBoxes[1].getSelectedItem().toString());
 				
 				String mensage = "";
-				if(novoPedido.getStatusDaEntrega() != velhoPedido.getStatusDaEntrega()){
+				/*if(novoPedido.getStatusDaEntrega() != velhoPedido.getStatusDaEntrega()){
 					mensage = mensage.concat(velhoPedido.getStatusDaEntrega().getNome() + " ---> " + novoPedido.getStatusDaEntrega().getNome() + "\n");
 					velhoPedido.setStatusDaEntrega(novoPedido.getStatusDaEntrega());
 					if(novoPedido.getStatusDaEntrega().getNome().equalsIgnoreCase("entregue"))
@@ -249,7 +270,7 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 						String formatado = nf.format (total);
 						textField_arrecadado.setText(formatado);
 					}
-				}
+				}*/
 				
 				if(mensage.length() > 0){
 					JOptionPane.showMessageDialog(this, velhoPedido.getCliente().getNome() + "\n" + mensage	,"Atualizacao bem sucedida!", JOptionPane.INFORMATION_MESSAGE);
@@ -263,40 +284,23 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
 			}
 		}
-		else if(acao == Acao.INFORMAÇÕES){
+		else if(acao == Acao.ABRIR_DOCUMENTO){
+			String PATH = "PEDIDOS/";
 			String idSelecionado = camposEmTexto[0];
-			int id = -1;
-			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
-			if(id >= 0 && id < PedidoManager.getInstance().getPedidos().size()){
-				
-				Pedido pedido = PedidoManager.getInstance().getPedidoPeloId(id);
-				String clienteNome = pedido.getCliente().getNome() + "\n";
-				String numeroPedido = "Nº PEDIDO: " + pedido.getId() + "\n";
-				String livros = "LIVROS: \n";
-				
-
-				if(pedido.getTipoPedido() == TipoPedido.NORMAL){
-					List<Integer> b = new ArrayList<Integer>();
-					for(int i = 0; i < pedido.getIdsDosLivrosComprados().length; i++)
-						b.add(pedido.getIdsDosLivrosComprados()[i]);
-					
-					for(int i =0; i < pedido.getPacote().getLivros().size(); i++){
-						if(b.contains(pedido.getPacote().getLivros().get(i).getId())){
-							livros = livros.concat(pedido.getPacote().getLivros().get(i).getNome() + "\n");
-						}
-					}
-				}
-				else{
-					for(int i = 0; i < pedido.getIdsDosLivrosComprados().length; i++){
-						if(pedido.getIdsDosLivrosComprados()[i] >= 0){
-							livros = livros.concat(EstoqueManager.getInstance().getLivroPeloId(pedido.getIdsDosLivrosComprados()[i]).getNome() + "\n");
-						}
-					}
-				}
+			//int id = servicoDeDigito.transformarStringEmInt(idSelecionado);
 			
-				JOptionPane.showMessageDialog(this, clienteNome + numeroPedido + livros,"INFORMAÇÕES DO PEDIDO", JOptionPane.OK_CANCEL_OPTION);
-				
-			}
+					
+			Object[][] data = ((MyTableModelPedido)table.getModel()).getData();
+			int id = (int)data[table.getSelectedRow()][0];
+
+			PATH = PATH.concat(id + " - " + data[id][1].toString() + ".pdf");
+			try {
+				Desktop.getDesktop().open(new File(PATH));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+			
 		}
 	}
 
@@ -332,9 +336,9 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 		repintarTabela();
 		
 		for(int i = 0; i < PedidoManager.getInstance().getPedidos().size(); i++){
-			if(PedidoManager.getInstance().getPedidos().get(i).getStatusDoPagamento() == StatusDoPagamento.PAGO){
-				total += PedidoManager.getInstance().getPedidos().get(i).getPreco();
-			}
+			//if(PedidoManager.getInstance().getPedidos().get(i).getStatusDoPagamento() == StatusDoPagamento.PAGO){
+				//total += PedidoManager.getInstance().getPedidos().get(i).getPreco();
+			//}
 		}
 		
 		NumberFormat nf = NumberFormat.getCurrencyInstance();  
@@ -356,21 +360,23 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 
 class MyTableModelPedido extends AbstractTableModel {
 	
-	private static Boolean DEBUG;
+	private static Boolean DEBUG = true;
 	
-    private String[] columnNames = {"ID",
+    private String[] columnNames = {"Nº",
                                     "CLIENTE",
                                     "LIVROS",
                                     "PREÇO",
-                                    "FORMA DE ENTREGA",
                                     "FORMA DE PAGAMENTO",
-                                    "ESTATUS ENTREGA",
-                                    "ESTATUS PAGAMENTO",
                                     "ESTATUS DO PEDIDO",
-                                    "DATA",
-                                    "TIPO"};
+                                    "TIPO", 
+                                    "DATA"};
    
     private Object[][] data;
+    
+    public Object[][] getData()
+    {
+    	return data;
+    }
     
     public MyTableModelPedido(){
     	updateData();
@@ -418,11 +424,7 @@ class MyTableModelPedido extends AbstractTableModel {
     public boolean isCellEditable(int row, int col) {
         //Note that the data/cell address is constant,
         //no matter where the cell appears onscreen.
-        if (col < 2) {
-            return false;
-        } else {
-            return true;
-        }
+       return false;
     }
 
     /*
