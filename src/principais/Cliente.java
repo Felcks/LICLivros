@@ -74,8 +74,18 @@ public class Cliente implements Comparable<Cliente> {
 				return false;
 		}
 		
-		return true;
+		return true;	
+	}
+	
+	public Boolean isValidClienteParaPedido()
+	{
+		if(this.getNome().length() == 0 || this.getTelefone().length() == 0 ||
+		   this.getBairro().length() == 0 || this.getRua().length() == 0)
+		{
+			return false;
+		}
 		
+		return true;
 	}
 	
 	public Object[] pegarTodosParametros(){

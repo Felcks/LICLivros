@@ -15,14 +15,14 @@ public class JavaConnection {
 		try{
 			Class.forName("org.sqlite.JDBC");
 			connection = DriverManager.getConnection("jdbc:sqlite:liclivros.sqlite");
-			System.out.println("CONEXÃO ESTABELECIDA");
+			//System.out.println("CONEXÃO ESTABELECIDA");
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
 	
 	public void closeConnections(){
-		System.out.println("CONEXÃO FECHADA");
+		//System.out.println("CONEXÃO FECHADA");
 	  	if (resultSet != null) {
 	        try {
 	        	resultSet.close();

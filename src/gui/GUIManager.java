@@ -27,6 +27,7 @@ public class GUIManager{
 	private TelaPedidoPacote telaPedidoPacote;
 	private TelaPedidoPacoteAvulso telaPedidoPacoteAvulso;
 	private TelaPedidoFinalizacao telaPedidoFinalizacao;
+	private TelaPedidoUnico telaPedidoUnico;
 	private TelaPedido telaPedido;
 	private TelaEscola telaEscola;
 	
@@ -45,6 +46,7 @@ public class GUIManager{
 		this.telaPedidoPacote = new TelaPedidoPacote(this);
 		this.telaPedidoPacoteAvulso = new TelaPedidoPacoteAvulso(this);
 		this.telaPedidoFinalizacao = new TelaPedidoFinalizacao(this);
+		this.telaPedidoUnico = new TelaPedidoUnico(this);
 		this.telaEscola = new TelaEscola(this);
 		this.telaPedido = new TelaPedido(this);
 		this.cards.add(this.telaInicial, "telaInicial");
@@ -58,7 +60,8 @@ public class GUIManager{
 		this.cards.add(this.telaPedidoFinalizacao, "telaPedidoFinalizacao");
 		this.cards.add(this.telaEscola, "telaEscola");		
 		this.cards.add(this.telaPedido, "telaPedido");
-		this.mudarParaTela("telaInicial");
+		this.cards.add(this.telaPedidoUnico, "telaPedidoUnico");
+		this.mudarParaTela("telaPedidoUnico");
 	}
 	
 	private void criarJanela(){

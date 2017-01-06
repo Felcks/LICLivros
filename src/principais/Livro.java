@@ -139,7 +139,7 @@ public class Livro {
 		Object[] todosParametros = new Object[4];
 		todosParametros[0] = this.getNome();
 		todosParametros[1] = this.getEditora();
-		todosParametros[2] = this.getQuantidade();
+		todosParametros[2] = 1;
 		NumberFormat nf = NumberFormat.getCurrencyInstance();  
 		String formatado = nf.format (this.getPreco());
 		todosParametros[3] = formatado;

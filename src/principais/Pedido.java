@@ -21,6 +21,7 @@ public class Pedido {
 	private Cliente cliente;
 	private Pacote pacote;
 	private int[] idsDosLivrosComprados;
+	private int[] qtdDosLivrosComprados;
 	private Double preco;
 	private Double precoNormal;
 	private int desconto;
@@ -74,7 +75,7 @@ public class Pedido {
 			this.data = rs.getString("DATA");
 			
 			try{
-				System.out.println(rs.getString("OBS"));
+				//System.out.println(rs.getString("OBS"));
 				this.setTipoPedido(TipoPedido.valueOf(rs.getString("OBS")));
 			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
 		}
@@ -111,7 +112,7 @@ public class Pedido {
 		object[3] = formatado;
 		object[4] = this.getFormaDeEntrega().getNome();
 		object[5] = this.getFormaDePagamento().getNome();
-		System.out.println(this.cliente.getNome());
+		//System.out.println(this.cliente.getNome());
 		object[6] = this.getStatusDaEntrega().getNome();
 		object[7] = this.getStatusDoPagamento().getNome();
 		object[8] = this.getStatus().getNome();
@@ -290,7 +291,7 @@ public class Pedido {
 		String concatMin = (min > 9) ? "" : "0";
 		
 		this.data = concatDay + day + "/" + concatMonth + month + "/" + year + " - " + concatHora + hour + ":" + concatMin + min + "h";
-		System.out.println(data);
+		//System.out.println(data);
 	}
 
 	public TipoPedido getTipoPedido() {

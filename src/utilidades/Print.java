@@ -42,8 +42,8 @@ import principais.TipoPedido;
 public class Print {
 	Document document =  null;
 	private OutputStream os = null;
-	private String PATH = "venda_n";
-	private String PATH_RELATORIO = "relatorio_";
+	private String PATH = "PEDIDOS/";
+	private String PATH_RELATORIO = "RELATÓRIOS/";
 	private List<Livro> livros = new ArrayList<>();
 	private double valorTotal = 0;
 	
@@ -60,7 +60,7 @@ public class Print {
 		try{
 			StringBuilder sb_PATH = new StringBuilder();
 			sb_PATH.append(PATH);
-			sb_PATH.append(pedido.getId());
+			sb_PATH.append(pedido.getId() + " - " + pedido.getCliente().getNome());
 			sb_PATH.append(".pdf");
 			document = new Document(PageSize.A4);
 			os = new FileOutputStream(sb_PATH.toString());
@@ -76,7 +76,7 @@ public class Print {
 			document.add(tableSpecs(fontSubTittle, fontSubTittle2));
 			document.add(tableClientSpecs(fontSubTittle, fontSubTittle2, pedido));
 			document.add(tableOrders(pedido));
-			document.add(tableBooks(livros,fontSubTittle, fontSubTittle2, pedido));
+			document.add(tableBooks(livros,fontSubTittle, fontSubTittle2, fontSubTittle3, pedido));
 			document.add(tableTotal(valorTotal));
 			
 			Desktop.getDesktop().open(new File(sb_PATH.toString()));
@@ -92,21 +92,21 @@ public class Print {
 	
 	public void printRelatorio() throws DocumentException, IOException{
 		try{
-			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			Calendar cal = Calendar.getInstance();
 			
 			StringBuilder sb_PATH = new StringBuilder();
 			sb_PATH.append(PATH_RELATORIO);
 			sb_PATH.append(dateFormat.format(cal.getTime()).toString());
+			sb_PATH.append("_parcial");
 			sb_PATH.append(".pdf");
 			
 			for(int i = 0; i < EditoraManager.getInstance().getEditoras().size(); i++){
 				String editoraName = EditoraManager.getInstance().getEditoras().get(i).getNome();
 				for(int j = 0; j < EstoqueManager.getInstance().getLivrosDeUmaEditora(editoraName).size(); j++){
 					livros.add(EstoqueManager.getInstance().getLivrosDeUmaEditora(editoraName).get(j));
-				
 				}
-		}
+			}
 		
 		document = new Document(PageSize.A4);
 		os = new FileOutputStream(sb_PATH.toString());
@@ -196,14 +196,14 @@ public class Print {
 	}
 	
 	private PdfPTable tableOrders(Pedido p){
-		Paragraph orderNumber = new Paragraph("PEDIDO NÚMERO: " + p.getId() , new Font(FontFamily.HELVETICA, 12, Font.BOLD));
+		Paragraph orderNumber = new Paragraph("PEDIDO NÚMERO: " + p.getId() , new Font(FontFamily.HELVETICA, 14, Font.BOLD));
 		
 		PdfPTable table = new PdfPTable(2);
 		table.setWidthPercentage(100f);
 		
 		PdfPCell header = new PdfPCell();
 		header.setMinimumHeight(30);
-		header.setVerticalAlignment(Element.ALIGN_MIDDLE);
+		header.setVerticalAlignment(Element.ALIGN_CENTER);
 		header.setHorizontalAlignment(Element.ALIGN_CENTER);
 		header.addElement(orderNumber);
 		header.setColspan(2);
@@ -230,7 +230,7 @@ public class Print {
 		
 		Phrase phrasePhone = new Phrase();
 		phrasePhone.add(new Chunk("Telefone: ", f));
-		phrasePhone.add(new Chunk(p.getCliente().getCelular() + "/ " + p.getCliente().getTelefone(), f2));
+		phrasePhone.add(new Chunk(p.getCliente().getTelefone() + " / " + p.getCliente().getCelular(), f2));
 		
 		Phrase phraseAdressAddOn = new Phrase();
 		phraseAdressAddOn.add(new Chunk("Complemento: ", f));
@@ -241,13 +241,16 @@ public class Print {
 		phraseNeighboor.add(new Chunk(p.getCliente().getBairro(), f2));
 	 	
 		Phrase phraseObs = new Phrase();
-		phraseObs.add(new Chunk("Observação: ", f));
-		phraseObs.add(new Chunk(p.getFormaDeEntrega() + " / " + p.getFormaDePagamento() + " / " + p.getTipoPedido().toString(), f2));
+		phraseObs.add(new Chunk("Pagamento: ", f));
+		phraseObs.add(new Chunk( p.getFormaDePagamento().getNome(), f2));
 		
 		Phrase phraseDate = new Phrase();
 		phraseDate.add(new Chunk("Data: ", f));
 		phraseDate.add(new Chunk(dateFormat.format(cal.getTime()), f2));
-
+		
+		Phrase phraseSchool = new Phrase();
+		phraseSchool.add(new Chunk("Escola: ", f));
+		phraseSchool.add(new Chunk(p.getPacote().getEscola().getNome() + " - " + p.getPacote().getAnoEscolar().getNome(), f2));
 		
 		PdfPTable table = new PdfPTable(2);
 		PdfPCell cellName = new PdfPCell(phraseName);
@@ -258,26 +261,44 @@ public class Print {
 		PdfPCell cellNeighboor = new PdfPCell(phraseNeighboor);
 		PdfPCell cellObs = new PdfPCell(phraseObs);
 		PdfPCell cellDate = new PdfPCell(phraseDate);
+		PdfPCell cellSchool = new PdfPCell(phraseSchool);
+		
+		Phrase orderNumber = new Phrase("Obs: ", f);
+		Phrase obs = new Phrase("aaa", f2);
+		Phrase merge = new Phrase();
+		merge.add(orderNumber);
+		merge.add(obs);
+		
+		PdfPCell header = new PdfPCell();
+		header.setFixedHeight(20);
+		//header.setVerticalAlignment(Element.ALIGN_CENTER);
+		header.addElement(merge);
+		header.setColspan(2);
+		//header.setMinimumHeight(5);
+		
 		
 		table.addCell(cellName);
-		table.addCell(cellID);
-		table.addCell(cellAdress);
+		//table.addCell(cellID);
 		table.addCell(cellPhone);
-		table.addCell(cellAdressAddOn);
+		table.addCell(cellAdress);
 		table.addCell(cellNeighboor);
-		table.addCell(cellObs);
+		table.addCell(cellAdressAddOn);
 		table.addCell(cellDate);
+		table.addCell(cellObs);
+		table.addCell(cellSchool);
+		table.addCell(header);
 		table.setWidthPercentage(100f);
+		
 		return table;
 	}
 	
-	private PdfPTable tableBooks(List<Livro> list, Font f, Font f2, Pedido p){
+	private PdfPTable tableBooks(List<Livro> list, Font f, Font f2, Font f3, Pedido p){
 		
-		PdfPTable table = new PdfPTable(new float[] {1.5f, 4, 1.25f, 1.25f, 1, 1.25f});
+		PdfPTable table = new PdfPTable(new float[] {1.5f, 4.5f, 0.75f, 1.25f, 1, 1.25f});
 		table.setWidthPercentage(100f);
-		PdfPCell cellReferencia = new PdfPCell(new Phrase(new Chunk("Referência", f)));
-		PdfPCell cellDescrição = new PdfPCell(new Phrase(new Chunk("Descrição", f)));
-		PdfPCell cellQuantidade = new PdfPCell(new Phrase(new Chunk("Quantidade", f)));
+		PdfPCell cellReferencia = new PdfPCell(new Phrase(new Chunk("Editora", f)));
+		PdfPCell cellDescrição = new PdfPCell(new Phrase(new Chunk("Livro", f)));
+		PdfPCell cellQuantidade = new PdfPCell(new Phrase(new Chunk("Qtd", f)));
 		PdfPCell cellPreco = new PdfPCell(new Phrase(new Chunk("Preço", f)));
 		PdfPCell cellDesconto = new PdfPCell(new Phrase(new Chunk("Desconto", f)));
 		PdfPCell cellTotal = new PdfPCell(new Phrase(new Chunk("Total", f)));
@@ -295,18 +316,18 @@ public class Print {
 				if(id >= 0){
 					double total = (((p.getPacote().getLivros().get(i).getPreco() * (p.getDesconto()) / 100)));
 					total = p.getPacote().getLivros().get(i).getPreco() - total;
-					table.addCell(new PdfPCell(new Phrase(p.getPacote().getLivros().get(i).getEditora())));
-					table.addCell(new PdfPCell(new Phrase(p.getPacote().getLivros().get(i).getNome())));
-					table.addCell(new PdfPCell(new Phrase(String.valueOf(1))));
+					table.addCell(new PdfPCell(new Phrase(p.getPacote().getLivros().get(i).getEditora(), f2)));
+					table.addCell(new PdfPCell(new Phrase(p.getPacote().getLivros().get(i).getNome(), f2)));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(1), f2)));
 					
 					NumberFormat nf = NumberFormat.getCurrencyInstance();  
 					String precoFormatado = nf.format (p.getPacote().getLivros().get(i).getPreco());
-					table.addCell(new PdfPCell(new Phrase(precoFormatado)));
+					table.addCell(new PdfPCell(new Phrase(precoFormatado, f2)));
 					
-					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getDesconto()+ "%"))));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getDesconto()+ "%"), f2)));
 					
 					String totalFormatado = nf.format(total);
-					table.addCell(new PdfPCell(new Phrase(totalFormatado)));
+					table.addCell(new PdfPCell(new Phrase(totalFormatado, f2)));
 					valorTotal = valorTotal + total;
 				}
 			}
@@ -319,18 +340,18 @@ public class Print {
 					Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
 					float novoPreco = (float) ((livro.getPreco() * p.getDesconto()) / 100);
 					novoPreco = (float)livro.getPreco() - novoPreco;
-					table.addCell(new PdfPCell(new Phrase(livro.getEditora())));
-					table.addCell(new PdfPCell(new Phrase(livro.getNome())));
-					table.addCell(new PdfPCell(new Phrase(String.valueOf(1))));
+					table.addCell(new PdfPCell(new Phrase(livro.getEditora(), f2)));
+					table.addCell(new PdfPCell(new Phrase(livro.getNome(), f2)));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(1), f2)));
 					
 					NumberFormat nf = NumberFormat.getCurrencyInstance();  
 					String precoFormatado = nf.format (livro.getPreco());
-					table.addCell(new PdfPCell(new Phrase(precoFormatado)));
+					table.addCell(new PdfPCell(new Phrase(precoFormatado, f2)));
 					
-					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getDesconto()+ "%"))));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getDesconto()+ "%"), f2)));
 					
 					String novoPrecoFormatado = nf.format(novoPreco);
-					table.addCell(new PdfPCell(new Phrase(novoPrecoFormatado)));
+					table.addCell(new PdfPCell(new Phrase(novoPrecoFormatado, f2)));
 					valorTotal = valorTotal + novoPreco;
 				}
 			}

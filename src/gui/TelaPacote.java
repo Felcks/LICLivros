@@ -239,7 +239,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		});
 		
 		
-		this.guiManager.getCards().add(this, "telaRegistrarLivro");
+		//this.guiManager.getCards().add(this, "telaRegistrarLivro");
 	}
 	
 	private void checarId(String text, JTextField[] textFields){

@@ -252,7 +252,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		
 		prepararParaAcao(Acao.ADICIONAR, textFields);
 		
-		this.guiManager.getCards().add(this, "telaRegistrarLivro");
+		//this.guiManager.getCards().add(this, "telaRegistrarLivro");
 	}
 	
 	private void minimizarTamanhoDaColuna(JTable table, int index, int tam){
