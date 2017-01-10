@@ -231,7 +231,6 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 			}
 		});
 				
-		//this.guiManager.getCards().add(this);
 	}
 	
 	private void prepararParaAcao(Acao acao, JTextField[] textFields){

@@ -138,4 +138,13 @@ public class EstoqueManager {
 			this.operacoes.UPDATE_DATA(livro);
 		}
 	}
+	
+	public void limparAposRelatorioFinal(){
+		for(int i = 0; i < this.livros.size(); i++){
+			Livro livro = livros.get(i);
+			livro.setComprar(0);
+			livro.setVendidos(0);
+			this.operacoes.UPDATE_DATA(livro);
+		}
+	}
 }

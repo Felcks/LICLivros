@@ -236,8 +236,6 @@ public class TelaPedidoFinalizacao extends JPanel implements IPrepararComponente
 			}
 		});
 	
-
-		this.guiManager.getCards().add(this);
 	}
 	
 	private void aplicarDesconto(String text){

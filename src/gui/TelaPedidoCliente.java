@@ -150,7 +150,6 @@ public class TelaPedidoCliente extends JPanel implements IPrepararComponentes {
 			}
 		});
 		
-		guiManager.getCards().add(this, "telaPedidoCliente");
 	}
 	
 	private void checarNome(String nome, JTextField[] textFields){

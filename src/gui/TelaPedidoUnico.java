@@ -12,6 +12,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -27,6 +28,8 @@ import principais.AnoEscolar;
 import principais.Cliente;
 import principais.Escola;
 import principais.EscolaManager;
+import principais.EstoqueManager;
+import principais.Livro;
 import principais.Pacote;
 import principais.PacoteManager;
 import principais.Pedido;
@@ -125,8 +128,8 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        
        fieldRua = new JTextField();
        c.gridx = prox;
-       c.gridwidth = 12;
-       prox += 12;
+       c.gridwidth = 14;
+       prox += 14;
        c.fill = GridBagConstraints.HORIZONTAL;
        c.anchor = GridBagConstraints.CENTER;
        this.add(fieldRua, c);
@@ -142,8 +145,8 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        
        fieldComplemento = new JTextField();
        c.gridx = prox;
-       c.gridwidth = 6;
-       prox += 6;
+       c.gridwidth = 4;
+       prox += 4;
        c.fill = GridBagConstraints.HORIZONTAL;
        c.anchor = GridBagConstraints.CENTER;
        this.add(fieldComplemento, c);
@@ -264,14 +267,14 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 50;
-		c.gridheight = 10;
+		c.gridheight = 5;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(scrollPane, c);
 		
 		
 		prox = 17;
-		c.gridy = 12;
+		c.gridy = 9;
 		
 		JLabel labelPreco = new JLabel("Preço: ");
 		c.fill = GridBagConstraints.NONE;
@@ -356,7 +359,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	    prox += 2;
 	    c.gridy = 18;
 	    c.fill = GridBagConstraints.BOTH;
-	    this.add(voltarButton, c);
+	    //this.add(voltarButton, c);
 	    
 	    
 	    voltarButton.addActionListener(new ActionListener() {
@@ -411,13 +414,15 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	    
 	    fieldDesconto.setText("0");
 	    aplicarDesconto(fieldDesconto.getText());
-	    repintarTabela();
+	    this.repintarTabela();
 	}
 	
 	private void concluirPedido(){
 		Cliente cliente = criarCliente();
-		if(cliente.isValidClienteParaPedido() == false)
+		if(cliente.isValidClienteParaPedido() == false){
+			JOptionPane.showMessageDialog(this, "Complete as informações.", "Pedido não terminado", JOptionPane.OK_CANCEL_OPTION);
 			return;
+		}
 		
 		Pedido pedido = new Pedido(cliente);
 		pedido.setId(PedidoManager.getInstance().getPedidos().size());
@@ -457,6 +462,25 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		
 		PedidoManager.getInstance().adicionarPedidoEAbrirDoc(pedido);
 		PedidoManager.getInstance().getOperacoes().INSERT_DATA(pedido);
+		
+		for(int i = 0; i < pedido.getIdsDosLivrosComprados().length; i++){
+			Livro livro = EstoqueManager.getInstance().getLivroPeloId(pedido.getIdsDosLivrosComprados()[i]);
+			int quantidadeComprada = pedido.getQtdDosLivrosComprados()[i];
+			livro.setVendidos(livro.getVendidos() + quantidadeComprada);
+			for(int j = 0; j < quantidadeComprada; j++){
+				if(livro.getQuantidade() > 0)
+					livro.setQuantidade(livro.getQuantidade() - 1);
+				else
+					livro.setComprar(livro.getComprar() + 1);
+			}
+
+			EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
+			EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
+		}
+		
+		
+		JOptionPane.showMessageDialog(this, "Pedido realizado com sucesso!", "Pedido concluído!", JOptionPane.INFORMATION_MESSAGE);
+		guiManager.mudarParaTela("telaInicial2");
 	}
 	
 	private Cliente criarCliente()
@@ -544,7 +568,23 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	
 	public void prepararComponentes()
 	{
-	
+		this.repintarTabela();
+		if(fieldNome != null)
+			fieldNome.setText("");
+		if(fieldBairro != null)
+			fieldBairro.setText("");
+		if(fieldComplemento != null)
+			fieldComplemento.setText("");
+		if(fieldTelefone != null)
+			fieldTelefone.setText("");
+		if(fieldCel != null)
+			fieldCel.setText("");
+		if(fieldObs != null)
+			fieldObs.setText("");
+		if(fieldRua != null)
+			fieldRua.setText("");
+		if(fieldDesconto != null)
+			fieldDesconto.setText("");
 	}
 	
 	private void minimizarTamanhoDaColuna(JTable table, int index, int tam, Boolean goLeft)

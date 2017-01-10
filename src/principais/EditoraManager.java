@@ -53,7 +53,6 @@ public class EditoraManager {
 	
 	public void adicionarNovaEditora(Editora editora){
 		this.editoras.add(editora);
-		System.out.println("nome da editora" + editora.getNome());
 	}
 	public void removerEditora(int index){
 		this.editoras.remove(index);

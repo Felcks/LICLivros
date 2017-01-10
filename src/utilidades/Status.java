@@ -1,7 +1,7 @@
 package utilidades;
 
 public enum Status {
-	EM_ANDAMENTO("Em andamento"), PRONTO("Pronto!"), CANCELADO("Cancelado");
+	EM_ANDAMENTO("EM ANDAMENTO"), PRONTO("PRONTO"), CANCELADO("CANCELADO");
 	
 	private String nome;
 	

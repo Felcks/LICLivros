@@ -1,9 +1,11 @@
 package principais;
 
 import java.sql.*;
+import java.text.Normalizer;
 import java.text.NumberFormat;
+import java.util.Comparator;
 
-public class Livro {
+public class Livro implements Comparator<Livro> {
 	
 	private int id;
 	private String nome;
@@ -35,29 +37,20 @@ public class Livro {
 	
 	public Livro(String[] campos){
 		try{
-			this.setNome(campos[1]);
-			this.setEditora(campos[2]);
+			this.setNome(campos[0]);
+			this.setEditora(campos[1]);
 			
 			this.setQuantidade(0);
-			this.setQuantidade(Integer.parseInt(campos[3]));
-		}
-		catch (Exception e){}
-		
-		try{
-			this.setComprar(0);
-			this.setComprar(Integer.parseInt(campos[4]));
+			this.setQuantidade(Integer.parseInt(campos[2]));
 		}
 		catch(Exception e){}
 		
-		try{
-			this.setVendidos(0);
-			this.setVendidos(Integer.parseInt(campos[5]));
-		}
-		catch(Exception e){}
+		this.setComprar(0);
+		this.setVendidos(0);
 		
 		try{
 			this.setPreco(0);
-			this.setPreco(Double.parseDouble(campos[6]));
+			this.setPreco(Double.parseDouble(campos[3]));
 		}
 		catch(Exception e){}
 	}
@@ -220,5 +213,17 @@ public class Livro {
 	}
 	public void setPreco(double preco){
 		this.preco = preco;
+	}
+
+	@Override
+	public int compare(Livro arg0, Livro arg1) {
+		// TODO Auto-generated method stub
+		CharSequence cs0 = arg0.getEditora().toUpperCase();
+		String editora0 = Normalizer.normalize(cs0, Normalizer.Form.NFKD);
+		
+		CharSequence cs1 = arg1.getEditora().toUpperCase();
+		String editora1 = Normalizer.normalize(cs1, Normalizer.Form.NFKD);
+		
+		return editora0.compareToIgnoreCase(editora1);
 	}
 }

@@ -34,12 +34,14 @@ import principais.ClienteManager;
 import principais.Escola;
 import principais.EscolaManager;
 import principais.EstoqueManager;
+import principais.Livro;
 import principais.Pedido;
 import principais.PedidoManager;
 import principais.TipoPedido;
 import utilidades.Acao;
 import utilidades.Screen;
 import utilidades.ServicoDeDigito;
+import utilidades.Status;
 import utilidades.StatusDaEntrega;
 import utilidades.StatusDoPagamento;
 
@@ -64,7 +66,7 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
         c.weighty = 1;
         
         for(int i = 0; i < 24; i ++){
-        	for(int j = 0; j < 24; j++){
+        	for(int j = 0; j < 40; j++){
         		c.gridx = i;
         		c.gridy = j;
         		c.fill = GridBagConstraints.BOTH;
@@ -121,80 +123,42 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 		c.gridheight = 14;
 		this.add(scrollPane, c);
 		
-		
-		
-		int posAtual = 6;
-		int[] gridWidth = { 1, 4, 4 };
-		JTextField textField = new JTextField();
-		JComboBox[] comboBoxes = new JComboBox[2];
-		comboBoxes[0] = new JComboBox(StatusDaEntrega.getTodosNomesStatus());
-		comboBoxes[1] = new JComboBox(StatusDoPagamento.getTodosNomesStatus());
+		JLabel statusLabel = new JLabel("Status do pedido: ");
+		c.gridx = 11;
 		c.gridy = 19;
-		c.gridheight = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.PAGE_START;
-		for(int i = 0; i < 3; i++){
-			c.gridwidth = gridWidth[i];
-			c.gridx = posAtual;
-			if(i == 0){
-				this.add(textField, c);
-			}
-			else{
-				this.add(comboBoxes[i-1], c);
-			}
-			posAtual
-			+= gridWidth[i];
-		}
-		String[] text = { "ID", "STATUS DA ENTREGA", "STATUS DO PAGAMENTO" };
-		JLabel[] labels = new JLabel[3];
-		posAtual = 6;
-		c.gridy = 18;
+		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.fill = GridBagConstraints.NONE;
-		c.anchor = GridBagConstraints.PAGE_END;
-		for(int i = 0; i < 3; i++){
-			c.gridwidth = gridWidth[i];
-			c.gridx = posAtual;
-			labels[i] = new JLabel(text[i]);
-			this.add(labels[i], c);
-			posAtual += gridWidth[i];
-		}
+		this.add(statusLabel, c);
+		
+		String[] allStatus = new String[Status.values().length];
+		for(int i = 0; i < Status.values().length; i++)
+			allStatus[i] = Status.values()[i].getNome();
+		JComboBox boxStatus = new JComboBox(allStatus);
+		c.gridx = 12;
+		c.gridy = 19;
+		c.gridwidth = 2;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.NONE;
+		this.add(boxStatus,c);
+	
 		
 		String[] acoes = {Acao.ATUALIZAR.toString(), Acao.ABRIR_DOCUMENTO.toString()};
 		JComboBox comboBoxAcoes = new JComboBox(acoes);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridwidth = 3;
+		c.gridwidth = 1;
 		c.gridheight = 1;
-		c.gridx = 6;
+		c.gridx = 11;
 		c.gridy = 20;
 		this.add(comboBoxAcoes, c);
-		
-		JLabel txt_totalArrecadado = new JLabel("Total Arrecadado:");
-		txt_totalArrecadado.setFont(txt_totalArrecadado.getFont().deriveFont(20F));
-		c.gridx = 8;
-		c.gridy = 21;
-		c.gridwidth = 1;
-		c.anchor = GridBagConstraints.LAST_LINE_END;
-		c.fill = GridBagConstraints.NONE;
-		this.add(txt_totalArrecadado, c);
-		
-		textField_arrecadado = new JTextField();
-		textField_arrecadado.setBackground(Color.LIGHT_GRAY);
-		c.gridx = 9;
-		c.gridwidth = 2;
-		c.anchor = GridBagConstraints.LINE_START;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		textField_arrecadado.setEditable(false);
-		this.add(textField_arrecadado, c);
 
-		JButton btn_fazerAcao = new JButton("Fazer Ação!");
+		JButton btn_fazerAcao = new JButton("Confirmar!");
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 9;
+		c.gridx = 12;
 		c.gridy = 20;
-		c.gridwidth = 6;
+		c.gridwidth = 3;
 		this.add(btn_fazerAcao, c);
-		
 		
 		JButton btn_Voltar = new JButton("Voltar");
 		c.fill = GridBagConstraints.BOTH;
@@ -202,7 +166,7 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 		c.gridy = 23;
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		this.add(btn_Voltar, c);
+		//this.add(btn_Voltar, c);
 		
 		btn_Voltar.addActionListener(new ActionListener() {
 			@Override
@@ -211,88 +175,89 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 			}
 		});
 		
-		textField.getDocument().addDocumentListener(new DocumentListener() {	
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				checarId(textField.getText(), comboBoxes, textField);
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				checarId(textField.getText(), comboBoxes, textField);
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent arg0) {
-				checarId(textField.getText(), comboBoxes, textField);
-			}
-		});
-		
 		btn_fazerAcao.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Acao acao = Acao.NENHUMA;
 				acao = Acao.valueOf(comboBoxAcoes.getSelectedItem().toString());
-				fazerAcao(comboBoxes, textField, table, acao);
+				fazerAcao(boxStatus, table, acao);
 			}
 		});
      
-		guiManager.getCards().add(this);
 	}
 	
-	private void fazerAcao(JComboBox[] comboBoxes, JTextField textField, JTable table, Acao acao) throws ArrayIndexOutOfBoundsException {
-		//AQUI PEGAMOS TODOS OS TEXTOS DOS CAMPOS E ORDENAMOS A LISTA EM ORDEM NUMERAL ANTES DE QUALQUER AÇÃO
-		JTextField[] a = { textField };
-		String[] camposEmTexto = servicoDeDigito.transformarCamposEmTexto(a);
+	private void fazerAcao(JComboBox comboBox,  JTable table, Acao acao) throws ArrayIndexOutOfBoundsException {
+		int id = -1;
+		id = table.getSelectedRow();
+		if(id == -1){
+			JOptionPane.showMessageDialog(this, "Selecione um pedido.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+			return;
+		}
 		
 		if (acao == Acao.ATUALIZAR){
-			String idSelecionado = camposEmTexto[0];
-			int id = -1;
-			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
-			if(id >= 0 && id < PedidoManager.getInstance().getPedidos().size()){
-				Pedido velhoPedido = PedidoManager.getInstance().getPedidos().get(id);
-				Pedido novoPedido = new Pedido(comboBoxes[0].getSelectedItem().toString(), comboBoxes[1].getSelectedItem().toString());
-				
-				String mensage = "";
-				/*if(novoPedido.getStatusDaEntrega() != velhoPedido.getStatusDaEntrega()){
-					mensage = mensage.concat(velhoPedido.getStatusDaEntrega().getNome() + " ---> " + novoPedido.getStatusDaEntrega().getNome() + "\n");
-					velhoPedido.setStatusDaEntrega(novoPedido.getStatusDaEntrega());
-					if(novoPedido.getStatusDaEntrega().getNome().equalsIgnoreCase("entregue"))
-						EstoqueManager.getInstance().adicionarDoEstoque(velhoPedido.getIdsDosLivrosComprados());				
+			Pedido velhoPedido = PedidoManager.getInstance().getPedidos().get(id);
+			String novo = comboBox.getSelectedItem().toString();
+			Status novoStatus = Status.EM_ANDAMENTO;
+			for(int i = 0; i < Status.values().length; i++){
+				if(novo.equals(Status.values()[i].getNome())){
+					novoStatus = Status.values()[i];
+					break;
 				}
-				if(novoPedido.getStatusDoPagamento() != velhoPedido.getStatusDoPagamento()){
-					mensage = mensage.concat(velhoPedido.getStatusDoPagamento().getNome() + " ---> " + novoPedido.getStatusDoPagamento().getNome() + "\n");
-					velhoPedido.setStatusDoPagamento(novoPedido.getStatusDoPagamento());
-					
-					if(novoPedido.getStatusDoPagamento() == StatusDoPagamento.PAGO){
-						NumberFormat nf = NumberFormat.getCurrencyInstance();  
-						total += velhoPedido.getPreco();
-						String formatado = nf.format (total);
-						textField_arrecadado.setText(formatado);
-					}
-				}*/
-				
-				if(mensage.length() > 0){
-					JOptionPane.showMessageDialog(this, velhoPedido.getCliente().getNome() + "\n" + mensage	,"Atualizacao bem sucedida!", JOptionPane.INFORMATION_MESSAGE);
-					PedidoManager.getInstance().atualizarPedido(id, velhoPedido);
-					this.repintarTabela();
-					
-					OperacoesPedidos opc = new OperacoesPedidos();
-					opc.UPDATE_DATA(velhoPedido);
-				}
-				else
-					JOptionPane.showMessageDialog(this, "Não há informação a ser atualizada","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
 			}
+			
+			if(novoStatus == Status.CANCELADO && velhoPedido.getStatus() == Status.EM_ANDAMENTO || 
+												 velhoPedido.getStatus() == Status.PRONTO)
+			{
+				for(int i = 0; i < velhoPedido.getIdsDosLivrosComprados().length; i++){
+					Livro livro = EstoqueManager.getInstance().getLivroPeloId(velhoPedido.getIdsDosLivrosComprados()[i]);
+					int quantidadeComprada = velhoPedido.getQtdDosLivrosComprados()[i];
+					livro.setVendidos(livro.getVendidos() - quantidadeComprada);
+					
+					for(int j = 0; j < quantidadeComprada; j++){
+						if(livro.getComprar() > 0)
+							livro.setComprar(livro.getComprar() - 1);
+						else
+							livro.setQuantidade(livro.getQuantidade() + 1);
+						
+					}
+					
+					EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
+					EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
+				}
+			}
+			else if(novoStatus == Status.EM_ANDAMENTO || novoStatus == Status.PRONTO && velhoPedido.getStatus() == Status.CANCELADO)
+			{
+				for(int i = 0; i < velhoPedido.getIdsDosLivrosComprados().length; i++){
+					Livro livro = EstoqueManager.getInstance().getLivroPeloId(velhoPedido.getIdsDosLivrosComprados()[i]);
+					int quantidadeComprada = velhoPedido.getQtdDosLivrosComprados()[i];
+					livro.setVendidos(livro.getVendidos() + quantidadeComprada);
+					
+					for(int j = 0; j < quantidadeComprada; j++){
+						if(livro.getQuantidade() > 0)
+							livro.setQuantidade(livro.getQuantidade() - 1);
+						else
+							livro.setComprar(livro.getComprar() + 1);	
+					}
+					
+					EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
+					EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
+				}
+			}
+			velhoPedido.setStatus(novoStatus);
+			
+			PedidoManager.getInstance().getOperacoes().UPDATE_DATA(velhoPedido);
+			PedidoManager.getInstance().atualizarPedido(id, velhoPedido);
+			
+			String mensage = "";
+			mensage = mensage.concat("Status do pedido atualizado: " + novoStatus.getNome());
+			JOptionPane.showMessageDialog(this, mensage	,"Atualização concluída!", JOptionPane.INFORMATION_MESSAGE);	
+			this.repintarTabela();
 		}
 		else if(acao == Acao.ABRIR_DOCUMENTO){
 			String PATH = "PEDIDOS/";
-			String idSelecionado = camposEmTexto[0];
-			//int id = servicoDeDigito.transformarStringEmInt(idSelecionado);
 			
-					
 			Object[][] data = ((MyTableModelPedido)table.getModel()).getData();
-			int id = (int)data[table.getSelectedRow()][0];
-
+			
 			PATH = PATH.concat(id + " - " + data[id][1].toString() + ".pdf");
 			try {
 				Desktop.getDesktop().open(new File(PATH));
@@ -300,50 +265,13 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}		
-			
 		}
+		
 	}
 
-	
-	private void checarId(String text, JComboBox[] comboBoxes, JTextField textField){
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run(){
-				String idSelecionado = text;
-				int id = -1;
-				id = servicoDeDigito.transformarStringEmInt(idSelecionado);
-				if(id >= 0 && id < PedidoManager.getInstance().getPedidos().size()){
-					Object[] params = PedidoManager.getInstance().getPedidoPeloId(id).pegarTodosParametros();
-					for(int i = 0; i < 2; i++){
-						if(i == 0){
-						comboBoxes[i].setSelectedItem(StatusDaEntrega.getStatusPeloNome((params[i + 6].toString())).getNome());
-						}
-						else
-						comboBoxes[i].setSelectedItem(StatusDoPagamento.getStatusPeloNome((params[i + 6].toString())).getNome());
-					}
-				}
-				else{
-					textField.setText("");
-				}
-			}
-		};
-		
-		SwingUtilities.invokeLater(runnable);
-	}
-	
 	public void prepararComponentes(){
 		PedidoManager.getInstance().getTodosPedidosBD();
 		repintarTabela();
-		
-		for(int i = 0; i < PedidoManager.getInstance().getPedidos().size(); i++){
-			//if(PedidoManager.getInstance().getPedidos().get(i).getStatusDoPagamento() == StatusDoPagamento.PAGO){
-				//total += PedidoManager.getInstance().getPedidos().get(i).getPreco();
-			//}
-		}
-		
-		NumberFormat nf = NumberFormat.getCurrencyInstance();  
-		String formatado = nf.format (total);
-		textField_arrecadado.setText(formatado);
 	}
 	
 	public void repintarTabela(){
@@ -412,7 +340,6 @@ class MyTableModelPedido extends AbstractTableModel {
      * rather than a check box.
      */
     public Class getColumnClass(int c) {
-    	System.out.println("erro na coluna: " + c);
     	return getValueAt(0, c).getClass();
     	
     }

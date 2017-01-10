@@ -61,7 +61,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
         c.weighty = 1;
         
         for(int i = 0; i < 24; i ++){
-        	for(int j = 0; j < 20; j++){
+        	for(int j = 0; j < 40; j++){
         		c.gridx = i;
         		c.gridy = j;
         		c.fill = GridBagConstraints.BOTH;
@@ -69,38 +69,26 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
         	}
         }
         
-        JTextField[] textFields = new JTextField[2];
-		int[] gridWidth = {1, 6};
+        JTextField fieldName = new JTextField();
+    	c.gridy = 18;
 		int posAtual = 9;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.PAGE_START;
-		c.gridy = 18;
-		for(int i = 0; i < textFields.length; i++){
-			textFields[i] = new JTextField();
-			c.gridx = posAtual;
-			c.gridwidth = gridWidth[i];
-			posAtual += gridWidth[i];
-			this.add(textFields[i],c);
-		}
+		c.gridx = posAtual;
+		c.gridwidth = 6;
+		this.add(fieldName, c);
 		
-		autoSuggestor = new AutoSuggestor(textFields[1], guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
+        autoSuggestor = new AutoSuggestor(fieldName, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
 				Color.white.brighter(), Color.blue, Color.red, 0.75f);
 		
-		
-		String[] columnNames = {"ID", "NOME"};
-		JLabel[] labels = new JLabel[2];
+        JLabel labelName = new JLabel("NOME");
 		posAtual = 9;
 		c.gridy = 17;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.PAGE_END;
-		c.gridwidth = 1;
-		for(int i = 0; i < textFields.length; i++){
-			labels[i] = new JLabel(columnNames[i]);
-			c.gridx = posAtual;
-			c.gridwidth = gridWidth[i];
-			posAtual += gridWidth[i];
-			this.add(labels[i], c);
-		}
+		c.gridwidth = 6;
+		c.gridx = posAtual;
+		this.add(labelName, c);
 
         JLabel txt_Title = new JLabel("PACOTE", SwingConstants.CENTER);
         txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));
@@ -113,22 +101,42 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		c.anchor = GridBagConstraints.CENTER;
 		this.add(txt_Title, c);
 		
+		JLabel labelEscola = new JLabel("ESCOLA: ");
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 2;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.LINE_END;
+		this.add(labelEscola, c);
+		
 		String[] todasEscolas = EscolaManager.getInstance().getTodosNomesEscolas();
 		comboBox = new JComboBox(todasEscolas);
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 2;
 		c.gridheight = 2;
 		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.CENTER;
 		this.add(comboBox,c);
+		
+		JLabel labelAno = new JLabel("ANO: ");
+		c.gridx = 21;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 2;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.LINE_END;
+		this.add(labelAno, c);
 		
 		String[] todosAnos = AnoEscolar.getTodosNomesAnosEscolares();
 		JComboBox comboBoxAno = new JComboBox(todosAnos);
-		c.gridx = 21;
+		c.gridx = 22;
 		c.gridy = 0;
 		c.gridwidth = 2;
 		c.gridheight = 2;
 		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.CENTER;
 		this.add(comboBoxAno,c);
 		
 		this.escolaSelecionada = new Escola(comboBox.getSelectedItem().toString());
@@ -153,17 +161,17 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		JComboBox comboBoxAcoes = new JComboBox(acoes);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridwidth = 2;
+		c.gridwidth = 1;
 		c.gridheight = 1;
-		c.gridx = 9;
+		c.gridx = 10;
 		c.gridy = 19;
 		this.add(comboBoxAcoes, c);
 		
-		JButton btn_fazerAcao = new JButton("Fazer Ação!");
+		JButton btn_fazerAcao = new JButton("Confirmar!");
 		c.fill = GridBagConstraints.HORIZONTAL;;
-		c.gridx = 11;
+		c.gridx = 12;
 		c.gridy = 19;
-		c.gridwidth = 5;
+		c.gridwidth = 2;
 		c.gridheight = 1;
 		this.add(btn_fazerAcao, c);
 		
@@ -173,13 +181,12 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		c.gridy = 20;
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		this.add(btn_Voltar, c);
+		//this.add(btn_Voltar, c);
 		
-		prepararParaAcao(Acao.ADICIONAR, textFields);
-	
 		btn_Voltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				fieldName.setText("");
 				guiManager.mudarParaTela("telaInicial");
 			}
 		});
@@ -207,65 +214,17 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 			public void actionPerformed(ActionEvent arg0) {
 				Acao acao = Acao.NENHUMA;
 				acao = Acao.valueOf(comboBoxAcoes.getSelectedItem().toString());
-				fazerAcao(textFields, table, acao);
+				fazerAcao(fieldName, table, acao);
+				fieldName.setText("");
 			}
 		});
 		
-		textFields[0].getDocument().addDocumentListener(new DocumentListener() {	
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				checarId(textFields[0].getText(), textFields);
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				checarId(textFields[0].getText(), textFields);
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent arg0) {
-				checarId(textFields[0].getText(), textFields);
-			}
-		});
-		
-
 		comboBoxAcoes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				servicoDeDigito.limparCampos(textFields);
-				Acao acao = Acao.valueOf(comboBoxAcoes.getSelectedItem().toString());
-				prepararParaAcao(acao, textFields);
+				fieldName.setText("");
 			}
-		});
-		
-		
-		//this.guiManager.getCards().add(this, "telaRegistrarLivro");
-	}
-	
-	private void checarId(String text, JTextField[] textFields){
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run(){
-				String idSelecionado = text;
-				int id = -1;
-				id = servicoDeDigito.transformarStringEmInt(idSelecionado);
-				ArrayList<Livro> livrosNoPacote = (ArrayList<Livro>) PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado).getLivros();
-				ArrayList<Integer> idsDosLivros = new ArrayList<Integer>();
-				for(int i = 0; i < livrosNoPacote.size(); i ++)
-					idsDosLivros.add(livrosNoPacote.get(i).getId());
-				
-				if(id >= 0 && id < EstoqueManager.getInstance().getLivros().size() && idsDosLivros.contains(id)){
-					Object[] params = EstoqueManager.getInstance().getLivroPeloId(id).pegarTodosParametros();
-					textFields[1].setText(params[1].toString());
-				}
-				else{
-					servicoDeDigito.limparCampos(textFields);
-					prepararParaAcao(Acao.ATUALIZAR, textFields);
-				}
-			}
-		};
-		
-		SwingUtilities.invokeLater(runnable);
+		});	
 	}
 
 	@Override
@@ -277,42 +236,23 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 			comboBox.addItem(todasEscolas[i]);
 		}
 
+		PacoteManager.getInstance().getOperacoes().GET_AND_SET_ALL_DATA();
+		
 		autoSuggestor = new AutoSuggestor(autoSuggestor.getTextField(), guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
 				  Color.white.brighter(), Color.blue, Color.red, 0.75f);
 		
+		
 		this.repintarTabela();
 	}
-	
-
-	private void prepararParaAcao(Acao acao, JTextField[] textFields){
-		if(acao == Acao.ADICIONAR){
-			textFields[0].setEditable(false);
-			textFields[0].setBackground(Color.lightGray);
-			
-			for(int i = 1; i < textFields.length; i++){
-				textFields[i].setEditable(true);
-				textFields[i].setBackground(Color.WHITE);
-			}
-		}
-		else if(acao == Acao.REMOVER){
-			textFields[0].setEditable(true);
-			textFields[0].setBackground(Color.WHITE);
-			
-			for(int i = 1; i < textFields.length; i++){
-				textFields[i].setEditable(false);
-				textFields[i].setBackground(Color.lightGray);
-			}
-		}
-	}
-	
-	private void fazerAcao(JTextField[] textFields, JTable table, Acao acao){
-		String[] camposEmTexto = servicoDeDigito.transformarCamposEmTexto(textFields);
+		
+	private void fazerAcao(JTextField textField, JTable table, Acao acao){
+		String text = textField.getText();
 		
 		if(acao == Acao.ADICIONAR){
-			Livro livro = EstoqueManager.getInstance().getLivroPeloNome(camposEmTexto[1]);
+			Livro livro = EstoqueManager.getInstance().getLivroPeloNome(text);
 			if(livro.getNome().equals("LivroInexistente"))
 			{
-				JOptionPane.showMessageDialog(this, "Esse livro não consta na tabela de livros.","Erro ao adicionar", JOptionPane.OK_CANCEL_OPTION);
+				JOptionPane.showMessageDialog(this, "Esse livro não está registrado.","Erro ao adicionar", JOptionPane.OK_CANCEL_OPTION);
 			}
 			else if(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado).getLivros().contains(livro))
 			{
@@ -329,25 +269,24 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 			}
 		}
 		else if(acao == Acao.REMOVER){
-			String idSelecionado = camposEmTexto[0];
 			int id = -1;
-			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
-			if(id >= 0){
+			id = table.getSelectedRow();
+			
+			if(id >= 0 && id < PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado).getLivros().size()){
 				Pacote pacoteAtual = PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado);
-				Livro livro = pacoteAtual.getLivroPeloId(id);
-				if(livro.getNome().equals("LivroInexistente")){
-					JOptionPane.showMessageDialog(this, "Esse livro não pertence a esse pacote.","Erro ao remover", JOptionPane.OK_CANCEL_OPTION);
-				}
-				else{
-					JOptionPane.showMessageDialog(this, "Livro removido: " + livro.getNome(), "Removido com sucesso!", JOptionPane.OK_CANCEL_OPTION);
-					pacoteAtual.removerLivro(livro);
-					this.repintarTabela();
-					((OperacoesPacotes)PacoteManager.getInstance().getOperacoes()).DELETE_PACOTE(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado));
-					PacoteManager.getInstance().getOperacoes().INSERT_DATA(pacoteAtual);
-				}
+				Object[][] data = ((MyTableModelPacote)table.getModel()).getData();
+				int idReal = (int)data[id][0];
+				Livro livro = pacoteAtual.getLivroPeloId(idReal);
+				
+				JOptionPane.showMessageDialog(this, "Livro removido: " + livro.getNome(), "Removido com sucesso!", JOptionPane.INFORMATION_MESSAGE);
+				pacoteAtual.removerLivro(livro);
+				this.repintarTabela();
+				((OperacoesPacotes)PacoteManager.getInstance().getOperacoes()).DELETE_PACOTE(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado));
+				PacoteManager.getInstance().getOperacoes().INSERT_DATA(pacoteAtual);
+				
 			}
 			else{
-				JOptionPane.showMessageDialog(this, "Insira um id válido.","Erro ao remover", JOptionPane.OK_CANCEL_OPTION);
+				JOptionPane.showMessageDialog(this, "Selecione um livo para remover.","Erro ao remover", JOptionPane.OK_CANCEL_OPTION);
 			}
 		}
 	}
@@ -385,6 +324,10 @@ class MyTableModelPacote extends AbstractTableModel {
     
     public MyTableModelPacote(Escola escola, AnoEscolar anoEscolar){
     	updateData(escola, anoEscolar);
+    }
+    
+    public Object[][] getData(){
+    	return this.data;
     }
     
     public void updateData(Escola escola, AnoEscolar anoEscolar){
@@ -427,11 +370,7 @@ class MyTableModelPacote extends AbstractTableModel {
     public boolean isCellEditable(int row, int col) {
         //Note that the data/cell address is constant,
         //no matter where the cell appears onscreen.
-        if (col < 2) {
-            return false;
-        } else {
-            return true;
-        }
+        return false;
     }
 
     /*

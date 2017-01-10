@@ -10,6 +10,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -80,7 +82,7 @@ public class Print {
 			document.add(tableTotal(valorTotal));
 			
 			Desktop.getDesktop().open(new File(sb_PATH.toString()));
-			System.out.println("Documento gerado com sucesso!");
+			//System.out.println("Documento gerado com sucesso!");
 		} finally {
 			if(document != null)
 				document.close();
@@ -90,15 +92,15 @@ public class Print {
 		}
 	}
 	
-	public void printRelatorio() throws DocumentException, IOException{
+	public void printRelatorio(String parcialOuFinal) throws DocumentException, IOException{
 		try{
-			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 			Calendar cal = Calendar.getInstance();
 			
 			StringBuilder sb_PATH = new StringBuilder();
 			sb_PATH.append(PATH_RELATORIO);
 			sb_PATH.append(dateFormat.format(cal.getTime()).toString());
-			sb_PATH.append("_parcial");
+			sb_PATH.append(parcialOuFinal);
 			sb_PATH.append(".pdf");
 			
 			for(int i = 0; i < EditoraManager.getInstance().getEditoras().size(); i++){
@@ -113,15 +115,22 @@ public class Print {
 		
 		PdfWriter.getInstance(document, os);
 
-		Font fontSubTittle = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
-		Font fontSubTittle2 = new Font(FontFamily.HELVETICA, 8);
+		Font fontSubTittle = new Font(FontFamily.HELVETICA, 10, Font.BOLD);
+		Font fontSubTittle2 = new Font(FontFamily.HELVETICA, 10);
+		Font fontSubTittle3 = new Font(FontFamily.HELVETICA, 7);
 		
 		
 		document.open();
 		
 		document.add(tableSpecs(fontSubTittle, fontSubTittle2));
+		document.add(tableTitle(parcialOuFinal));
 		document.add(tableRelatorio(livros, fontSubTittle, fontSubTittle2));
 		livros.clear();
+		if(parcialOuFinal.contains("FINAL"))
+			EstoqueManager.getInstance().limparAposRelatorioFinal();
+		
+		Desktop.getDesktop().open(new File(sb_PATH.toString()));
+		
 		
 		} finally {
 			if(document != null)
@@ -134,18 +143,20 @@ public class Print {
 	}
 	
 	private PdfPTable tableRelatorio(List<Livro> l, Font f, Font f2){
-		PdfPTable table = new PdfPTable(new float[] {1, 3, 2, 1.1F, 1.1F, 1.1F, 1.1F});
+		PdfPTable table = new PdfPTable(new float[] { 4, 2, 1.1F, 1.1F, 1.1F, 1.1F});
 		table.setWidthPercentage(100f);
 		
-		PdfPCell cellID = new PdfPCell(new Phrase(new Chunk("ID", f)));
-		PdfPCell cellNome= new PdfPCell(new Phrase(new Chunk("NOME", f)));
-		PdfPCell celEditora = new PdfPCell(new Phrase(new Chunk("EDITORA", f)));
-		PdfPCell cellQuantidade = new PdfPCell(new Phrase(new Chunk("QUANTIDADE", f)));
-		PdfPCell cellComprar = new PdfPCell(new Phrase(new Chunk("COMPRAR", f)));
-		PdfPCell cellVendidos= new PdfPCell(new Phrase(new Chunk("VENDIDOS", f)));
-		PdfPCell cellPreco = new PdfPCell(new Phrase(new Chunk("PRECO", f)));
+		l.sort(((Comparator)new Livro("")));
 		
-		table.addCell(cellID);
+		//PdfPCell cellID = new PdfPCell(new Phrase(new Chunk("ID", f)));
+		PdfPCell cellNome= new PdfPCell(new Phrase(new Chunk("Nome", f)));
+		PdfPCell celEditora = new PdfPCell(new Phrase(new Chunk("Editora", f)));
+		PdfPCell cellQuantidade = new PdfPCell(new Phrase(new Chunk("Qtd", f)));
+		PdfPCell cellComprar = new PdfPCell(new Phrase(new Chunk("Comprar", f)));
+		PdfPCell cellVendidos= new PdfPCell(new Phrase(new Chunk("Vendidos", f)));
+		PdfPCell cellPreco = new PdfPCell(new Phrase(new Chunk("Preço", f)));
+		
+		//table.addCell(cellID);
 		table.addCell(cellNome);
 		table.addCell(celEditora); 
 		table.addCell(cellQuantidade);
@@ -154,16 +165,19 @@ public class Print {
 		table.addCell(cellPreco);
 		
 		for(int i = 0; i < l.size(); i++) {
-			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getId()))));
-			table.addCell(new PdfPCell(new Phrase(l.get(i).getNome())));
-			table.addCell(new PdfPCell(new Phrase(l.get(i).getEditora())));
-			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getQuantidade()))));
-			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getComprar()))));
-			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getVendidos()))));
+			//table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getId()))));
+			if(l.get(i).getComprar() == 0)
+				continue;
+			
+			table.addCell(new PdfPCell(new Phrase(l.get(i).getNome(), f2)));
+			table.addCell(new PdfPCell(new Phrase(l.get(i).getEditora(), f2)));
+			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getQuantidade()),f2)));
+			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getComprar()), f2)));
+			table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getVendidos()), f2)));
 			
 			NumberFormat nf = NumberFormat.getCurrencyInstance();  
 			String precoFormatado = nf.format (l.get(i).getPreco());
-			table.addCell(new PdfPCell(new Phrase(precoFormatado)));
+			table.addCell(new PdfPCell(new Phrase(precoFormatado, f2)));
 		}
 		
 		return table;
@@ -197,6 +211,32 @@ public class Print {
 	
 	private PdfPTable tableOrders(Pedido p){
 		Paragraph orderNumber = new Paragraph("PEDIDO NÚMERO: " + p.getId() , new Font(FontFamily.HELVETICA, 14, Font.BOLD));
+		
+		PdfPTable table = new PdfPTable(2);
+		table.setWidthPercentage(100f);
+		
+		PdfPCell header = new PdfPCell();
+		header.setMinimumHeight(30);
+		header.setVerticalAlignment(Element.ALIGN_CENTER);
+		header.setHorizontalAlignment(Element.ALIGN_CENTER);
+		header.addElement(orderNumber);
+		header.setColspan(2);
+		table.addCell(header);
+		
+		return table;
+	}
+	
+	private PdfPTable tableTitle(String parcialOuFinal){
+		String tipo = "";
+		if(parcialOuFinal.contains("parcial"))
+			tipo = "PARCIAL";
+		else
+			tipo = "FINAL";
+		
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Calendar cal = Calendar.getInstance();
+		
+		Paragraph orderNumber = new Paragraph("RELATÓRIO " + tipo + ": " + dateFormat.format(cal.getTime()).toString() , new Font(FontFamily.HELVETICA, 14, Font.BOLD));
 		
 		PdfPTable table = new PdfPTable(2);
 		table.setWidthPercentage(100f);

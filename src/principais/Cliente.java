@@ -79,7 +79,7 @@ public class Cliente implements Comparable<Cliente> {
 	
 	public Boolean isValidClienteParaPedido()
 	{
-		if(this.getNome().length() == 0 || this.getTelefone().length() == 0 ||
+		if(this.getNome().length() == 0 || this.getTelefone().length() == 0 && this.getCelular().length() == 0 ||
 		   this.getBairro().length() == 0 || this.getRua().length() == 0)
 		{
 			return false;

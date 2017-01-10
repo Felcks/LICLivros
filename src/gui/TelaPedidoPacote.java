@@ -199,7 +199,6 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 			}
 		});
 			
-		this.guiManager.getCards().add(this, "telaPedidoPacote");
 	}
 	
 	private void mostrarAviso(){

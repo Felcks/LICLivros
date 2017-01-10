@@ -53,17 +53,15 @@ public class Pedido {
 			
 			this.setPacote(PacoteManager.getInstance().getPacotePeloId(rs.getInt("PACOTE")));
 			this.setIdsDosLivrosComprados(rs.getString("IDS_DOS_LIVROS"));
+			this.setQtdDosLivrosCompradosEmString(rs.getString("QTD_DOS_LIVROS"));
+			System.out.println(rs.getString("QTD_DOS_LIVROS"));
 			this.setPreco(rs.getDouble("PRECO"));
 			
 			try{
-				System.out.println(rs.getString("FORMA_DE_PAGAMENTO"));
 				this.setFormaDePagamento(FormaDePagamento.valueOf(rs.getString("FORMA_DE_PAGAMENTO")));
-			}catch(java.lang.NullPointerException e){ /*Algo de errado*/ 
-				System.out.println("aa");
-			}
+			}catch(java.lang.NullPointerException e){ /*Algo de errado*/ }
 			
 			try{
-				System.out.println(rs.getString("STATUS"));
 				this.setStatus(Status.valueOf(rs.getString("STATUS")));
 			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
 			
@@ -73,8 +71,7 @@ public class Pedido {
 			try{
 				this.setTipoPedido(TipoPedido.valueOf(rs.getString("TIPO")));
 			}catch(java.lang.NullPointerException e){ /*Algo de errado*/  }
-			}
-		
+		}
 		catch(Exception e){
 		}
 	}
@@ -171,6 +168,16 @@ public class Pedido {
 		
 		return s;
 	}
+	
+	public String getQtdDosLivrosCompradosEmString(){
+		String s = "";
+		for(int i = 0; i < this.getQtdDosLivrosComprados().length; i++){
+			s = s.concat(this.getQtdDosLivrosComprados()[i] + "_");
+		}
+		
+		return s;
+	}
+
 
 	public void setIdsDosLivrosComprados(int[] idsDosLivrosComprados) {
 		this.idsDosLivrosComprados = idsDosLivrosComprados;
@@ -198,6 +205,35 @@ public class Pedido {
 			}
 			else{
 				number = number.concat(idsDosLivrosComprados.substring(i, i+1));
+			}
+		}
+	}
+	
+	public void setQtdDosLivrosCompradosEmString(String qtdDosLivrosCompradosEmString){
+		String number = "";
+		int currentIndex = 0;
+		int tamanho = 0;
+		
+		for(int i = 0; i < qtdDosLivrosCompradosEmString.length(); i++){
+			if(qtdDosLivrosCompradosEmString.charAt(i) == '_')
+			{
+				tamanho++;
+			}
+		}
+		this.qtdDosLivrosComprados = new int[tamanho];
+		
+		for(int i = 0; i < qtdDosLivrosCompradosEmString.length(); i++){
+			if(qtdDosLivrosCompradosEmString.substring(i, i+1).equals("_"))
+			{
+				int n = Integer.parseInt(number);
+				this.qtdDosLivrosComprados[currentIndex] = n;
+				number = "";
+				currentIndex++;
+				
+				//System.out.println();
+			}
+			else{
+				number = number.concat(qtdDosLivrosCompradosEmString.substring(i, i+1));
 			}
 		}
 	}

@@ -8,15 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import bd.OperacoesClientes;
-import bd.OperacoesEditoras;
-import principais.Cliente;
-import principais.ClienteManager;
 import principais.Editora;
 import principais.EditoraManager;
 import utilidades.Acao;
@@ -41,7 +35,7 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
         c.weighty = 1;
         
         for(int i = 0; i < 24; i ++){
-        	for(int j = 0; j < 20; j++){
+        	for(int j = 0; j < 40; j++){
         		c.gridx = i;
         		c.gridy = j;
         		c.fill = GridBagConstraints.BOTH;
@@ -49,34 +43,23 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
         	}
         }
      
-		JTextField[] textFields = new JTextField[2];
+		JTextField fieldName = new JTextField();
 		c.gridy = 18;
-		int[] gridWidth = {1, 3};
 		int posAtual = 9;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.PAGE_START;
-		for(int i = 0; i < textFields.length; i++){
-			textFields[i] = new JTextField();
-			c.gridx = posAtual;
-			c.gridwidth = gridWidth[i];
-			posAtual += gridWidth[i];
-			this.add(textFields[i],c);
-		}
+		c.gridx = posAtual;
+		c.gridwidth = 4;
+		this.add(fieldName, c);
 		
-		String[] columnNames = {"ID", "NOME"};
-		JLabel[] labels = new JLabel[2];
+		JLabel labelName = new JLabel("NOME");
 		posAtual = 9;
 		c.gridy = 17;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.PAGE_END;
-		c.gridwidth = 1;
-		for(int i = 0; i < textFields.length; i++){
-			labels[i] = new JLabel(columnNames[i]);
-			c.gridx = posAtual;
-			c.gridwidth = gridWidth[i];
-			posAtual += gridWidth[i];
-			this.add(labels[i], c);
-		}
+		c.gridwidth = 4;
+		c.gridx = posAtual;
+		this.add(labelName, c);
 		
 
         JLabel txt_Title = new JLabel("EDITORAS", SwingConstants.CENTER);
@@ -113,15 +96,15 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		c.gridx = 9;
+		c.gridx = 10;
 		c.gridy = 19;
 		this.add(comboBox, c);
 		
-		JButton btn_fazerAcao = new JButton("Fazer Ação!");
+		JButton btn_fazerAcao = new JButton("Confirmar!");
 		c.fill = GridBagConstraints.HORIZONTAL;;
-		c.gridx = 10;
+		c.gridx = 11;
 		c.gridy = 19;
-		c.gridwidth = 3;
+		c.gridwidth = 1;
 		this.add(btn_fazerAcao, c);
 		
 		JButton btn_Voltar = new JButton("Voltar");
@@ -130,16 +113,13 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
 		c.gridy = 20;
 		c.gridwidth = 2;
 		c.gridheight = 2;
-		this.add(btn_Voltar, c);
-		
-		prepararParaAcao(Acao.ADICIONAR, textFields);
+		//this.add(btn_Voltar, c);
 		
 		comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				servicoDeDigito.limparCampos(textFields);
 				Acao acao = Acao.valueOf(comboBox.getSelectedItem().toString());
-				prepararParaAcao(acao, textFields);
+				fieldName.setText("");
 			}
 		});
 		
@@ -149,7 +129,8 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
 			public void actionPerformed(ActionEvent arg0) {
 				Acao acao = Acao.NENHUMA;
 				acao = Acao.valueOf(comboBox.getSelectedItem().toString());
-				fazerAcao(textFields, table, acao);
+				fazerAcao(fieldName, table, acao);
+				fieldName.setText("");
 			}
 		});
 		
@@ -157,126 +138,48 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
 		btn_Voltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				fieldName.setText("");
 				guiManager.mudarParaTela("telaInicial");
 			}
-		});
-		
-		
-		textFields[0].getDocument().addDocumentListener(new DocumentListener() {	
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				checarId(textFields[0].getText(), textFields);
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				checarId(textFields[0].getText(), textFields);
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent arg0) {
-				checarId(textFields[0].getText(), textFields);
-			}
-		});
-		
+		});	
+	}
 
-		this.guiManager.getCards().add(this);
-	}
 	
-	private void checarId(String text, JTextField[] textFields){
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run(){
-				String idSelecionado = text;
-				int id = -1;
-				id = servicoDeDigito.transformarStringEmInt(idSelecionado);
-				if(id >= 0 && id < EditoraManager.getInstance().getEditoras().size()){
-					Object[] params = EditoraManager.getInstance().getEditoraPeloId(id).pegarTodosParametros();
-					for(int i = 1; i < 2; i++){
-						textFields[i].setText(params[i].toString());
-						textFields[i].setEditable(true);
-						textFields[i].setBackground(Color.WHITE);
-					}
-				}
-				else{
-					servicoDeDigito.limparCampos(textFields);
-					prepararParaAcao(Acao.ATUALIZAR, textFields);
-				}
-			}
-		};
+	private void fazerAcao(JTextField textField, JTable table, Acao acao) throws ArrayIndexOutOfBoundsException {
+		String text = textField.getText();
 		
-		SwingUtilities.invokeLater(runnable);
-	}
-	
-	private void prepararParaAcao(Acao acao, JTextField[] textFields){
-		if(acao == Acao.ADICIONAR){
-			textFields[0].setEditable(false);
-			textFields[0].setBackground(Color.lightGray);
-			
-			for(int i = 1; i < textFields.length; i++){
-				textFields[i].setEditable(true);
-				textFields[i].setBackground(Color.WHITE);
-			}
+		if(text.length() == 0)
+		{
+			JOptionPane.showMessageDialog(this, "O campo nome encontra-se vazio.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+			return;
 		}
-		else if(acao == Acao.ATUALIZAR){
-			textFields[0].setEditable(true);
-			textFields[0].setBackground(Color.WHITE);
-			
-			for(int i = 1; i < textFields.length; i++){
-				textFields[i].setEditable(false);
-				textFields[i].setBackground(Color.lightGray);
-			}
-		}
-	}
-	
-	private void fazerAcao(JTextField[] textFields, JTable table, Acao acao) throws ArrayIndexOutOfBoundsException {
-		//AQUI PEGAMOS TODOS OS TEXTOS DOS CAMPOS E ORDENAMOS A LISTA EM ORDEM NUMERAL ANTES DE QUALQUER AÇÃO
-		String[] camposEmTexto = servicoDeDigito.transformarCamposEmTexto(textFields);
 		
 		if(acao == Acao.ADICIONAR){
-			if(camposEmTexto[1].length() == 0)
-			{
-				JOptionPane.showMessageDialog(this, "O campo nome encontra-se vazio.","Erro ao Adicionar", JOptionPane.CANCEL_OPTION);
-				return;
-			}
-			Editora editora = new Editora(EditoraManager.getInstance().getEditoras().size(), camposEmTexto[1]);
+			Editora editora = new Editora(EditoraManager.getInstance().getEditoras().size(), text);
 			EditoraManager.getInstance().adicionarNovaEditora(editora);
 			this.repintarTabela();
 			EditoraManager.getInstance().getOperacoes().INSERT_DATA(editora);
-			JOptionPane.showMessageDialog(this, "Nova editora: " + camposEmTexto[1],"Adicionado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
-			servicoDeDigito.limparCampos(textFields);
+			JOptionPane.showMessageDialog(this, "Nova editora: " + text,"Adicionado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else if (acao == Acao.ATUALIZAR){
-			String idSelecionado = camposEmTexto[0];
 			int id = -1;
-			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
-			if(id >= 0 && id < EditoraManager.getInstance().getEditoras().size()){
-				Editora velhaEditora = EditoraManager.getInstance().getEditoras().get(id);
-				Editora novaEditora = new Editora(camposEmTexto[1]);
-				
-				String mensage = "";
-				if(novaEditora.getNome().toString().length() > 0 &&  velhaEditora.getNome().equals(novaEditora.getNome()) == false){
-					mensage = mensage.concat(velhaEditora.getNome() + " ---> " + novaEditora.getNome() + "\n");
-				}
-				
-				if(mensage.length() > 0){
-					JOptionPane.showMessageDialog(this, mensage	,"Atualizacao", JOptionPane.INFORMATION_MESSAGE);
-					novaEditora.setId(velhaEditora.getId());
-					EditoraManager.getInstance().getOperacoes().UPDATE_DATA(novaEditora);
-					servicoDeDigito.limparCampos(textFields);
-					EditoraManager.getInstance().atualizarEditora(id, novaEditora);
-					this.repintarTabela();
-					
-				}
-				else
-					JOptionPane.showMessageDialog(this, "Não há informação para se atualizar.","Erro ao atualizar!", JOptionPane.CANCEL_OPTION);
+			id = table.getSelectedRow();
+			if(id == -1){
+				JOptionPane.showMessageDialog(this, "Selecione uma editora para ser atualizada.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
 			}
-		}
-		else{
-			JOptionPane.showMessageDialog(this, "Id inexistente!","Erro ao remover", JOptionPane.OK_CANCEL_OPTION);
-		}
 			
-
+			Editora velhaEditora = EditoraManager.getInstance().getEditoras().get(id);
+			Editora novaEditora = new Editora(text);	
+			String mensage = "";
+			mensage = mensage.concat("Editora atualizada: " + novaEditora.getNome());
+			JOptionPane.showMessageDialog(this, mensage	,"Atualização concluída!", JOptionPane.INFORMATION_MESSAGE);
+			
+			novaEditora.setId(velhaEditora.getId());
+			EditoraManager.getInstance().getOperacoes().UPDATE_DATA(novaEditora);
+			EditoraManager.getInstance().atualizarEditora(id, novaEditora);
+			this.repintarTabela();
+		}
 	}
 	
 	@Override

@@ -106,20 +106,20 @@ public class TelaInicial extends JPanel{
 		//c.gridx = 21;
 		c.gridy = 17;
 		c.ipadx = 0;
-		this.add(btn_registrarCliente, c);
+		//this.add(btn_registrarCliente, c);
 		
 		JButton btn_registrarPacoteLivros = new JButton("Registrar Pacote de Livros");
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.CENTER;
 		//c.gridx = 21;
-		c.gridy = 18;
+		c.gridy = 17;
 		this.add(btn_registrarPacoteLivros, c);
 		
 		JButton btn_verPedidos = new JButton("Ver Pedidos");
 		c.anchor = GridBagConstraints.CENTER;
 		c.gridwidth = 2;;
 		//c.gridx = 5;
-		c.gridy = 19;
+		c.gridy = 18;
 		this.add(btn_verPedidos, c);
 		
 		JButton btn_pedidoEspecial = new JButton("Fazer pedido avulso");
@@ -189,7 +189,7 @@ public class TelaInicial extends JPanel{
 			}
 		});
 		
-		this.guiManager.getCards().add(this, "telaInicial");
+		//this.guiManager.getCards().add(this, "telaInicial");
 	}
 
 }

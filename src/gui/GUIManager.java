@@ -3,8 +3,14 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import principais.ClienteManager;
@@ -28,12 +34,17 @@ public class GUIManager{
 	private TelaPedidoPacoteAvulso telaPedidoPacoteAvulso;
 	private TelaPedidoFinalizacao telaPedidoFinalizacao;
 	private TelaPedidoUnico telaPedidoUnico;
+	private TelaPedidoUnicoAvulso telaPedidoUnicoAvulso;
 	private TelaPedido telaPedido;
 	private TelaEscola telaEscola;
+	private TelaInicial2 telaInicial2;
+	private TelaRelatorios telaRelatorios;
+	private TelaCredito telaCredito;
 	
 	public GUIManager(){
 		this.criarJanela();
 		this.criarCards();
+		this.createMenuBar();
 
 		this.prepararComponentes();
 		
@@ -44,24 +55,33 @@ public class GUIManager{
 		this.telaEditora = new TelaEditora(this);
 		this.telaPedidoCliente = new TelaPedidoCliente(this);
 		this.telaPedidoPacote = new TelaPedidoPacote(this);
-		this.telaPedidoPacoteAvulso = new TelaPedidoPacoteAvulso(this);
+		//this.telaPedidoPacoteAvulso = new TelaPedidoPacoteAvulso(this);
 		this.telaPedidoFinalizacao = new TelaPedidoFinalizacao(this);
 		this.telaPedidoUnico = new TelaPedidoUnico(this);
+		this.telaPedidoUnicoAvulso = new TelaPedidoUnicoAvulso(this);
 		this.telaEscola = new TelaEscola(this);
 		this.telaPedido = new TelaPedido(this);
-		this.cards.add(this.telaInicial, "telaInicial");
+		this.telaInicial2 = new TelaInicial2(this);
+		this.telaRelatorios = new TelaRelatorios(this);
+		this.telaCredito = new TelaCredito(this);
 		this.cards.add(this.telaEstoque, "telaEstoque");
 		this.cards.add(this.telaPacote, "telaPacote");
 		this.cards.add(this.telaCliente, "telaCliente");
 		this.cards.add(this.telaEditora, "telaEditora");
 		this.cards.add(this.telaPedidoCliente, "telaPedidoCliente");
 		this.cards.add(this.telaPedidoPacote, "telaPedidoPacote");
-		this.cards.add(this.telaPedidoPacoteAvulso, "telaPedidoPacoteAvulso");
+		//this.cards.add(this.telaPedidoPacoteAvulso, "telaPedidoPacoteAvulso");
 		this.cards.add(this.telaPedidoFinalizacao, "telaPedidoFinalizacao");
 		this.cards.add(this.telaEscola, "telaEscola");		
 		this.cards.add(this.telaPedido, "telaPedido");
 		this.cards.add(this.telaPedidoUnico, "telaPedidoUnico");
-		this.mudarParaTela("telaPedidoUnico");
+		this.cards.add(this.telaPedidoUnicoAvulso, "telaPedidoUnicoAvulso");
+		this.cards.add(this.telaInicial, "telaInicial");
+		this.cards.add(this.telaRelatorios, "telaRelatorios");
+		this.cards.add(this.telaCredito, "telaCredito");
+		this.cards.add(this.telaInicial2, "telaInicial2");
+		this.mudarParaTela("telaInicial2");
+		
 	}
 	
 	private void criarJanela(){
@@ -111,6 +131,12 @@ public class GUIManager{
 		else if(tela.equals("telaPedidoFinalizacao")){
 			this.telaPedidoFinalizacao.prepararComponentes();
 		}
+		else if(tela.equals("telaPedidoUnico")){
+			this.telaPedidoUnico.prepararComponentes();
+		}
+		else if(tela.equals("telaPedidoUnicoAvulso")){
+			this.telaPedidoUnicoAvulso.prepararComponentes();
+		}
 		
 		CardLayout cl = (CardLayout)(this.cards.getLayout());
 		cl.show(cards, tela);
@@ -135,6 +161,128 @@ public class GUIManager{
 	
 	public TelaPedidoCliente getTelaPedidoCliente(){
 		return this.telaPedidoCliente;
+	}
+	
+	private void createMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+	    janela.setJMenuBar(menuBar);
+	    
+	    JMenu register = new JMenu("Registrar");
+	    JMenu about = new JMenu("Sobre");
+	    JMenu pedido = new JMenu("Pedido");
+	    JMenu estoque = new JMenu("Estoque");
+	    JMenu relatorio = new JMenu("Relatórios");
+	    menuBar.add(register);
+	    menuBar.add(pedido);
+	    menuBar.add(estoque);
+	    menuBar.add(relatorio);
+	    menuBar.add(about);
+	    
+	    JMenuItem menuItem0 = new JMenuItem("Livros");
+	    menuItem0.setIcon(new ImageIcon("Images/Books.png"));
+	    JMenuItem menuItem1 = new JMenuItem("Editoras");
+	    menuItem1.setIcon(new ImageIcon("Images/Editora.png"));
+	    JMenuItem menuItem2 = new JMenuItem("Escolas");
+	    menuItem2.setIcon(new ImageIcon("Images/Escola.png"));
+	    JMenuItem menuItem3 = new JMenuItem("Pacote de Livros");
+	    menuItem3.setIcon(new ImageIcon("Images/Pacote.png"));
+	    register.add(menuItem0);
+	    register.add(menuItem1);
+	    register.add(menuItem2);
+	    register.add(menuItem3);
+	    
+	    JMenuItem menuItemFazerPedido = new JMenuItem("Fazer Pedido");
+	    menuItemFazerPedido.setIcon(new ImageIcon("Images/Pedido2.png"));
+	    JMenuItem menuItemFazerPedidoAvulso = new JMenuItem("Fazer Pedido Avulso");
+	    menuItemFazerPedidoAvulso.setIcon(new ImageIcon("Images/Pedido2.png"));
+	    JMenuItem menuItemVerPedidos = new JMenuItem("Ver Pedidos");
+	    menuItemVerPedidos.setIcon(new ImageIcon("Images/Pedido.png"));
+	    pedido.add(menuItemFazerPedido);
+	    pedido.add(menuItemFazerPedidoAvulso);
+	    pedido.add(menuItemVerPedidos);
+	    
+	    JMenuItem menuItemCredit = new JMenuItem("Créditos");
+	    menuItemCredit.setIcon(new ImageIcon("Images/Coffe.png"));
+	    about.add(menuItemCredit);
+	    
+	    JMenuItem menuItemEstoque = new JMenuItem("Ver Estoque");
+	    menuItemEstoque.setIcon(new ImageIcon("Images/Books.png"));
+	    estoque.add(menuItemEstoque);
+	    
+	    JMenuItem menuItemRelatorio = new JMenuItem("Imprimir relatórios");
+	    menuItemRelatorio.setIcon(new ImageIcon("Images/Relatorio.png"));
+	    relatorio.add(menuItemRelatorio);
+	    
+	    menuItem0.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mudarParaTela("telaEstoque");	
+			}
+		});
+	    
+	    menuItem1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mudarParaTela("telaEditora");	
+			}
+		});
+	    
+	    menuItem2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mudarParaTela("telaEscola");	
+			}
+		});
+	    
+	    menuItem3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mudarParaTela("telaPacote");
+			}
+		});
+	    
+	    menuItemFazerPedido.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mudarParaTela("telaPedidoUnico");
+			}
+		});
+	    
+	    menuItemVerPedidos.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mudarParaTela("telaPedido");
+			}
+		});
+	    
+	    menuItemEstoque.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mudarParaTela("telaEstoque");
+			}
+		});
+	    
+	    menuItemRelatorio.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mudarParaTela("telaRelatorios");
+			}
+		});
+	    
+	    menuItemCredit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mudarParaTela("telaCredito");
+			}
+		});
+	    
+	    menuItemFazerPedidoAvulso.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mudarParaTela("telaPedidoUnicoAvulso");
+			}
+		});
 	}
 	
 }

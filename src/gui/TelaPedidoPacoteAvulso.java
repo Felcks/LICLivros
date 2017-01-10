@@ -124,7 +124,7 @@ public class TelaPedidoPacoteAvulso extends JPanel implements IPrepararComponent
 		this.add(button, c);
 		
 		
-		this.table = new JTable(new MyTableModelPedidoPacoteAvulso());
+		this.table = new JTable(new TableModelPedidoAvulso());
 		minimizarTamanhoDaColuna(table, 1, 175, true);
 		minimizarTamanhoDaColuna(table, 2, 90, true);
 		minimizarTamanhoDaColuna(table, 3, 90, true);
@@ -191,7 +191,6 @@ public class TelaPedidoPacoteAvulso extends JPanel implements IPrepararComponent
 			}
 		});	
 		
-		this.guiManager.getCards().add(this, "telaPedidoPacote");
 	}
 	
 	private void mostrarAviso(){
@@ -300,7 +299,6 @@ class MyTableModelPedidoPacoteAvulso extends AbstractTableModel {
     }
     
     public void updateData(){
-    	System.out.println("Update data : " + TelaPedidoPacoteAvulso.idsDosLivrosAdicionados.size());
     	data = new Object[TelaPedidoPacoteAvulso.idsDosLivrosAdicionados.size()][];
     	for(int i = 0; i < data.length; i++){
     		Object[] parametros = EstoqueManager.getInstance().getLivroPeloId(TelaPedidoPacoteAvulso.idsDosLivrosAdicionados.get(i)).pegarParametrosParaPedido();

@@ -24,6 +24,7 @@ public class OperacoesPedidos extends JavaConnection implements Operacoes
 				String cliente = pedido.getCliente().getNome();
 				int pacote = pedido.getPacote().getId();
 				String idsLivros = pedido.getIdsDosLivrosCompradosEmString();
+				String qtdLivros = pedido.getQtdDosLivrosCompradosEmString();
 				double preco = pedido.getPreco();
 				String formaPagamento = pedido.getFormaDePagamento().toString();
 				String obs = pedido.getObs();
@@ -32,13 +33,14 @@ public class OperacoesPedidos extends JavaConnection implements Operacoes
 				String status = pedido.getStatus().toString();
 				String data = pedido.getData();
 				
-				String sql = "INSERT INTO PEDIDOS (ID, CLIENTE, PACOTE, IDS_DOS_LIVROS, PRECO,  "
+				String sql = "INSERT INTO PEDIDOS (ID, CLIENTE, PACOTE, IDS_DOS_LIVROS, QTD_DOS_LIVROS, PRECO,  "
 						+ "FORMA_DE_PAGAMENTO, OBS, STATUS, TIPO, DATA)" +
 				"VALUES (" + id + "," + 
 						 "'" + cliente + "'" + "," + 
 						  pacote  + "," +
 						"'" + idsLivros + "'" + "," + 
-						  preco + "," + 
+						"'" + qtdLivros + "'" + "," + 
+						preco + "," + 
 						"'" + formaPagamento + "'" + "," +
 						"'" + obs + "'" + "," +
 						"'" + status + "'" + "," +
