@@ -447,6 +447,18 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		double precoFinal = precoTotal;
 		String precoEmString = fieldFinal.getText().substring(3, fieldFinal.getText().toString().length());
 		precoEmString = precoEmString.replace(',', '.');
+		int count = 0;
+		for(int i = precoEmString.length() - 1; i > 0; i--){
+			if(precoEmString.charAt(i) == '.'){
+				if(count == 0)
+					count++;
+				else{
+					String before = precoEmString.substring(0, i);
+					precoEmString = precoEmString.substring(i + 1, precoEmString.length());
+					precoEmString = before.concat(precoEmString);
+				}
+			}
+		}
 		precoFinal = ((double)Double.parseDouble(precoEmString));
 		pedido.setPreco(precoFinal);
 		

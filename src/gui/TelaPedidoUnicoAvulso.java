@@ -438,13 +438,25 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 		double precoFinal = precoTotal;
 		String precoEmString = fieldFinal.getText().substring(3, fieldFinal.getText().toString().length());
 		precoEmString = precoEmString.replace(',', '.');
+		int count = 0;
+		for(int i = precoEmString.length() - 1; i > 0; i--){
+			if(precoEmString.charAt(i) == '.'){
+				if(count == 0)
+					count++;
+				else{
+					String before = precoEmString.substring(0, i);
+					precoEmString = precoEmString.substring(i + 1, precoEmString.length());
+					precoEmString = before.concat(precoEmString);
+				}
+			}
+		}
 		precoFinal = ((double)Double.parseDouble(precoEmString));
 		pedido.setPreco(precoFinal);
 		
 		pedido.setPrecoNormal(precoTotal);
 		
 		pedido.setObs(fieldObs.getText());
-		pedido.setTipoPedido(TipoPedido.NORMAL);
+		pedido.setTipoPedido(TipoPedido.AVULSO);
 		pedido.setStatus(Status.EM_ANDAMENTO);
 		
 		FormaDePagamento fp = FormaDePagamento.getFormaDePagamentoPeloNome(pagamentoBox.getSelectedItem().toString());
@@ -471,6 +483,8 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 		
 		
 		JOptionPane.showMessageDialog(this, "Pedido realizado com sucesso!", "Pedido concluído!", JOptionPane.INFORMATION_MESSAGE);
+		idsDosLivrosAdicionados = new ArrayList<Integer>();
+		qtdDosLivrosAdicionados = new ArrayList<Integer>();
 		guiManager.mudarParaTela("telaInicial2");
 	}
 	
@@ -559,10 +573,8 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	
 	public void prepararComponentes()
 	{	
-		if(idsDosLivrosAdicionados == null)
-			idsDosLivrosAdicionados = new ArrayList<Integer>();
-		if(qtdDosLivrosAdicionados == null)
-			qtdDosLivrosAdicionados = new ArrayList<Integer>();
+		idsDosLivrosAdicionados = new ArrayList<Integer>();
+		qtdDosLivrosAdicionados = new ArrayList<Integer>();
 		
 		this.repintarTabela();
 		if(fieldNome != null)

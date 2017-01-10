@@ -290,7 +290,10 @@ public class Print {
 		
 		Phrase phraseSchool = new Phrase();
 		phraseSchool.add(new Chunk("Escola: ", f));
-		phraseSchool.add(new Chunk(p.getPacote().getEscola().getNome() + " - " + p.getPacote().getAnoEscolar().getNome(), f2));
+		if(p.getPacote().getEscola() != null)
+			phraseSchool.add(new Chunk(p.getPacote().getEscola().getNome() + " - " + p.getPacote().getAnoEscolar().getNome(), f2));
+		else
+			phraseSchool.add(new Chunk("   ---   ", f2));
 		
 		Phrase phraseObs = new Phrase();
 		phraseObs.add(new Chunk("Obs: ", f));
@@ -374,12 +377,16 @@ public class Print {
 			for(int i = 0; i < p.getIdsDosLivrosComprados().length; i++){
 				int id = p.getIdsDosLivrosComprados()[i];
 				if(id >= 0){
+					double total = EstoqueManager.getInstance().getLivroPeloId(id).getPreco() * p.getQtdDosLivrosComprados()[i];
+					double desconto =  (((double)p.getDesconto()) / 100.0) * total;
+					double comDesconto = total - desconto;
+					
 					Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
 					float novoPreco = (float) ((livro.getPreco() * p.getDesconto()) / 100);
 					novoPreco = (float)livro.getPreco() - novoPreco;
 					table.addCell(new PdfPCell(new Phrase(livro.getEditora(), f2)));
 					table.addCell(new PdfPCell(new Phrase(livro.getNome(), f2)));
-					table.addCell(new PdfPCell(new Phrase(String.valueOf(1), f2)));
+					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getQtdDosLivrosComprados()[i]), f2)));
 					
 					NumberFormat nf = NumberFormat.getCurrencyInstance();  
 					String precoFormatado = nf.format (livro.getPreco());
@@ -387,9 +394,9 @@ public class Print {
 					
 					table.addCell(new PdfPCell(new Phrase(String.valueOf(p.getDesconto()+ "%"), f2)));
 					
-					String novoPrecoFormatado = nf.format(novoPreco);
-					table.addCell(new PdfPCell(new Phrase(novoPrecoFormatado, f2)));
-					valorTotal = valorTotal + novoPreco;
+					String totalFormatado = nf.format(comDesconto);
+					table.addCell(new PdfPCell(new Phrase(totalFormatado, f2)));
+					valorTotal = valorTotal + comDesconto;
 				}
 			}
 		}
