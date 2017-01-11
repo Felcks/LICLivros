@@ -79,7 +79,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		this.add(fieldName, c);
 		
         autoSuggestor = new AutoSuggestor(fieldName, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
-				Color.white.brighter(), Color.blue, Color.red, 0.75f);
+				Color.white.brighter(), Color.blue, Color.red, 0.1f);
 		
         JLabel labelName = new JLabel("NOME");
 		posAtual = 9;
