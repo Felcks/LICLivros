@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -70,20 +72,21 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
         }
         
         JTextField fieldName = new JTextField();
-    	c.gridy = 18;
+        Action action;
+    	c.gridy = 11;
 		int posAtual = 9;
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.gridx = posAtual;
 		c.gridwidth = 6;
 		this.add(fieldName, c);
 		
         autoSuggestor = new AutoSuggestor(fieldName, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
-				Color.white.brighter(), Color.blue, Color.red, 0.1f);
+				Color.WHITE, Color.blue, Color.BLACK, 0.55f);
 		
         JLabel labelName = new JLabel("NOME");
 		posAtual = 9;
-		c.gridy = 17;
+		c.gridy = 10;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.PAGE_END;
 		c.gridwidth = 6;
@@ -151,7 +154,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 24;
-		c.gridheight = 15;
+		c.gridheight = 8;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(scrollPane, c);
@@ -164,16 +167,26 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.gridx = 10;
-		c.gridy = 19;
-		this.add(comboBoxAcoes, c);
+		c.gridy = 12;
+		//this.add(comboBoxAcoes, c);
 		
-		JButton btn_fazerAcao = new JButton("Confirmar!");
-		c.fill = GridBagConstraints.HORIZONTAL;;
-		c.gridx = 12;
-		c.gridy = 19;
-		c.gridwidth = 2;
+		JButton btn_fazerAcao = new JButton("Adicionar");
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 10;
+		c.gridy = 12;
+		c.gridwidth = 4;
 		c.gridheight = 1;
+		c.anchor = GridBagConstraints.PAGE_START;
 		this.add(btn_fazerAcao, c);
+		
+		JButton btn_fazerAcao2 = new JButton("Remover");
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 10;
+		c.gridy = 30;
+		c.gridwidth = 4;
+		c.gridheight = 1;
+		c.anchor = GridBagConstraints.PAGE_END;
+		this.add(btn_fazerAcao2, c);
 		
 		JButton btn_Voltar = new JButton("Voltar");
 		c.fill = GridBagConstraints.BOTH;
@@ -212,10 +225,14 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		btn_fazerAcao.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Acao acao = Acao.NENHUMA;
-				acao = Acao.valueOf(comboBoxAcoes.getSelectedItem().toString());
-				fazerAcao(fieldName, table, acao);
-				fieldName.setText("");
+				fazerAcao(fieldName, table, Acao.ADICIONAR);
+			}
+		});
+		
+		btn_fazerAcao2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				fazerAcao(fieldName, table, Acao.REMOVER);
 			}
 		});
 		
@@ -225,6 +242,17 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 				fieldName.setText("");
 			}
 		});	
+		
+		 action = new AbstractAction()
+	        {
+	            @Override
+	            public void actionPerformed(ActionEvent e)
+	            {
+					fazerAcao(fieldName, table, Acao.ADICIONAR);
+	            }
+	        };
+	        fieldName.addActionListener(action);
+	        
 	}
 
 	@Override
@@ -239,7 +267,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		PacoteManager.getInstance().getOperacoes().GET_AND_SET_ALL_DATA();
 		
 		autoSuggestor = new AutoSuggestor(autoSuggestor.getTextField(), guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
-				  Color.white.brighter(), Color.blue, Color.red, 0.75f);
+				  Color.WHITE, Color.blue, Color.black, 0.55f);
 		
 		
 		this.repintarTabela();
@@ -260,6 +288,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 			}
 			else
 			{
+				textField.setText("");
 				JOptionPane.showMessageDialog(this, "Livro Adicionado: " + livro.getNome(), "Adicionado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
 				PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado).adicionarLivro(livro);
 				this.repintarTabela();

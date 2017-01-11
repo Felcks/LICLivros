@@ -49,21 +49,29 @@ public class AutoSuggestor {
     private String typedWord; 
     private final List<String> dictionary = new ArrayList<>(); 
     private int tW, tH; 
- private int lastFocusableIndex = 0; 
+    private int lastFocusableIndex = 0;
+    
+    
     private DocumentListener documentListener = new DocumentListener() { 
         @Override 
         public void insertUpdate(DocumentEvent de) { 
-            checkForAndShowSuggestions(); 
+        	String current = getCurrentlyTypedWord();
+        	if(current.substring(current.length() - 1, current.length()).equals(" "))
+        		checkForAndShowSuggestions();
+        	else
+        		suggestionsPanel.removeAll();
         } 
  
         @Override 
-        public void removeUpdate(DocumentEvent de) { 
-            checkForAndShowSuggestions(); 
+        public void removeUpdate(DocumentEvent de) {
+        	if(getCurrentlyTypedWord().equals(""))
+        		checkForAndShowSuggestions(); 
         } 
  
         @Override 
         public void changedUpdate(DocumentEvent de) { 
-            checkForAndShowSuggestions(); 
+        	if(getCurrentlyTypedWord().equals(""))
+        		checkForAndShowSuggestions(); 
         } 
     }; 
     private final Color suggestionsTextColor; 
@@ -159,18 +167,19 @@ public class AutoSuggestor {
  
    @Override 
             public void actionPerformed(ActionEvent ae) {//focuses the first label on popwindow 
-                resetLabelFocus(); 
+	            resetLabelFocus(); 
+	            
     for (int i = 0; i < suggestionsPanel.getComponentCount(); i++) { 
-                    if (suggestionsPanel.getComponent(i) instanceof SuggestionLabel) { 
-                        ((SuggestionLabel) suggestionsPanel.getComponent(i)).setFocused(true); 
+                    if (suggestionsPanel.getComponent(i) instanceof SuggestionLabel) {
+                    	((SuggestionLabel) suggestionsPanel.getComponent(i)).setFocused(true); 
                         autoSuggestionPopUpWindow.toFront(); 
                         autoSuggestionPopUpWindow.requestFocusInWindow(); 
                         suggestionsPanel.requestFocusInWindow(); 
-                        suggestionsPanel.getComponent(i).requestFocusInWindow(); 
-                        break; 
+                        suggestionsPanel.getComponent(i).requestFocusInWindow();
+                         break; 
                     } 
-                } 
-            } 
+                }
+            }
         }); 
         suggestionsPanel.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true), "Down released"); 
         suggestionsPanel.getActionMap().put("Down released", new AbstractAction() { 
@@ -181,7 +190,8 @@ public class AutoSuggestor {
  
             @Override 
             public void actionPerformed(ActionEvent ae) {//allows scrolling of labels in pop window (I know very hacky for now :)) 
- 
+            	
+                
                 List<SuggestionLabel> sls = getAddedSuggestionLabels(); 
                 int max = sls.size(); 
  
@@ -354,7 +364,7 @@ public class AutoSuggestor {
  
         //Calculates the optimal window location 
         int windowX = container.getX() + container.getInsets().left + textField.getX() + textField.getMargin().left + 3; 
-        int windowY = container.getY() + container.getInsets().top - textField.getInsets().bottom + textField.getY() + textField.getHeight(); 
+        int windowY = container.getY() + container.getInsets().top - textField.getInsets().bottom + textField.getY() + (textField.getHeight() * 2); 
              
         autoSuggestionPopUpWindow.setLocation((windowX), windowY); 
         autoSuggestionPopUpWindow.setMinimumSize(new Dimension(textField.getWidth() - textField.getInsets().right, 30)); 
@@ -456,7 +466,11 @@ public class AutoSuggestor {
     } 
   
     private void resetLabelFocus(){ 
-     getAddedSuggestionLabels().get(lastFocusableIndex).setFocused(false); 
+     if(getAddedSuggestionLabels().size() > lastFocusableIndex){
+    	 getAddedSuggestionLabels().get(lastFocusableIndex).setFocused(false); 
+     }
+     
+     
      lastFocusableIndex = 0; 
     } 
 } 

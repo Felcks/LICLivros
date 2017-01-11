@@ -29,6 +29,7 @@ public class GUIManager{
 	private TelaPacote telaPacote;
 	private TelaCliente telaCliente;
 	private TelaEditora telaEditora;
+	private TelaEscola telaEscola;
 	private TelaPedidoCliente telaPedidoCliente;
 	private TelaPedidoPacote telaPedidoPacote;
 	private TelaPedidoPacoteAvulso telaPedidoPacoteAvulso;
@@ -36,7 +37,6 @@ public class GUIManager{
 	private TelaPedidoUnico telaPedidoUnico;
 	private TelaPedidoUnicoAvulso telaPedidoUnicoAvulso;
 	private TelaPedido telaPedido;
-	private TelaEscola telaEscola;
 	private TelaInicial2 telaInicial2;
 	private TelaRelatorios telaRelatorios;
 	private TelaCredito telaCredito;
@@ -53,13 +53,12 @@ public class GUIManager{
 		this.telaPacote = new TelaPacote(this);
 		this.telaCliente = new TelaCliente(this);
 		this.telaEditora = new TelaEditora(this);
+		this.telaEscola = new TelaEscola(this);
 		this.telaPedidoCliente = new TelaPedidoCliente(this);
 		this.telaPedidoPacote = new TelaPedidoPacote(this);
-		//this.telaPedidoPacoteAvulso = new TelaPedidoPacoteAvulso(this);
 		this.telaPedidoFinalizacao = new TelaPedidoFinalizacao(this);
 		this.telaPedidoUnico = new TelaPedidoUnico(this);
 		this.telaPedidoUnicoAvulso = new TelaPedidoUnicoAvulso(this);
-		this.telaEscola = new TelaEscola(this);
 		this.telaPedido = new TelaPedido(this);
 		this.telaInicial2 = new TelaInicial2(this);
 		this.telaRelatorios = new TelaRelatorios(this);

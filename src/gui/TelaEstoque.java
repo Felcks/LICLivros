@@ -12,12 +12,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -39,6 +43,8 @@ import principais.Editora;
 import principais.EditoraManager;
 import principais.EstoqueManager;
 import principais.Livro;
+import principais.NomeLivroComparator;
+import principais.Ordenar;
 import principais.Pedido;
 import utilidades.Acao;
 import utilidades.Print;
@@ -179,29 +185,41 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		c.gridheight = 1;
 		this.add(btn_fazerAcao, c);
 		
-		JButton btn_Voltar = new JButton("Voltar");
-		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 0;
-		c.gridy = 23;
-		c.gridwidth = 2;
-		c.gridheight = 1;
-		//this.add(btn_Voltar, c);
-		
-		
-		JButton btn_imprimirRelatorio = new JButton("Imprimir Relatório");
-		c.gridx = 21;
-		c.gridy = 0;
-		c.gridwidth = 2;
+		JRadioButton numeroRadio = new JRadioButton("NÚMERO");
+		c.gridx = 15;
+		c.gridwidth = 1;
 		c.gridheight = 2;
 		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		//this.add(btn_imprimirRelatorio, c);
-	
-	
-		btn_Voltar.addActionListener(new ActionListener() {
+		c.gridy = 0;
+		numeroRadio.setSelected(true);
+		this.add(numeroRadio, c);
+		
+		JRadioButton nomeRadio = new JRadioButton("NOME");
+		c.gridx = 16;
+		this.add(nomeRadio, c);
+		
+		JLabel ordernarLabel = new JLabel("Ordernar por:", SwingConstants.CENTER);
+		c.gridx = 15;
+		c.gridwidth = 2;
+		c.gridy = 0;
+		c.anchor = GridBagConstraints.PAGE_START;
+		this.add(ordernarLabel, c);
+		
+		ButtonGroup grupo = new ButtonGroup();
+		grupo.add(numeroRadio);
+		grupo.add(nomeRadio);
+		
+		numeroRadio.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				guiManager.mudarParaTela("telaInicial");
+				repintarTabela(comboBox.getSelectedItem().toString(), Ordenar.NUMERO);
+			}
+		});
+		
+		nomeRadio.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				repintarTabela(comboBox.getSelectedItem().toString(), Ordenar.NOME);
 			}
 		});
 		
@@ -303,18 +321,25 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 				if(camposEmTexto[3].length() > 0)
 					livroASerAdicionado.setPreco(novoLivro.getPreco());
 				
-				EstoqueManager.getInstance().atualizarLivro(id, livroASerAdicionado);
-				this.repintarTabela(comboBox.getSelectedItem().toString());
+				JOptionPane.showMessageDialog(this, "Livro Atualizado: " + livroASerAdicionado.getNome(),"Atualizado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
 				
 				EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livroASerAdicionado);
-				JOptionPane.showMessageDialog(this, "Livro Atualizado: " + livroASerAdicionado.getNome(),"Atualizado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
+				EstoqueManager.getInstance().atualizarLivro(idReal, livroASerAdicionado);
 				servicoDeDigito.limparCampos(textFields);
+				this.repintarTabela(comboBox.getSelectedItem().toString());
 				
 			}
 			else
 			{
 				JOptionPane.showMessageDialog(this, "Selecione um livro para ser atualizado.","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
 			}
+		}
+	}
+	
+	private void repintarTabela(String editora, Ordenar ordenar){
+		if(this.table != null){
+			((MyTableModel)this.table.getModel()).updateData(editora, ordenar);
+			this.table.repaint();
 		}
 	}
 	
@@ -363,12 +388,23 @@ class MyTableModel extends AbstractTableModel {
                                     "PREÇO"};
    
     private Object[][] data;
+    private Ordenar lastOrdem = Ordenar.NUMERO;
     
     public Object[][] getData(){
     	return data;
     }
     public MyTableModel(String editora){
-    	updateData(editora);
+    	updateData(editora, Ordenar.NUMERO);
+    }
+    
+    public void updateData(String editora, Ordenar ordenar){
+    	data = new Object[EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).size()][];
+    	for(int i = 0; i < data.length; i++){
+    		data[i] = EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).get(i).pegarTodosParametros();
+    	}	
+    	
+    	lastOrdem = ordenar;
+    	ordenar(editora);
     }
     
     public void updateData(String editora){
@@ -376,6 +412,19 @@ class MyTableModel extends AbstractTableModel {
     	for(int i = 0; i < data.length; i++){
     		data[i] = EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).get(i).pegarTodosParametros();
     	}	
+    	
+    	ordenar(editora);
+    }
+    
+    private void ordenar(String editora){
+    	if(lastOrdem == Ordenar.NOME){
+    		for(int i = 0; i < data.length; i++){
+    			ArrayList<Livro> livrosOrdenados= (ArrayList<Livro>) EstoqueManager.getInstance().getLivrosDeUmaEditora(editora);
+    			NomeLivroComparator nLC = new NomeLivroComparator();
+        		Collections.sort(livrosOrdenados, nLC);
+        		data[i] = livrosOrdenados.get(i).pegarTodosParametros();
+    		}
+    	}
     }
     
     public int getColumnCount() {

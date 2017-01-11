@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -15,6 +17,8 @@ import principais.Editora;
 import principais.EditoraManager;
 import principais.Escola;
 import principais.EscolaManager;
+import principais.NomeEditoraComparator;
+import principais.NomeEscolaComparator;
 import utilidades.Acao;
 import utilidades.Screen;
 import utilidades.ServicoDeDigito;
@@ -214,7 +218,19 @@ class MyTableModelEscola extends AbstractTableModel {
     	data = new Object[EscolaManager.getInstance().getEscolas().size()][];
     	for(int i = 0; i < data.length; i++){
     		data[i] = EscolaManager.getInstance().getEscolas().get(i).pegarTodosParametros();
-    	}	 	
+    	}	 
+    	
+    	ordenar();
+    }
+    
+    private void ordenar()
+    {
+    	for(int i = 0; i < data.length; i++){
+			ArrayList<Escola> escolasOrdenadas= (ArrayList<Escola>) EscolaManager.getInstance().getEscolas();
+			NomeEscolaComparator nEC = new NomeEscolaComparator();
+    		Collections.sort(escolasOrdenadas, nEC);
+    		data[i] = escolasOrdenadas.get(i).pegarTodosParametros();
+		}
     }
 
     public int getColumnCount() {

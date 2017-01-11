@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,6 +25,7 @@ import javax.swing.SwingConstants;
 import com.itextpdf.awt.geom.Dimension;
 import com.itextpdf.text.DocumentException;
 
+import utilidades.Acao;
 import utilidades.Print;
 import utilidades.Screen;
 import utilidades.ServicoDeDigito;
@@ -84,15 +87,19 @@ public class TelaRelatorios extends JPanel {
         this.add(relatorioFinal, c);
         
         JTextField fieldFinal = new JTextField();
-        c.gridwidth = 5;
+        c.gridwidth = 1;
         c.gridheight = 1;
         c.gridy = 29;
+        c.gridx = 12;
+        fieldFinal.setHorizontalAlignment(JTextField.CENTER);
         this.add(fieldFinal, c);
         
         JLabel labelFinal = new JLabel("Para gerar o relatório final escreva a palavra 'FINAL' no campo indicado");
         c.gridy = 28;
         labelFinal.setFont(labelFinal.getFont().deriveFont(15f));
         c.fill = GridBagConstraints.NONE;
+        c.gridx = 10;
+        c.gridwidth = 5;
         this.add(labelFinal, c);
         
         relatorioParcial.addActionListener(new ActionListener() {
@@ -108,6 +115,16 @@ public class TelaRelatorios extends JPanel {
 				tentarImprimir(" - FINAL", fieldFinal);
 			}
 		});
+        
+        Action action = new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+            	tentarImprimir(" - FINAL", fieldFinal);
+            }
+        };
+        fieldFinal.addActionListener(action);
 	}
 	
 	private void tentarImprimir(String parcialOuFinal, JTextField fieldFinal)

@@ -10,6 +10,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -38,6 +40,7 @@ import principais.PacoteManager;
 import principais.Pedido;
 import principais.PedidoManager;
 import principais.TipoPedido;
+import utilidades.Acao;
 import utilidades.AutoSuggestor;
 import utilidades.FormaDePagamento;
 import utilidades.ServicoDeDigito;
@@ -211,6 +214,16 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        c.anchor = GridBagConstraints.CENTER;
        this.add(fieldLivro, c);
        
+       Action action = new AbstractAction()
+       {
+           @Override
+           public void actionPerformed(ActionEvent e)
+           {
+				adicionarLivroAoPedido(fieldLivro);
+           }
+       };
+       fieldLivro.addActionListener(action);
+       
        JButton adicionar = new JButton("Adicionar");
        c.gridx = prox;
        c.gridwidth = 1;
@@ -218,7 +231,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        this.add(adicionar, c);
        
        autoSuggestor = new AutoSuggestor(fieldLivro, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
-				Color.white.brighter(), Color.blue, Color.red, 0.75f);
+				Color.white, Color.blue, Color.BLACK, 0.55f);
        
        JLabel labelObs = new JLabel("Obs: ");
        c.gridx = prox;
@@ -596,7 +609,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 		if(fieldLivro != null)
 		{
 			 autoSuggestor = new AutoSuggestor(fieldLivro, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
-						Color.white.brighter(), Color.blue, Color.red, 0.75f);
+						Color.white, Color.blue, Color.black, 0.55f);
 			 fieldLivro.setText("");
 		}
 	}

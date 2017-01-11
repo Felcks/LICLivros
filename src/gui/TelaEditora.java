@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -13,6 +15,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import principais.Editora;
 import principais.EditoraManager;
+import principais.EstoqueManager;
+import principais.Livro;
+import principais.NomeEditoraComparator;
+import principais.NomeLivroComparator;
+import principais.Ordenar;
 import utilidades.Acao;
 import utilidades.Screen;
 import utilidades.ServicoDeDigito;
@@ -211,11 +218,23 @@ class MyTableModelEditora extends AbstractTableModel {
     }
     
     public void updateData(){
-    	System.out.println("estou no updateData " + EditoraManager.getInstance().getEditoras().size() );
     	data = new Object[EditoraManager.getInstance().getEditoras().size()][];
     	for(int i = 0; i < data.length; i++){
     		data[i] = EditoraManager.getInstance().getEditoras().get(i).pegarTodosParametros();
     	}	 	
+    	
+    	ordenar(Ordenar.NOME);
+    }
+    
+    private void ordenar(Ordenar lastOrdem){
+    	if(lastOrdem == Ordenar.NOME){
+    		for(int i = 0; i < data.length; i++){
+    			ArrayList<Editora> editorasOrdenadas= (ArrayList<Editora>) EditoraManager.getInstance().getEditoras();
+    			NomeEditoraComparator nEC = new NomeEditoraComparator();
+        		Collections.sort(editorasOrdenadas, nEC);
+        		data[i] = editorasOrdenadas.get(i).pegarTodosParametros();
+    		}
+    	}
     }
 
     public int getColumnCount() {
