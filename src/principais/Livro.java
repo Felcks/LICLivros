@@ -145,7 +145,6 @@ public class Livro implements Comparator<Livro> {
 			this.setComprar(Integer.parseInt(object[3].toString()));
 			this.setQuantidade(Integer.parseInt(object[4].toString()));
 			this.setVendidos(Integer.parseInt(object[5].toString()));
-			System.out.println(object[6].toString() + "zzzzzzz");
 			this.setPreco(Double.parseDouble(object[6].toString()));
 		}
 		catch (Exception e){}

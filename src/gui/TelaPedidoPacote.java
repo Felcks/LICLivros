@@ -269,7 +269,7 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 		idsDosLivrosSelecionados[index] *= -1;
 		}
 		catch(java.lang.NullPointerException e){
-			System.out.println("conto do exception:" + index);
+			//System.out.println("conto do exception:" + index);
 		}
 	}
 }

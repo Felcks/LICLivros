@@ -54,7 +54,6 @@ public class Pedido {
 			this.setPacote(PacoteManager.getInstance().getPacotePeloId(rs.getInt("PACOTE")));
 			this.setIdsDosLivrosComprados(rs.getString("IDS_DOS_LIVROS"));
 			this.setQtdDosLivrosCompradosEmString(rs.getString("QTD_DOS_LIVROS"));
-			System.out.println(rs.getString("QTD_DOS_LIVROS"));
 			this.setPreco(rs.getDouble("PRECO"));
 			
 			try{

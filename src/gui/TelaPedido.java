@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 	ServicoDeDigito servicoDeDigito;
 	JTextField textField_arrecadado;
 	private double total = 0;
+	public static JTextField pesquisaField;
 	
 	public TelaPedido(GUIManager guiManager){
 		this.guiManager = guiManager;
@@ -84,7 +86,46 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 		c.gridheight = 4;
 		c.anchor = GridBagConstraints.CENTER;
 		this.add(txt_Title, c);
+		
+		JLabel pesquisaLabel = new JLabel("PESQUISAR: ");
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 4;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.CENTER;
+		this.add(pesquisaLabel, c);
+		
+		pesquisaField = new JTextField();
+		c.gridx = 1;
+		c.gridy = 0;
+		c.gridwidth = 5;
+		c.gridheight = 4;
+		c.anchor = GridBagConstraints.CENTER;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		this.add(pesquisaField, c);
         
+		pesquisaField.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				repintarTabela();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+	        	repintarTabela();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				repintarTabela();
+			}
+		});
+		
+		
         table = new JTable(new MyTableModelPedido());
         table.getColumnModel().getColumn(3).setMinWidth(100);
 		table.getColumnModel().getColumn(3).setPreferredWidth(100);
@@ -311,10 +352,41 @@ class MyTableModelPedido extends AbstractTableModel {
     }
     
     public void updateData(){
+		String pesquisa = "";
+		if(TelaPedido.pesquisaField != null)
+			pesquisa = TelaPedido.pesquisaField.getText();
+		
+		CharSequence sequencePesquisa = pesquisa.toUpperCase();
+		String pesquisaReal = Normalizer.normalize(sequencePesquisa, Normalizer.Form.NFKD);
+		
+		//SETANDO TODOS OS DADOS - PEGANDO O TAMANHO DOS DADOS PESQUISADOS
     	data = new Object[PedidoManager.getInstance().getPedidos().size()][];
+    	int dataSearchLength = 0;
     	for(int i = 0; i < data.length; i++){
-    		data[i] = PedidoManager.getInstance().getPedidos().get(i).pegarTodosParametros();
-    	}	 	
+    		Pedido pedido = PedidoManager.getInstance().getPedidos().get(i);
+    		data[i] = pedido.pegarTodosParametros();
+    		
+    		CharSequence sequenceNome = pedido.getCliente().getNome().toUpperCase();
+    		String nomeReal = Normalizer.normalize(sequenceNome, Normalizer.Form.NFKD);
+    		if(nomeReal.contains(pesquisaReal))
+    			dataSearchLength++;
+    	}
+    	
+    	//SETANDO SOMENTE OS DADOS PESQUISADOS
+    	data = new Object[dataSearchLength][];
+    	int dataCurrentIndex = 0;
+    	for(int i = 0; i < PedidoManager.getInstance().getPedidos().size(); i++){
+    		Pedido pedido = PedidoManager.getInstance().getPedidos().get(i);
+    		
+    		CharSequence sequenceNome = pedido.getCliente().getNome().toUpperCase();
+    		String nomeReal = Normalizer.normalize(sequenceNome, Normalizer.Form.NFKD);
+    		if(nomeReal.contains(pesquisaReal)){
+    			data[dataCurrentIndex] = pedido.pegarTodosParametros();
+    			dataCurrentIndex++;
+    		}
+    	}
+    	
+    	
     }
     
     public int getColumnCount() {
