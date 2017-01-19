@@ -198,40 +198,6 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        c.anchor = GridBagConstraints.CENTER;
        this.add(fieldCel, c);
        
-       JLabel novosLivros = new JLabel("Novos Livros: ");
-       c.gridx = prox;
-       c.gridwidth = 2;
-       prox += 2;
-       c.fill = GridBagConstraints.NONE;
-       c.anchor = GridBagConstraints.LINE_END;
-       this.add(novosLivros, c);
-       
-       fieldLivro = new JTextField();
-       c.gridx = prox;
-       c.gridwidth = 6;
-       prox += 6;
-       c.fill = GridBagConstraints.HORIZONTAL;
-       c.anchor = GridBagConstraints.CENTER;
-       this.add(fieldLivro, c);
-       
-       Action action = new AbstractAction()
-       {
-           @Override
-           public void actionPerformed(ActionEvent e)
-           {
-				adicionarLivroAoPedido(fieldLivro);
-           }
-       };
-       fieldLivro.addActionListener(action);
-       
-       JButton adicionar = new JButton("Adicionar");
-       c.gridx = prox;
-       c.gridwidth = 1;
-       prox += 1;
-       this.add(adicionar, c);
-       
-       autoSuggestor = new AutoSuggestor(fieldLivro, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
-				Color.white, Color.blue, Color.BLACK, 0.55f);
        
        JLabel labelObs = new JLabel("Obs: ");
        c.gridx = prox;
@@ -284,9 +250,64 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 		c.fill = GridBagConstraints.BOTH;
 		this.add(scrollPane, c);
 		
+		c.gridy = 10;
+		prox = 17;
+		
+		JLabel novosLivros = new JLabel("Novos Livros: ");
+		c.gridheight = 1;
+		c.gridx = prox;
+        c.gridwidth = 2;
+	    prox += 2;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.LINE_END;
+        this.add(novosLivros, c);
+	       
+	    fieldLivro = new JTextField();
+	    c.gridx = prox;
+	    c.gridwidth = 14;
+	    prox += 14;
+	    c.fill = GridBagConstraints.HORIZONTAL;
+	    c.anchor = GridBagConstraints.CENTER;
+	    this.add(fieldLivro, c);
+	       
+	    Action action = new AbstractAction()
+	    {
+	         @Override
+	         public void actionPerformed(ActionEvent e)
+	         {
+				adicionarLivroAoPedido(fieldLivro);
+	         }
+	    };
+	       fieldLivro.addActionListener(action);
+	       
+	     JButton adicionar = new JButton("Adicionar");
+	     c.gridx = prox;
+	     c.gridwidth = 1;
+	     prox += 1;
+	     this.add(adicionar, c);
+	       
+	     autoSuggestor = new AutoSuggestor(fieldLivro, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
+					Color.white, Color.blue, Color.BLACK, 0.55f);
+	     
+	     JButton remover = new JButton("Remover");
+	     c.gridx = 24;
+	     c.gridwidth = 4;
+	     c.gridy = 15;
+	     prox += 1;
+	     c.anchor = GridBagConstraints.CENTER;
+	     this.add(remover, c);
+	     
+	     remover.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				remover();
+			}
+		});
+	       
+			
 		
 		prox = 17;
-		c.gridy = 9;
+		c.gridy = 7;
 		
 		JLabel labelPreco = new JLabel("Preço: ");
 		c.fill = GridBagConstraints.NONE;
@@ -419,6 +440,23 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    fieldDesconto.setText("0");
 	    aplicarDesconto(fieldDesconto.getText());
 	    this.repintarTabela();
+	}
+	
+	private void remover()
+	{
+		int id = -1;
+		id = table.getSelectedRow();
+		if(id >= 0 && id < idsDosLivrosAdicionados.size())
+		{
+			idsDosLivrosAdicionados.remove(id);
+			qtdDosLivrosAdicionados.remove(id);
+			
+			this.repintarTabela();
+			atualizarPreco(((TableModelPedidoAvulso)table.getModel()).getData());
+		}
+		else{
+			JOptionPane.showMessageDialog(this, "Selecione um livro a ser removido.", "Falha na remoção", JOptionPane.OK_CANCEL_OPTION);
+		}
 	}
 	
 	private void concluirPedido(){

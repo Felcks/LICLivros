@@ -162,6 +162,14 @@ public class GUIManager{
 		return this.telaPedidoCliente;
 	}
 	
+	public TelaPedidoUnico getTelaPedidoUnico(){
+		return this.telaPedidoUnico;
+	}
+	
+	public TelaPedidoUnicoAvulso getTelaPedidoUnicoAvulso(){
+		return this.telaPedidoUnicoAvulso;
+	}
+	
 	private void createMenuBar()
 	{
 		JMenuBar menuBar = new JMenuBar();

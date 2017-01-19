@@ -45,15 +45,15 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	private GUIManager guiManager;
 	private ServicoDeDigito servicoDeDigito;
 	
-	private Escola escolaSelecionada;
-	private AnoEscolar anoEscolarSelecionado;
+	public Escola escolaSelecionada;
+	public AnoEscolar anoEscolarSelecionado;
 	private JTable table;
 	
 	Pacote pacote;
 	private static double precoTotal;
 	private static JTextField fieldPreco, fieldDesconto, fieldFinal, fieldDescontoDado;
 	
-	JTextField fieldNome, fieldBairro, fieldComplemento, fieldRua, fieldTelefone, fieldCel, fieldObs;
+	public JTextField fieldNome, fieldBairro, fieldComplemento, fieldRua, fieldTelefone, fieldCel, fieldObs;
 	JComboBox pagamentoBox;
 	
 	public TelaPedidoUnico(GUIManager guiManager)
