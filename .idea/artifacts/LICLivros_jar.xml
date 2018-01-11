@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="LICLivros:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/LICLivros_jar</output-path>
+    <root id="archive" name="LICLivros.jar">
+      <element id="module-output" name="LICLivros" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/itextpdf/itextpdf/5.5.10/itextpdf-5.5.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/xerial/sqlite-jdbc/3.21.0.1/sqlite-jdbc-3.21.0.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
