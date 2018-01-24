@@ -85,14 +85,6 @@ public class EstoqueManager {
 		return todosOsNomesDosLivros;
 	}
 	
-	public int gerarId(Editora editora){
-		int id = 0;
-		
-		//id = getLivrosDeUmaEditora(editora).size() + editora.getIdInicial();
-		
-		return 0;
-	}
-	
 	public Livro getLivroPeloNome(String nome){
 		System.out.println(nome);
 		Livro livro = new Livro("LivroInexistente");

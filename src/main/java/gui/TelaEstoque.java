@@ -315,11 +315,18 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 				if(novoLivro.getNome().length() > 0)
 					livroASerAdicionado.setNome(novoLivro.getNome());
 				//Checando quantidade
+
+				if(novoLivro.getQuantidade() != livro.getQuantidade()){
+					livroASerAdicionado.setComprar(livro.getComprar() - (novoLivro.getQuantidade()));
+				}
+
 				if(camposEmTexto[2].length() > 0)
 					livroASerAdicionado.setQuantidade(novoLivro.getQuantidade());
+
 				//Checando preço
 				if(camposEmTexto[3].length() > 0)
 					livroASerAdicionado.setPreco(novoLivro.getPreco());
+
 				
 				JOptionPane.showMessageDialog(this, "Livro Atualizado: " + livroASerAdicionado.getNome(),"Atualizado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
 				
