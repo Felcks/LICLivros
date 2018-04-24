@@ -62,7 +62,23 @@ public class EscolaManager {
 		}
 	}
 	public List<Escola> getEscolas(){
+
+		/*ArrayList<Escola> escolasNaoApagadas = new ArrayList<Escola>();
+		for(Escola esc : escolas){
+			if(!esc.getNome().equals(""))
+				escolasNaoApagadas.add(esc);
+		}*/
+
 		return this.escolas;
+	}
+
+	public Escola getEscolaById(int id){
+		for(Escola esc : this.escolas){
+			if(esc.getId() == id)
+				return esc;
+		}
+
+		return null;
 	}
 	
 	public String[] getTodosNomesEscolas(){

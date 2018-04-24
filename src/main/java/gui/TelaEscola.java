@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -51,21 +53,41 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
      
         JTextField fieldName = new JTextField();
 		c.gridy = 18;
-		int posAtual = 9;
+		int posAtual = 10;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.gridx = posAtual;
-		c.gridwidth = 4;
+		c.gridwidth = 7;
 		this.add(fieldName, c);
 		
 		JLabel labelName = new JLabel("NOME");
+		posAtual = 10;
+		c.gridy = 17;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.PAGE_END;
+		c.gridwidth = 7;
+		c.gridx = posAtual;
+		this.add(labelName, c);
+
+		JTextField fieldId = new JTextField();
+		c.gridy = 18;
+		posAtual = 9;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.PAGE_START;
+		c.gridx = posAtual;
+		c.gridwidth = 1;
+		fieldId.setEditable(false);
+		fieldId.setBackground(Color.lightGray);
+		this.add(fieldId, c);
+
+		JLabel labelId = new JLabel("  ID");
 		posAtual = 9;
 		c.gridy = 17;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.PAGE_END;
-		c.gridwidth = 4;
+		c.gridwidth = 1;
 		c.gridx = posAtual;
-		this.add(labelName, c);
+		this.add(labelId, c);
 
         JLabel txt_Title = new JLabel("ESCOLAS", SwingConstants.CENTER);
 		txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));
@@ -87,15 +109,15 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 		table.getColumnModel().getColumn(0).setCellRenderer(left);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
-		c.gridx = 9;
+		c.gridx = 4;
 		c.gridy = 2;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
-		c.gridwidth = 4;
+		c.gridwidth = 19;
 		c.gridheight = 15;
 		this.add(scrollPane, c);
 		
-		String[] acoes = {Acao.ADICIONAR.toString(), Acao.ATUALIZAR.toString()};
+		String[] acoes = {Acao.ADICIONAR.toString(), Acao.ATUALIZAR.toString(), Acao.REMOVER.toString()};
 		JComboBox comboBox = new JComboBox(acoes);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -125,6 +147,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 			public void actionPerformed(ActionEvent e) {
 				Acao acao = Acao.valueOf(comboBox.getSelectedItem().toString());
 				fieldName.setText("");
+				fieldId.setText("");
 			}
 		});
 		
@@ -146,41 +169,94 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 			}
 		});
 
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				String comboBoxValue = comboBox.getSelectedItem().toString();
+				if(comboBoxValue.equalsIgnoreCase(Acao.ATUALIZAR.toString()) ||
+					comboBoxValue.equalsIgnoreCase(Acao.REMOVER.toString())) {
+
+					if (!e.getValueIsAdjusting() && table.getSelectedRow() != -1) {
+						fieldId.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
+						fieldName.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+					}
+				}
+			}
+		});
+
+
 	}
 	
 	private void fazerAcao(JTextField textField, JTable table, Acao acao) throws ArrayIndexOutOfBoundsException {
 		String text = textField.getText();
 		
-		if(text.length() == 0)
-		{
-			JOptionPane.showMessageDialog(this, "O campo nome encontra-se vazio.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
-			return;
-		}
-		
 		if(acao == Acao.ADICIONAR){
+
+			if(text.length() == 0) {
+				JOptionPane.showMessageDialog(this, "O campo nome encontra-se vazio.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+
+
 			Escola escola = new Escola(EscolaManager.getInstance().getEscolas().size(), text);
-			EscolaManager.getInstance().adicionarNovaEscola(escola);
-			this.repintarTabela();
+			//EscolaManager.getInstance().adicionarNovaEscola(escola);
 			EscolaManager.getInstance().getOperacoes().INSERT_DATA(escola);
+			EscolaManager.getInstance().getTodasEscolasDoBD();
+
 			JOptionPane.showMessageDialog(this, "Nova escola: " + text,"Adicionado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
+
+			this.repintarTabela();
 		}
 		else if (acao == Acao.ATUALIZAR){
+
+			if(text.length() == 0) {
+				JOptionPane.showMessageDialog(this, "O campo nome encontra-se vazio.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+
 			int id = -1;
 			id = table.getSelectedRow();
 			if(id == -1){
 				JOptionPane.showMessageDialog(this, "Selecione uma escola para ser atualizada.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
 				return;
 			}
+			id = Integer.parseInt(table.getValueAt(table.getSelectedRow(),0).toString());
 			
-			Escola velhaEscola = EscolaManager.getInstance().getEscolas().get(id);
+			Escola velhaEscola = EscolaManager.getInstance().getEscolaPeloId(id);
 			Escola novaEscola = new Escola(text);	
-			String mensage = "";
-			mensage = mensage.concat("Escola atualizada: " + novaEscola.getNome());
-			JOptionPane.showMessageDialog(this, mensage	,"Atualização concluída!", JOptionPane.INFORMATION_MESSAGE);
+
 			
 			novaEscola.setId(velhaEscola.getId());
 			EscolaManager.getInstance().getOperacoes().UPDATE_DATA(novaEscola);
-			EscolaManager.getInstance().atualizarEscola(id, novaEscola);
+			EscolaManager.getInstance().getTodasEscolasDoBD();
+
+			String mensage = "";
+			mensage = mensage.concat("Escola atualizada: " + novaEscola.getNome());
+			JOptionPane.showMessageDialog(this, mensage	,"Atualização concluída!", JOptionPane.INFORMATION_MESSAGE);
+
+			this.repintarTabela();
+		}
+		else if(acao == Acao.REMOVER){
+
+			int id = -1;
+			id = table.getSelectedRow();
+			if(id == -1){
+				JOptionPane.showMessageDialog(this, "Selecione uma escola para ser removida.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+			id = Integer.parseInt(table.getValueAt(table.getSelectedRow(),0).toString());
+
+			Escola velhaEscola = EscolaManager.getInstance().getEscolaPeloId(id);
+			Escola novaEscola = new Escola("");
+
+			novaEscola.setId(velhaEscola.getId());
+			EscolaManager.getInstance().getOperacoes().UPDATE_DATA(novaEscola);
+			EscolaManager.getInstance().getTodasEscolasDoBD();
+
+			String mensage = "";
+			mensage = mensage.concat("Escola removida: " + velhaEscola.getNome());
+			JOptionPane.showMessageDialog(this, mensage	,"Remoção concluída!", JOptionPane.INFORMATION_MESSAGE);
+
 			this.repintarTabela();
 		}
 	}
@@ -215,10 +291,11 @@ class MyTableModelEscola extends AbstractTableModel {
     }
     
     public void updateData(){
-    	data = new Object[EscolaManager.getInstance().getEscolas().size()][];
+
+		data = new Object[EscolaManager.getInstance().getEscolas().size()][];
     	for(int i = 0; i < data.length; i++){
     		data[i] = EscolaManager.getInstance().getEscolas().get(i).pegarTodosParametros();
-    	}	 
+    	}
     	
     	ordenar();
     }
@@ -267,11 +344,7 @@ class MyTableModelEscola extends AbstractTableModel {
     public boolean isCellEditable(int row, int col) {
         //Note that the data/cell address is constant,
         //no matter where the cell appears onscreen.
-        if (col < 2) {
-            return false;
-        } else {
-            return true;
-        }
+        return false;
     }
 
     /*

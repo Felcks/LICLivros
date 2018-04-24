@@ -21,12 +21,11 @@ public class OperacoesEscolas extends JavaConnection implements Operacoes {
 			connection.setAutoCommit(false);
 			stmt  = connection.createStatement();
 			
-			int id = escola.getId();
+			//int id = escola.getId();
 			String nome = escola.getNome();
 			
-			String sql = "INSERT INTO ESCOLAS (ID, NOME)" +
-			"VALUES (" + id + "," + 
-					"'" + nome + "'" + ");";
+			String sql = "INSERT INTO ESCOLAS (NOME)" +
+			"VALUES ('" + nome + "'" + ");";
 			
 			stmt.executeUpdate(sql);
 			
@@ -69,7 +68,7 @@ public class OperacoesEscolas extends JavaConnection implements Operacoes {
 			this.ConnectBd();
 			stmt = connection.createStatement();
 			
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM ESCOLAS");
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM ESCOLAS WHERE NOME != '' ");
 			
 			while (resultSet.next()){
 				Escola escola = new Escola(resultSet);
