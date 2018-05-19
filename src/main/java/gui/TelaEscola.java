@@ -1,4 +1,4 @@
-package gui;
+package gui;l
 
 import java.awt.Color;
 import java.awt.ComponentOrientation;
@@ -146,8 +146,15 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Acao acao = Acao.valueOf(comboBox.getSelectedItem().toString());
-				fieldName.setText("");
-				fieldId.setText("");
+
+				if(acao == Acao.ADICIONAR) {
+					fieldName.setText("");
+					fieldId.setText("");
+				}
+				else if (table.getSelectedRow() != -1) {
+					fieldId.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
+					fieldName.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+				}
 			}
 		});
 		
@@ -156,8 +163,8 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 			public void actionPerformed(ActionEvent arg0) {
 				Acao acao = Acao.NENHUMA;
 				acao = Acao.valueOf(comboBox.getSelectedItem().toString());
-				fazerAcao(fieldName, table, acao);
-				fieldName.setText("");
+				fazerAcao(fieldId, fieldName, table, acao);
+				//fieldName.setText("");
 			}
 		});
 		
@@ -165,6 +172,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				fieldName.setText("");
+				fieldId.setText("");
 				guiManager.mudarParaTela("telaInicial");
 			}
 		});
@@ -180,14 +188,17 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 						fieldId.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
 						fieldName.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
 					}
+					else{
+						fieldId.setText("");
+						fieldName.setText("");
+					}
 				}
 			}
 		});
-
-
 	}
+
 	
-	private void fazerAcao(JTextField textField, JTable table, Acao acao) throws ArrayIndexOutOfBoundsException {
+	private void fazerAcao(JTextField textFieldId, JTextField textField, JTable table, Acao acao) throws ArrayIndexOutOfBoundsException {
 		String text = textField.getText();
 		
 		if(acao == Acao.ADICIONAR){
@@ -203,6 +214,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 			EscolaManager.getInstance().getOperacoes().INSERT_DATA(escola);
 			EscolaManager.getInstance().getTodasEscolasDoBD();
 
+			textField.setText("");
 			JOptionPane.showMessageDialog(this, "Nova escola: " + text,"Adicionado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
 
 			this.repintarTabela();
@@ -216,7 +228,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 
 			int id = -1;
 			id = table.getSelectedRow();
-			if(id == -1){
+			if(id == -1 && id < table.getRowCount()){
 				JOptionPane.showMessageDialog(this, "Selecione uma escola para ser atualizada.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
 				return;
 			}
@@ -240,7 +252,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 
 			int id = -1;
 			id = table.getSelectedRow();
-			if(id == -1){
+			if(id == -1 && id < table.getRowCount()){
 				JOptionPane.showMessageDialog(this, "Selecione uma escola para ser removida.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
 				return;
 			}
@@ -257,7 +269,17 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 			mensage = mensage.concat("Escola removida: " + velhaEscola.getNome());
 			JOptionPane.showMessageDialog(this, mensage	,"Remoção concluída!", JOptionPane.INFORMATION_MESSAGE);
 
+
 			this.repintarTabela();
+
+			if (table.getSelectedRow() != -1 && table.getSelectedRow() < table.getRowCount()) {
+				textFieldId.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
+				textField.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+			}
+			else{
+				textFieldId.setText("");
+				textField.setText("");
+			}
 		}
 	}
 	
