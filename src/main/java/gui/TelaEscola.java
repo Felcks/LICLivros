@@ -1,4 +1,4 @@
-package gui;l
+package gui;
 
 import java.awt.Color;
 import java.awt.ComponentOrientation;
@@ -209,7 +209,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 			}
 
 
-			Escola escola = new Escola(EscolaManager.getInstance().getEscolas().size(), text);
+			Escola escola = new Escola(text);
 			//EscolaManager.getInstance().adicionarNovaEscola(escola);
 			EscolaManager.getInstance().getOperacoes().INSERT_DATA(escola);
 			EscolaManager.getInstance().getTodasEscolasDoBD();
@@ -228,7 +228,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 
 			int id = -1;
 			id = table.getSelectedRow();
-			if(id == -1 && id < table.getRowCount()){
+			if(id == -1 || id > table.getRowCount()){
 				JOptionPane.showMessageDialog(this, "Selecione uma escola para ser atualizada.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
 				return;
 			}

@@ -21,13 +21,11 @@ public class OperacoesEditoras extends JavaConnection implements Operacoes{
 			ConnectBd();
 			connection.setAutoCommit(false);
 			stmt  = connection.createStatement();
-			
-			int id = editora.getId();
+
 			String nome = editora.getNome();
 			
-			String sql = "INSERT INTO EDITORAS (ID, NOME)" +
-			"VALUES (" + id + "," + 
-					"'" + nome + "'" + ");";
+			String sql = "INSERT INTO EDITORAS (NOME)" +
+			"VALUES ('" + nome + "'" + ");";
 			
 			stmt.executeUpdate(sql);
 			
@@ -68,7 +66,7 @@ public class OperacoesEditoras extends JavaConnection implements Operacoes{
 			this.ConnectBd();
 			stmt = connection.createStatement();
 			
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM EDITORAS");
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM EDITORAS WHERE NOME != ''");
 			while (resultSet.next()){
 				Editora editora = new Editora(resultSet);
 				EditoraManager.getInstance().adicionarNovaEditora(editora);

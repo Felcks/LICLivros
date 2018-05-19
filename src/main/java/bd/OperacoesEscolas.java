@@ -20,8 +20,7 @@ public class OperacoesEscolas extends JavaConnection implements Operacoes {
 			ConnectBd();
 			connection.setAutoCommit(false);
 			stmt  = connection.createStatement();
-			
-			//int id = escola.getId();
+
 			String nome = escola.getNome();
 			
 			String sql = "INSERT INTO ESCOLAS (NOME)" +
@@ -74,12 +73,12 @@ public class OperacoesEscolas extends JavaConnection implements Operacoes {
 				Escola escola = new Escola(resultSet);
 				EscolaManager.getInstance().adicionarNovaEscola(escola);
 			}
-			if(EscolaManager.getInstance().getEscolas().size() == 0)
+			/*if(EscolaManager.getInstance().getEscolas().size() == 0)
 			{
 				Escola escola = new Escola(0, "ESCOLA PADRÃO");
 				INSERT_DATA(escola);
 				EscolaManager.getInstance().adicionarNovaEscola(escola);
-			}
+			}*/
 			
 			this.closeConnections();
 		} catch(Exception e){}
