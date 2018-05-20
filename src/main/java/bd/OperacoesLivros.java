@@ -20,6 +20,8 @@ public class OperacoesLivros extends JavaConnection implements Operacoes
 			this.ConnectBd();
 			
 			connection.setAutoCommit(false);
+			stmt  = connection.createStatement();
+
 			int id = livro.getId();
 			String nome = livro.getNome();
 			String editora = livro.getEditora();
@@ -27,18 +29,17 @@ public class OperacoesLivros extends JavaConnection implements Operacoes
 			int comprar = livro.getComprar();
 			int vendidos = livro.getVendidos();
 			double preco = livro.getPreco();
-			
-			stmt  = connection.createStatement();
-			String sql = "INSERT INTO LIVROS (ID, NOME, EDITORA, QUANTIDADE, COMPRAR, VENDIDOS, PRECO)" +
-			"VALUES (" + id + "," + 
-					"'" + nome + "'" + "," + 
+
+			String sql = "INSERT INTO LIVROS (NOME, EDITORA, QUANTIDADE, COMPRAR, VENDIDOS, PRECO)" +
+			"VALUES ('" + nome + "'" + "," +
 					"'" + editora + "'" + "," +
 					quantidade + "," + 
 					comprar + "," + 
 					vendidos + "," +
 					preco + ");";
+
 			stmt.executeUpdate(sql);
-		     
+			stmt.close();
 			connection.commit();
 			this.closeConnections();
 			

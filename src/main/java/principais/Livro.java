@@ -37,11 +37,11 @@ public class Livro implements Comparator<Livro> {
 	
 	public Livro(String[] campos){
 		try{
-			this.setNome(campos[0]);
-			this.setEditora(campos[1]);
+			this.setNome(campos[1]);
+			this.setEditora(campos[2]);
 			
 			this.setQuantidade(0);
-			this.setQuantidade(Integer.parseInt(campos[2]));
+			this.setQuantidade(Integer.parseInt(campos[3]));
 		}
 		catch(Exception e){}
 		
@@ -50,7 +50,7 @@ public class Livro implements Comparator<Livro> {
 		
 		try{
 			this.setPreco(0);
-			this.setPreco(Double.parseDouble(campos[3]));
+			this.setPreco(Double.parseDouble(campos[4]));
 		}
 		catch(Exception e){}
 	}
@@ -80,6 +80,17 @@ public class Livro implements Comparator<Livro> {
 				return false;
 		}
 		
+		return true;
+	}
+
+	public Boolean isValidLivroSemId(){
+		Object[] object = pegarTodosParametros();
+
+		for(int i = 1; i < object.length - 1; i++){
+			if(object[i].toString().length() == 0)
+				return false;
+		}
+
 		return true;
 	}
 	

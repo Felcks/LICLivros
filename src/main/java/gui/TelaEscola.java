@@ -53,25 +53,25 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
      
         JTextField fieldName = new JTextField();
 		c.gridy = 18;
-		int posAtual = 10;
+		int posAtual = 11;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.gridx = posAtual;
-		c.gridwidth = 7;
+		c.gridwidth = 3;
 		this.add(fieldName, c);
 		
 		JLabel labelName = new JLabel("NOME");
-		posAtual = 10;
+		posAtual = 11;
 		c.gridy = 17;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.PAGE_END;
-		c.gridwidth = 7;
+		c.gridwidth = 3;
 		c.gridx = posAtual;
 		this.add(labelName, c);
 
 		JTextField fieldId = new JTextField();
 		c.gridy = 18;
-		posAtual = 9;
+		posAtual = 10;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.gridx = posAtual;
@@ -81,7 +81,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 		this.add(fieldId, c);
 
 		JLabel labelId = new JLabel("  ID");
-		posAtual = 9;
+		posAtual = 10;
 		c.gridy = 17;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.PAGE_END;
@@ -109,11 +109,11 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 		table.getColumnModel().getColumn(0).setCellRenderer(left);
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
-		c.gridx = 4;
+		c.gridx = 10;
 		c.gridy = 2;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
-		c.gridwidth = 19;
+		c.gridwidth = 4;
 		c.gridheight = 15;
 		this.add(scrollPane, c);
 		
@@ -131,7 +131,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 		c.fill = GridBagConstraints.HORIZONTAL;;
 		c.gridx = 11;
 		c.gridy = 19;
-		c.gridwidth = 1;
+		c.gridwidth = 3;
 		this.add(btn_fazerAcao, c);
 		
 		JButton btn_Voltar = new JButton("Voltar");
@@ -228,7 +228,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 
 			int id = -1;
 			id = table.getSelectedRow();
-			if(id == -1 || id > table.getRowCount()){
+			if(id == -1 || id >= table.getRowCount()){
 				JOptionPane.showMessageDialog(this, "Selecione uma escola para ser atualizada.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
 				return;
 			}
