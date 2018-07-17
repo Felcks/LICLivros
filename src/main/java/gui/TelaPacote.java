@@ -1,12 +1,10 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.ComponentOrientation;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -26,16 +24,9 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import bd.OperacoesLivros;
+import bd.OperacoesLivrosPacotes;
 import bd.OperacoesPacotes;
-import principais.AnoEscolar;
-import principais.ClienteManager;
-import principais.EditoraManager;
-import principais.Escola;
-import principais.EscolaManager;
-import principais.EstoqueManager;
-import principais.Livro;
-import principais.Pacote;
-import principais.PacoteManager;
+import principais.*;
 import utilidades.Acao;
 import utilidades.AutoSuggestor;
 import utilidades.Screen;
@@ -50,6 +41,9 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 	private Escola escolaSelecionada;
 	private AnoEscolar anoEscolarSelecionado;
 	AutoSuggestor autoSuggestor;
+	private OperacoesLivrosPacotes operacoesLivrosPacotes = new OperacoesLivrosPacotes();
+
+	private JTable tableLivros;
 	
 	public TelaPacote(GUIManager guiManager) {
 		this.guiManager = guiManager;
@@ -70,39 +64,17 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
         		this.add(new JLabel(""), c);
         	}
         }
-        
-        JTextField fieldName = new JTextField();
-        Action action;
-    	c.gridy = 11;
-		int posAtual = 9;
-		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.PAGE_START;
-		c.gridx = posAtual;
-		c.gridwidth = 6;
-		this.add(fieldName, c);
-		
-        autoSuggestor = new AutoSuggestor(fieldName, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
-				Color.WHITE, Color.blue, Color.BLACK, 0.55f);
-		
-        JLabel labelName = new JLabel("NOME");
-		posAtual = 9;
-		c.gridy = 10;
-		c.fill = GridBagConstraints.NONE;
-		c.anchor = GridBagConstraints.PAGE_END;
-		c.gridwidth = 6;
-		c.gridx = posAtual;
-		this.add(labelName, c);
 
         JLabel txt_Title = new JLabel("PACOTE", SwingConstants.CENTER);
         txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));
-		txt_Title.setSize(100,100);
+		txt_Title.setSize(30,30);
         c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 24;
+		c.gridwidth = 12;
 		c.gridheight = 2;
 		c.anchor = GridBagConstraints.CENTER;
-		this.add(txt_Title, c);
+		//this.add(txt_Title, c);
 		
 		JLabel labelEscola = new JLabel("ESCOLA: ");
 		c.gridx = 0;
@@ -117,14 +89,14 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		comboBox = new JComboBox(todasEscolas);
 		c.gridx = 1;
 		c.gridy = 0;
-		c.gridwidth = 2;
+		c.gridwidth = 5;
 		c.gridheight = 2;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.CENTER;
 		this.add(comboBox,c);
 		
 		JLabel labelAno = new JLabel("ANO: ");
-		c.gridx = 21;
+		c.gridx = 6;
 		c.gridy = 0;
 		c.gridwidth = 1;
 		c.gridheight = 2;
@@ -134,7 +106,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		
 		String[] todosAnos = AnoEscolar.getTodosNomesAnosEscolares();
 		JComboBox comboBoxAno = new JComboBox(todosAnos);
-		c.gridx = 22;
+		c.gridx = 7;
 		c.gridy = 0;
 		c.gridwidth = 2;
 		c.gridheight = 2;
@@ -144,7 +116,8 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		
 		this.escolaSelecionada = new Escola(comboBox.getSelectedItem().toString());
 		this.anoEscolarSelecionado = AnoEscolar.getAnoEscolarPeloNome(comboBoxAno.getSelectedItem().toString());
-		
+
+
 		this.table = new JTable(new MyTableModelPacote(escolaSelecionada, anoEscolarSelecionado));
 		minimizarTamanhoDaColuna(table, 0, 40);
 		minimizarTamanhoDaColuna(table, 3, 80);
@@ -153,63 +126,40 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		table.setFillsViewportHeight(true);
 		c.gridx = 0;
 		c.gridy = 2;
-		c.gridwidth = 24;
-		c.gridheight = 8;
+		c.gridwidth = 10;
+		c.gridheight = 10;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(scrollPane, c);
+
+		this.inicializarViewLivros(c);
+
 		
-		
-		String[] acoes = { Acao.ADICIONAR.toString(), Acao.REMOVER.toString() };
-		JComboBox comboBoxAcoes = new JComboBox(acoes);
+		JButton btn_fazerAcao = new JButton("Adicionar ao Pacote");
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 14;
+		c.gridy = 12;
+		c.gridwidth = 10;
+		c.gridheight = 1;
 		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridwidth = 1;
-		c.gridheight = 1;
-		c.gridx = 10;
-		c.gridy = 12;
-		//this.add(comboBoxAcoes, c);
-		
-		JButton btn_fazerAcao = new JButton("Adicionar");
-		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 10;
-		c.gridy = 12;
-		c.gridwidth = 4;
-		c.gridheight = 1;
-		c.anchor = GridBagConstraints.PAGE_START;
 		this.add(btn_fazerAcao, c);
 		
-		JButton btn_fazerAcao2 = new JButton("Remover");
-		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 10;
-		c.gridy = 30;
-		c.gridwidth = 4;
-		c.gridheight = 1;
-		c.anchor = GridBagConstraints.PAGE_END;
-		this.add(btn_fazerAcao2, c);
-		
-		JButton btn_Voltar = new JButton("Voltar");
-		c.fill = GridBagConstraints.BOTH;
+		JButton btn_fazerAcao2 = new JButton("Remover do Pacote");
+		c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
-		c.gridy = 20;
-		c.gridwidth = 1;
+		c.gridy = 12;
+		c.gridwidth = 10;
 		c.gridheight = 1;
-		//this.add(btn_Voltar, c);
-		
-		btn_Voltar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				fieldName.setText("");
-				guiManager.mudarParaTela("telaInicial");
-			}
-		});
+		c.anchor = GridBagConstraints.CENTER;
+		this.add(btn_fazerAcao2, c);
 		
 		comboBox.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
 				if(comboBox != null)
 					if(comboBox.getItemCount() > 0)
-						escolaSelecionada = new Escola(comboBox.getSelectedItem().toString());
+						escolaSelecionada = EscolaManager.getInstance().getEscolaPeloNome(comboBox.getSelectedItem().toString());
+								///new Escola(comboBox.getSelectedItem().toString());
 				
 				repintarTabela();
 			}
@@ -225,34 +175,96 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		btn_fazerAcao.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				fazerAcao(fieldName, table, Acao.ADICIONAR);
+				fazerAcao(table, tableLivros, Acao.ADICIONAR);
 			}
 		});
 		
 		btn_fazerAcao2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				fazerAcao(fieldName, table, Acao.REMOVER);
+				//fazerAcao(fieldName, table, Acao.REMOVER);
 			}
 		});
-		
-		comboBoxAcoes.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				fieldName.setText("");
-			}
-		});	
-		
-		 action = new AbstractAction()
-	        {
-	            @Override
-	            public void actionPerformed(ActionEvent e)
-	            {
-					fazerAcao(fieldName, table, Acao.ADICIONAR);
-	            }
-	        };
-	        fieldName.addActionListener(action);
+
+		atualizarLivros(table, comboBox);
 	        
+	}
+
+
+	private JComboBox comboBoxEditora;
+	private void inicializarViewLivros(GridBagConstraints c){
+
+		JLabel editoraLabel = new JLabel("EDITORA: ");
+		c.gridx = 14;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 2;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.CENTER;
+		this.add(editoraLabel, c);
+
+		String[] todasEditoras = new String[EditoraManager.getInstance().getEditoras().size()];
+		for(int i = 0; i < EditoraManager.getInstance().getEditoras().size(); i++){
+			todasEditoras[i] = EditoraManager.getInstance().getEditoras().get(i).getNome();
+		}
+		comboBoxEditora = new JComboBox(todasEditoras);
+		c.gridx = 15;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 2;
+		c.anchor = GridBagConstraints.CENTER;
+		this.add(comboBoxEditora,c);
+
+
+		this.tableLivros = new JTable(new MyTableModelLivro(""));
+		minimizarTamanhoDaColuna(tableLivros, 0, 40);
+		minimizarTamanhoDaColuna(tableLivros, 3, 80);
+		minimizarTamanhoDaColuna(tableLivros, 2, 175);
+		JScrollPane scrollPane2  = new JScrollPane(this.tableLivros);
+		tableLivros.setFillsViewportHeight(true);
+		c.gridx = 14;
+		c.gridy = 2;
+		c.gridwidth = 10;
+		c.gridheight = 10;
+		c.anchor = GridBagConstraints.CENTER;
+		c.fill = GridBagConstraints.BOTH;
+		this.add(scrollPane2, c);
+
+		comboBoxEditora.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				atualizarLivros(table, comboBox);
+			}
+		});
+	}
+
+	private void atualizarLivros(JTable table, JComboBox comboBox){
+		try{
+			if(comboBox != null){
+				this.repintarTabelaLivro(comboBoxEditora.getSelectedItem().toString());
+				//textField.setText(comboBox.getSelectedItem().toString());
+			}
+
+		}
+		catch(java.lang.NullPointerException e){
+
+		}
+	}
+
+	private void repintarTabelaLivro(String editora, Ordenar ordenar){
+		if(this.tableLivros != null){
+			((MyTableModelLivro)this.tableLivros.getModel()).updateData(editora, ordenar);
+			this.tableLivros.repaint();
+			//TODO atualizarCampos();
+		}
+	}
+
+	private void repintarTabelaLivro(String editora){
+		if(this.tableLivros != null){
+			((MyTableModelLivro)this.tableLivros.getModel()).updateData(editora);
+			this.tableLivros.repaint();
+			//TODO atualizarCampos();
+		}
 	}
 
 	@Override
@@ -266,23 +278,32 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 
 		PacoteManager.getInstance().getOperacoes().GET_AND_SET_ALL_DATA();
 		
-		autoSuggestor = new AutoSuggestor(autoSuggestor.getTextField(), guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
-				  Color.WHITE, Color.blue, Color.black, 0.55f);
-		
-		
 		this.repintarTabela();
 	}
 		
-	private void fazerAcao(JTextField textField, JTable table, Acao acao){
-		String text = textField.getText();
+	private void fazerAcao(JTable table, JTable tableLivros, Acao acao){
 		
 		if(acao == Acao.ADICIONAR){
-			Livro livro = EstoqueManager.getInstance().getLivroPeloNome(text);
+
+			int id = -1;
+			id = tableLivros.getSelectedRow();
+			if(id == -1 || id >= tableLivros.getRowCount()){
+				JOptionPane.showMessageDialog(this, "Selecione um livro para ser adicionado.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+			id = Integer.parseInt(tableLivros.getValueAt(tableLivros.getSelectedRow(),0).toString());
+
+			Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
+			Pacote pacote = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
+			this.operacoesLivrosPacotes.INSERT_DATA(id, pacote.getId());
+			this.repintarTabela();
+			this.repintarTabelaLivro(comboBoxEditora.getSelectedItem().toString());
+			/*Livro livro = EstoqueManager.getInstance().getLivroPeloNome(text);
 			if(livro.getNome().equals("LivroInexistente"))
 			{
 				JOptionPane.showMessageDialog(this, "Esse livro não está registrado.","Erro ao adicionar", JOptionPane.OK_CANCEL_OPTION);
 			}
-			else if(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado).getLivros().contains(livro))
+			else if(PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado).getLivros().contains(livro))
 			{
 				JOptionPane.showMessageDialog(this, "Esse livro já está inserido nesse pacote.","Erro ao adicionar", JOptionPane.OK_CANCEL_OPTION);
 			}
@@ -290,19 +311,19 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 			{
 				textField.setText("");
 				JOptionPane.showMessageDialog(this, "Livro Adicionado: " + livro.getNome(), "Adicionado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
-				PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado).adicionarLivro(livro);
+				PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado).adicionarLivro(livro);
 				this.repintarTabela();
 				
-				((OperacoesPacotes)PacoteManager.getInstance().getOperacoes()).DELETE_PACOTE(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado));
-				PacoteManager.getInstance().getOperacoes().INSERT_DATA(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado));
-			}
+				((OperacoesPacotes)PacoteManager.getInstance().getOperacoes()).DELETE_PACOTE(PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado));
+				PacoteManager.getInstance().getOperacoes().INSERT_DATA(PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado));
+			}*/
 		}
 		else if(acao == Acao.REMOVER){
 			int id = -1;
 			id = table.getSelectedRow();
 			
-			if(id >= 0 && id < PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado).getLivros().size()){
-				Pacote pacoteAtual = PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado);
+			if(id >= 0 && id < PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado).getLivros().size()){
+				Pacote pacoteAtual = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
 				Object[][] data = ((MyTableModelPacote)table.getModel()).getData();
 				int idReal = (int)data[id][0];
 				Livro livro = pacoteAtual.getLivroPeloId(idReal);
@@ -310,7 +331,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 				JOptionPane.showMessageDialog(this, "Livro removido: " + livro.getNome(), "Removido com sucesso!", JOptionPane.INFORMATION_MESSAGE);
 				pacoteAtual.removerLivro(livro);
 				this.repintarTabela();
-				((OperacoesPacotes)PacoteManager.getInstance().getOperacoes()).DELETE_PACOTE(PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado));
+				((OperacoesPacotes)PacoteManager.getInstance().getOperacoes()).DELETE_PACOTE(PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado));
 				PacoteManager.getInstance().getOperacoes().INSERT_DATA(pacoteAtual);
 				
 			}
@@ -360,9 +381,9 @@ class MyTableModelPacote extends AbstractTableModel {
     }
     
     public void updateData(Escola escola, AnoEscolar anoEscolar){
-    	data = new Object[PacoteManager.getInstance().getPacote(escola, anoEscolar).getLivros().size()][];
+    	data = new Object[PacoteManager.getInstance().getPacote(escola.getId(), anoEscolar).getLivros().size()][];
     	for(int i = 0; i < data.length; i++){
-    		data[i] = PacoteManager.getInstance().getPacote(escola, anoEscolar).getLivros().get(i).pegarParametrosDePacote();
+    		data[i] = PacoteManager.getInstance().getPacote(escola.getId(), anoEscolar).getLivros().get(i).pegarParametrosDePacote();
     	}	
     }
     
@@ -436,5 +457,115 @@ class MyTableModelPacote extends AbstractTableModel {
         }
         System.out.println("--------------------------");
     }
+}
+
+class MyTableModelLivro extends AbstractTableModel {
+
+
+	private String[] columnNames = {"ID",
+									"NOME",
+									"EDITORA",
+									"PREÇO"};
+
+	private Object[][] data;
+	private Ordenar lastOrdem = Ordenar.NUMERO;
+
+	public Object[][] getData(){
+		return data;
+	}
+	public MyTableModelLivro(String editora){
+		updateData(editora, Ordenar.NUMERO);
+	}
+
+	public void updateData(String editora, Ordenar ordenar){
+		data = new Object[EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).size()][];
+		for(int i = 0; i < data.length; i++){
+			data[i] = EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).get(i).pegarTodosParametrosEspecial();
+		}
+
+		lastOrdem = ordenar;
+		ordenar(editora);
+	}
+
+	public void updateData(String editora){
+		data = new Object[EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).size()][];
+		for(int i = 0; i < data.length; i++){
+			data[i] = EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).get(i).pegarTodosParametrosEspecial();
+		}
+
+		ordenar(editora);
+	}
+
+	private void ordenar(String editora){
+		if(lastOrdem == Ordenar.NOME){
+			for(int i = 0; i < data.length; i++){
+				ArrayList<Livro> livrosOrdenados= (ArrayList<Livro>) EstoqueManager.getInstance().getLivrosDeUmaEditora(editora);
+				NomeLivroComparator nLC = new NomeLivroComparator();
+				Collections.sort(livrosOrdenados, nLC);
+				data[i] = livrosOrdenados.get(i).pegarTodosParametrosEspecial();
+			}
+		}
+	}
+
+	public int getColumnCount() {
+		return columnNames.length;
+	}
+
+	public int getRowCount() {
+		return data.length;
+	}
+
+	public String getColumnName(int col) {
+		return columnNames[col];
+	}
+
+	public Object getValueAt(int row, int col) {
+		return data[row][col];
+	}
+
+	/*
+	 * JTable uses this method to determine the default renderer/
+	 * editor for each cell.  If we didn't implement this method,
+	 * then the last column would contain text ("true"/"false"),
+	 * rather than a check box.
+	 */
+	public Class getColumnClass(int c) {
+		return getValueAt(0, c).getClass();
+	}
+
+	/*
+	 * Don't need to implement this method unless your table's
+	 * editable.
+	 */
+	public boolean isCellEditable(int row, int col) {
+		//Note that the data/cell address is constant,
+		//no matter where the cell appears onscreen.
+		return false;
+	}
+
+	/*
+	 * Don't need to implement this method unless your table's
+	 * data can change.
+	 */
+	public void setValueAt(Object value, int row, int col) {
+
+		data[row][col] = value;
+		fireTableCellUpdated(row, col);
+
+	}
+
+	private void printDebugData() {
+		int numRows = getRowCount();
+		int numCols = getColumnCount();
+
+		for (int i=0; i < numRows; i++) {
+			System.out.print("    row " + i + ":");
+			for (int j=0; j < numCols; j++) {
+				System.out.print("  " + data[i][j]);
+			}
+			System.out.println();
+		}
+		System.out.println("--------------------------");
+	}
 }
 

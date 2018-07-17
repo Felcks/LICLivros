@@ -105,18 +105,20 @@ public class EstoqueManager {
 	
 	public void retirarDoEstoque(int id){
 		Livro livro = this.getLivroPeloId(id);
-		
+		livro.setReservado(livro.getReservado() + 1);
+
+		/*
 		if(livro.getQuantidade() > 0)
 			livro.setQuantidade(livro.getQuantidade() - 1);
 		else
-			livro.setComprar(livro.getComprar() + 1);
+			livro.setComprar(livro.getComprar() + 1);*/
 		
 		
 		this.operacoes.UPDATE_DATA(livro);
 	}
 	
 	public void adicionarDoEstoque(int[] id){
-		for(int i = 0; i < id.length; i++)
+		/*for(int i = 0; i < id.length; i++)
 		{
 			Livro livro = this.getLivroPeloId(id[i]);
 			if(livro.getComprar() > 0){
@@ -124,13 +126,14 @@ public class EstoqueManager {
 			}
 			livro.setVendidos(livro.getVendidos() + 1);
 			this.operacoes.UPDATE_DATA(livro);
-		}
+		}*/
 	}
 	
 	public void limparAposRelatorioFinal(){
+
 		for(int i = 0; i < this.livros.size(); i++){
 			Livro livro = livros.get(i);
-			livro.setComprar(0);
+			//livro.setComprar(0);
 			livro.setVendidos(0);
 			this.operacoes.UPDATE_DATA(livro);
 		}

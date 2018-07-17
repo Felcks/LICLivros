@@ -522,10 +522,12 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 			int quantidadeComprada = pedido.getQtdDosLivrosComprados()[i];
 			livro.setVendidos(livro.getVendidos() + quantidadeComprada);
 			for(int j = 0; j < quantidadeComprada; j++){
-				if(livro.getQuantidade() > 0)
+
+				livro.setReservado(livro.getReservado() + 1);
+				/*if(livro.getQuantidade() > 0)
 					livro.setQuantidade(livro.getQuantidade() - 1);
 				else
-					livro.setComprar(livro.getComprar() + 1);
+					livro.setComprar(livro.getComprar() + 1);*/
 			}
 
 			EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);

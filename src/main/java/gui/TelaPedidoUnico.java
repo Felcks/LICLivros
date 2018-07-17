@@ -480,10 +480,12 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 			int quantidadeComprada = pedido.getQtdDosLivrosComprados()[i];
 			livro.setVendidos(livro.getVendidos() + quantidadeComprada);
 			for(int j = 0; j < quantidadeComprada; j++){
-				if(livro.getQuantidade() > 0)
+
+				livro.setReservado(livro.getReservado() + 1);
+				/*if(livro.getQuantidade() > 0)
 					livro.setQuantidade(livro.getQuantidade() - 1);
 				else
-					livro.setComprar(livro.getComprar() + 1);
+					livro.setComprar(livro.getComprar() + 1);*/
 			}
 
 			EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
@@ -563,7 +565,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 			((TableModelPedido)this.table.getModel()).updateData(escolaSelecionada, anoEscolarSelecionado);
 			this.table.repaint();
 			
-			this.pacote = PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado);
+			this.pacote = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
 			precoTotal = 0;
 			for(int i = 0; i < pacote.getLivros().size(); i++){
 				precoTotal += pacote.getLivros().get(i).getPreco();

@@ -253,6 +253,15 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
 			JOptionPane.showMessageDialog(this, mensage	,"Atualização concluída!", JOptionPane.INFORMATION_MESSAGE);
 
 			this.repintarTabela();
+
+			if (table.getSelectedRow() != -1 && table.getSelectedRow() < table.getRowCount()) {
+				textFieldId.setText(table.getValueAt(table.getSelectedRow(), 0).toString());
+				textField.setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+			}
+			else{
+				textFieldId.setText("");
+				textField.setText("");
+			}
 		}
         else if(acao == Acao.REMOVER){
 

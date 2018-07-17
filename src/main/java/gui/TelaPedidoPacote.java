@@ -237,7 +237,7 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 			((MyTableModelPedidoPacote)this.table.getModel()).updateData(escolaSelecionada, anoEscolarSelecionado);
 			this.table.repaint();
 			
-			pacote = PacoteManager.getInstance().getPacote(escolaSelecionada, anoEscolarSelecionado);
+			pacote = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
 			idsDosLivrosSelecionados = new int[pacote.getLivros().size()];
 			for(int i = 0; i < idsDosLivrosSelecionados.length; i++)
 				idsDosLivrosSelecionados[i] = pacote.getLivros().get(i).getId();
@@ -293,9 +293,9 @@ class MyTableModelPedidoPacote extends AbstractTableModel {
     }
     
     public void updateData(Escola escola, AnoEscolar anoEscolar){
-    	data = new Object[PacoteManager.getInstance().getPacote(escola, anoEscolar).getLivros().size()][];
+    	data = new Object[PacoteManager.getInstance().getPacote(escola.getId(), anoEscolar).getLivros().size()][];
     	for(int i = 0; i < data.length; i++){
-    		Object[] parametros = PacoteManager.getInstance().getPacote(escola, anoEscolar).getLivros().get(i).pegarParametrosParaPedido();
+    		Object[] parametros = PacoteManager.getInstance().getPacote(escola.getId(), anoEscolar).getLivros().get(i).pegarParametrosParaPedido();
     		data[i] = new Object[parametros.length + 1];
     		for(int j = 0; j < parametros.length; j++)
     			data[i][j] = parametros[j];

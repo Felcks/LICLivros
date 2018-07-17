@@ -11,7 +11,7 @@ public class Livro implements Comparator<Livro> {
 	private String nome;
 	private String editora;
 	private int quantidade;
-	private int comprar;
+	private int reservado;
 	private int vendidos;
 	private double preco;
 	
@@ -26,8 +26,8 @@ public class Livro implements Comparator<Livro> {
 			this.setEditora(editora);
 			int quantidade = rs.getInt("QUANTIDADE");
 			this.setQuantidade(quantidade);
-			int comprar = rs.getInt("COMPRAR");
-			this.setComprar(comprar);
+			int reservado = rs.getInt("RESERVADO");
+			this.setReservado(reservado);
 			int vendidos = rs.getInt("VENDIDOS");
 			this.setVendidos(vendidos);
 			double preco = rs.getDouble("PRECO");
@@ -45,7 +45,7 @@ public class Livro implements Comparator<Livro> {
 		}
 		catch(Exception e){}
 		
-		this.setComprar(0);
+		this.setReservado(0);
 		this.setVendidos(0);
 		
 		try{
@@ -59,12 +59,12 @@ public class Livro implements Comparator<Livro> {
 		this.setNome(nome);
 	}
 	
-	public Livro(int id, String nome, String editora, int quantidade, int comprar, int vendidos, double preco){
+	public Livro(int id, String nome, String editora, int quantidade, int reservado, int vendidos, double preco){
 		this.setId(id);
 		this.setNome(nome);
 		this.setEditora(editora);
 		this.setQuantidade(quantidade);
-		this.setComprar(comprar);
+		this.setReservado(reservado);
 		this.setVendidos(vendidos);
 		this.setPreco(preco);
 	}
@@ -107,6 +107,19 @@ public class Livro implements Comparator<Livro> {
 		todosParametros[6] = formatado;
 		return todosParametros;
 	}
+
+	public Object[] pegarTodosParametrosEspecial(){
+		Object[] todosParametros = new Object[4];
+		todosParametros[0] = this.getId();
+		todosParametros[1] = this.getNome();
+		todosParametros[2] = this.getEditora();
+		NumberFormat nf = NumberFormat.getCurrencyInstance();
+		String formatado = nf.format (this.getPreco());
+		todosParametros[3] = formatado;
+		return todosParametros;
+	}
+
+
 	public Object[] pegarTodosParametrosParaEstoque(){
 		Object[] todosParametros = new Object[7];
 		todosParametros[0] = this.getId();
@@ -153,7 +166,7 @@ public class Livro implements Comparator<Livro> {
 		try{
 			this.setNome(object[1].toString());
 			this.setEditora(object[2].toString());
-			this.setComprar(Integer.parseInt(object[3].toString()));
+			this.setReservado(Integer.parseInt(object[3].toString()));
 			this.setQuantidade(Integer.parseInt(object[4].toString()));
 			this.setVendidos(Integer.parseInt(object[5].toString()));
 			this.setPreco(Double.parseDouble(object[6].toString()));
@@ -205,10 +218,11 @@ public class Livro implements Comparator<Livro> {
 
 
 	public int getComprar() {
-		return comprar;
-	}
-	public void setComprar(int comprar) {
-		this.comprar = comprar;
+		int comprar = this.getReservado() - this.getQuantidade();
+		if(comprar >= 0)
+			return comprar;
+		else
+			return 0;
 	}
 	
 	public int getVendidos(){
@@ -223,6 +237,13 @@ public class Livro implements Comparator<Livro> {
 	}
 	public void setPreco(double preco){
 		this.preco = preco;
+	}
+
+	public int getReservado() {
+		return reservado;
+	}
+	public void setReservado(int reservado) {
+		this.reservado = reservado;
 	}
 
 	@Override

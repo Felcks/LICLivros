@@ -6,16 +6,16 @@ import java.util.ArrayList;
 
 public class Pacote {
 	
-	private Escola escola;
+	private int escolaId;
 	private AnoEscolar anoEscolar;
 	private int id;
 	private List<Livro> livros;
 	
-	public Pacote(int id, Escola escola, AnoEscolar anoEscolar, List<Livro> livros){
+	public Pacote(int id, int escola, AnoEscolar anoEscolar){
 		this.setId(id);
-		this.escola = escola;
+		this.escolaId = escola;
 		this.anoEscolar = anoEscolar;
-		this.livros =  livros;
+		this.livros = new ArrayList<Livro>();
 	}
 	
 	public Pacote(){}
@@ -25,22 +25,10 @@ public class Pacote {
 		try{
 			int id = rs.getInt("ID");
 			this.setId(id);
-			Escola escola = new Escola(rs.getString("ESCOLA"));
-			this.setEscola(escola);
+			int escolaId = rs.getInt("ESCOLA");
+			this.setEscolaId(escolaId);
 			AnoEscolar anoEscolar = AnoEscolar.valueOf(rs.getString("ANO"));
 			this.setAnoEscolar(anoEscolar);
-			
-			for(int i = 0; i < 30; i++){
-				int idLivro = -1;
-				idLivro = rs.getInt("LIVRO_"+i);
-				if(idLivro != -1){
-					Livro livro = EstoqueManager.getInstance().getLivroPeloId(idLivro);
-					this.livros.add(livro);
-				}
-				else{
-					break;
-				}
-			}
 		}
 		catch (Exception e){}
 	}
@@ -55,14 +43,15 @@ public class Pacote {
 		
 		return livro;
 	}
-	
-	public Escola getEscola(){
-		return this.escola;
+
+	public int getEscolaId() {
+		return escolaId;
 	}
-	public void setEscola(Escola escola){
-		this.escola = escola;
+
+	public void setEscolaId(int escolaId) {
+		this.escolaId = escolaId;
 	}
-	
+
 	public AnoEscolar getAnoEscolar(){
 		return this.anoEscolar;
 	}
@@ -92,6 +81,10 @@ public class Pacote {
 				break;
 			}
 		}
+	}
+
+	public void setLivros(List<Livro> livros) {
+		this.livros = livros;
 	}
 
 	public int getId() {

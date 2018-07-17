@@ -22,7 +22,7 @@ public class PacoteManager {
 	
 	private static PacoteManager pacoteManager;
 	private List<Pacote> pacotes;
-	Operacoes operacoes;
+	OperacoesPacotes operacoes;
 	
 	public static PacoteManager getInstance(){
 		if(pacoteManager == null)
@@ -66,18 +66,19 @@ public class PacoteManager {
 		operacoes.GET_AND_SET_ALL_DATA();
 	}
 	
-	public Pacote getPacote(Escola escola, AnoEscolar anoEscolar){
-		Pacote pacote = new Pacote(-1, new Escola("EscolaInexistente"), anoEscolar, new ArrayList<Livro>());
-	
+	public Pacote getPacote(int escola, AnoEscolar anoEscolar){
+		Pacote pacote = new Pacote(-1, -1, anoEscolar);
+
 		for(int i = 0; i < this.pacotes.size(); i++){
-			if(escola.getNome().equals(this.pacotes.get(i).getEscola().getNome()) && anoEscolar == this.pacotes.get(i).getAnoEscolar()){
+			if(escola == this.pacotes.get(i).getEscolaId() && anoEscolar == this.pacotes.get(i).getAnoEscolar()){
 				pacote = this.pacotes.get(i);
 			}
 		}
 		
-		if(pacote.getEscola().getNome().equals("EscolaInexistente")){
-			pacote = new Pacote(this.pacotes.size(), escola, anoEscolar, new ArrayList<Livro>());
+		if(pacote.getEscolaId() == -1){
+			pacote = new Pacote(-1, escola, anoEscolar);
 			this.pacotes.add(pacote);
+            pacote.setId(this.operacoes.INSERT_DATA_RETORNO_ID(pacote));
 		}
 			
 		return pacote;

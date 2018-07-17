@@ -46,6 +46,14 @@ public class EscolaManager {
 		
 		return new Escola();
 	}
+
+	public Escola getEscolaPeloNome(String nome){
+		for(int i = 0; i < this.escolas.size(); i++)
+			if(this.escolas.get(i).getNome() == nome)
+				return this.escolas.get(i);
+
+		return new Escola();
+	}
 	
 	public void adicionarNovaEscola(Escola escola){
 		this.escolas.add(escola);

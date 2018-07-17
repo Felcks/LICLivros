@@ -26,15 +26,15 @@ public class OperacoesLivros extends JavaConnection implements Operacoes
 			String nome = livro.getNome();
 			String editora = livro.getEditora();
 			int quantidade = livro.getQuantidade();
-			int comprar = livro.getComprar();
+			int reservado = livro.getReservado();
 			int vendidos = livro.getVendidos();
 			double preco = livro.getPreco();
 
-			String sql = "INSERT INTO LIVROS (NOME, EDITORA, QUANTIDADE, COMPRAR, VENDIDOS, PRECO)" +
+			String sql = "INSERT INTO LIVROS (NOME, EDITORA, QUANTIDADE, RESERVADO, VENDIDOS, PRECO)" +
 			"VALUES ('" + nome + "'" + "," +
 					"'" + editora + "'" + "," +
-					quantidade + "," + 
-					comprar + "," + 
+					quantidade + "," +
+					reservado + "," +
 					vendidos + "," +
 					preco + ");";
 
@@ -60,7 +60,7 @@ public class OperacoesLivros extends JavaConnection implements Operacoes
 			String nome = livro.getNome();
 			String editora = livro.getEditora();
 			int quantidade = livro.getQuantidade();
-			int comprar = livro.getComprar();
+			int reservado = livro.getReservado();
 			int vendidos = livro.getVendidos();
 			double preco = livro.getPreco();
 			
@@ -68,7 +68,7 @@ public class OperacoesLivros extends JavaConnection implements Operacoes
 			String sql = "UPDATE LIVROS set NOME = " + "'" + nome + "'," +
 			"EDITORA = " + "'" + editora + "'," +
 			"QUANTIDADE = " + quantidade + "," +
-			"COMPRAR = " + comprar + "," +
+			"RESERVADO = " + reservado + "," +
 			"PRECO = " + preco + "," +
 			"VENDIDOS = " + vendidos  +
 			" WHERE ID = " + id ;
@@ -87,7 +87,7 @@ public class OperacoesLivros extends JavaConnection implements Operacoes
 			this.ConnectBd();
 			stmt = connection.createStatement();
 			
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM LIVROS");
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM LIVROS WHERE NOME != '' ");
 			while (resultSet.next()){
 				Livro livro = new Livro(resultSet);
 				EstoqueManager.getInstance().adicionarNovoLivro(livro);

@@ -290,8 +290,10 @@ public class Print {
 		
 		Phrase phraseSchool = new Phrase();
 		phraseSchool.add(new Chunk("Escola: ", f));
-		if(p.getPacote().getEscola() != null)
-			phraseSchool.add(new Chunk(p.getPacote().getEscola().getNome() + " - " + p.getPacote().getAnoEscolar().getNome(), f2));
+		if(p.getPacote().getEscolaId() != -1) {
+			//TODO IR NO BD DAS ESCOLAS E BUSCAR COM O ID_ESCOLA
+			phraseSchool.add(new Chunk(p.getPacote().getEscolaId() + " - " + p.getPacote().getAnoEscolar().getNome(), f2));
+		}
 		else
 			phraseSchool.add(new Chunk("   ---   ", f2));
 		

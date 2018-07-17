@@ -282,23 +282,32 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
                         comboBoxValue.equalsIgnoreCase(Acao.REMOVER.toString())) {
 
                     if (!e.getValueIsAdjusting() && table.getSelectedRow() != -1) {
-                        textFields[Field.ID.index].setText(table.getValueAt(table.getSelectedRow(), 0).toString());
-                        textFields[Field.NOME.index].setText(table.getValueAt(table.getSelectedRow(), 1).toString());
-                        textFields[Field.QUANTIDADE.index].setText(table.getValueAt(table.getSelectedRow(), 3).toString());
-                        textFields[Field.PRECO.index].setText(
-                                table.getValueAt(table.getSelectedRow(), 6).toString().substring(3));
+						atualizarCampos();
                     }
                     else{
-                        textFields[Field.ID.index].setText("");
-                        textFields[Field.NOME.index].setText("");
-                        textFields[Field.QUANTIDADE.index].setText("");
-                        textFields[Field.PRECO.index].setText("");
+                       	limparCampos();
                     }
                 }
             }
         });
 		
 		atualizarLivros(table, comboBox, textFields[Field.EDITORA.index]);
+	}
+
+	private void atualizarCampos(){
+		if(table.getSelectedRow() != -1) {
+			textFields[Field.ID.index].setText(table.getValueAt(table.getSelectedRow(), 0).toString());
+			textFields[Field.NOME.index].setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+			textFields[Field.QUANTIDADE.index].setText(table.getValueAt(table.getSelectedRow(), 3).toString());
+			textFields[Field.PRECO.index].setText(table.getValueAt(table.getSelectedRow(), 6).toString().substring(3));
+		}
+	}
+
+	private void limparCampos(){
+		textFields[Field.ID.index].setText("");
+		textFields[Field.NOME.index].setText("");
+		textFields[Field.QUANTIDADE.index].setText("");
+		textFields[Field.PRECO.index].setText("");
 	}
 	
 	private void minimizarTamanhoDaColuna(JTable table, int index, int tam){
@@ -361,7 +370,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 			id = table.getSelectedRow();
 
             if(id == -1 || id >= table.getRowCount()){
-                JOptionPane.showMessageDialog(this, "Selecione uma escola para ser atualizada.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+                JOptionPane.showMessageDialog(this, "Selecione um livro para ser atualizado.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
                 return;
             }
 
@@ -377,9 +386,9 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
                 livroASerAdicionado.setNome(novoLivro.getNome());
 
             //Checando quantidade
-            if(novoLivro.getQuantidade() != livro.getQuantidade()){
-                livroASerAdicionado.setComprar(livro.getComprar() - (novoLivro.getQuantidade()));
-            }
+            /*if(novoLivro.getQuantidade() != livro.getQuantidade()){
+
+            }*/
 
             if(camposEmTexto[Field.QUANTIDADE.index].length() > 0)
                 livroASerAdicionado.setQuantidade(novoLivro.getQuantidade());
@@ -396,12 +405,34 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 
             this.repintarTabela(comboBox.getSelectedItem().toString());
 		}
+		else if(acao == Acao.REMOVER) {
+			int id = -1;
+			id = table.getSelectedRow();
+
+			if (id == -1 || id >= table.getRowCount()) {
+				JOptionPane.showMessageDialog(this, "Selecione um livro para ser removido.", "Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+
+			Object[][] data = ((MyTableModel)table.getModel()).getData();
+			int idReal = (int)data[id][0];
+
+			Livro livro = EstoqueManager.getInstance().getLivroPeloId(idReal);
+			String nomeAntigo = livro.getNome();
+			livro.setNome("");
+			EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
+			EstoqueManager.getInstance().getLivrosDoBancoDeDados();
+
+			JOptionPane.showMessageDialog(this, "Livro Removido: " + nomeAntigo,"Removido com sucesso!", JOptionPane.INFORMATION_MESSAGE);
+			this.repintarTabela(comboBox.getSelectedItem().toString());
+		}
 	}
 	
 	private void repintarTabela(String editora, Ordenar ordenar){
 		if(this.table != null){
 			((MyTableModel)this.table.getModel()).updateData(editora, ordenar);
 			this.table.repaint();
+			atualizarCampos();
 		}
 	}
 	
@@ -409,6 +440,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		if(this.table != null){
 			((MyTableModel)this.table.getModel()).updateData(editora);
 			this.table.repaint();
+			atualizarCampos();
 		}
 	}
 	

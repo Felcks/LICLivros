@@ -7,23 +7,59 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8e4abc5-23f3-45a2-ab58-f61b606fe307" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/bd/OperacoesLivrosPacotes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase Copy/liclivros.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/DataBase Copy/liclivros.sqlite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/liclivros.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/liclivros.sqlite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bd/OperacoesLivros.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bd/OperacoesLivros.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bd/OperacoesPacotes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bd/OperacoesPacotes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TableModelPedido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TableModelPedido.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaEditora.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaEditora.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaEscola.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaEscola.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaEstoque.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaEstoque.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaPacote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaPacote.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaPedido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaPedido.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoPacote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoPacote.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnico.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnicoAvulso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnicoAvulso.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/principais/EscolaManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/principais/EscolaManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/principais/EstoqueManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/principais/EstoqueManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/principais/Livro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/principais/Livro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/principais/Pacote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/principais/Pacote.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/principais/PacoteManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/principais/PacoteManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utilidades/Print.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilidades/Print.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bd/OperacoesLivros.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bd/OperacoesLivros.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bd/OperacoesPacotes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bd/OperacoesPacotes.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModelEditora.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModelEditora.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModelEscola.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModelEscola.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModelPacote.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModelPacote.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModelPedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModelPedido.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModelPedidoPacote.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModelPedidoPacote.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TableModelPedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TableModelPedido.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEditora.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEditora.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEscola.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEscola.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$6.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEstoque.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEstoque.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPacote$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPacote$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPacote$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPacote$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPacote$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPacote.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPedido.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPedidoPacote.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPedidoPacote.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnico$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnico$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnico.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnico.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnicoAvulso$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnicoAvulso$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnicoAvulso.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnicoAvulso.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/principais/EscolaManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/principais/EscolaManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/principais/EstoqueManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/principais/EstoqueManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/principais/Livro.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/principais/Livro.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/principais/Pacote.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/principais/Pacote.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/principais/PacoteManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/principais/PacoteManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/utilidades/Print.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/utilidades/Print.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -35,72 +71,30 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TelaEscola.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEscola.java">
+    <leaf>
+      <file leaf-file-name="TelaEditora.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEditora.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3660">
-              <caret line="267" column="32" selection-start-line="267" selection-start-column="32" selection-end-line="267" selection-end-column="32" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="6">
+              <caret line="204" column="26" selection-start-line="204" selection-start-column="17" selection-end-line="204" selection-end-column="26" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OperacoesEscolas.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesEscolas.java">
+      <file leaf-file-name="TelaPacote.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPacote.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
+            <state relative-caret-position="231">
+              <caret line="295" selection-start-line="295" selection-end-line="295" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EscolaManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/principais/EscolaManager.java">
+      <file leaf-file-name="PacoteManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/principais/PacoteManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
-              <folding>
-                <element signature="e#1201#1202#0" expanded="true" />
-                <element signature="e#1239#1240#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TelaEstoque.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEstoque.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3165">
-              <caret line="269" column="46" selection-start-line="269" selection-start-column="46" selection-end-line="269" selection-end-column="46" />
-              <folding>
-                <element signature="e#6448#6449#0" expanded="true" />
-                <element signature="e#6528#6529#0" expanded="true" />
-                <element signature="e#6651#6652#0" expanded="true" />
-                <element signature="e#6729#6730#0" expanded="true" />
-                <element signature="e#6849#6850#0" expanded="true" />
-                <element signature="e#6925#6926#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OperacoesLivros.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesLivros.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JavaConnection.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/bd/JavaConnection.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+            <state relative-caret-position="261">
+              <caret line="83" selection-start-line="83" selection-end-line="83" />
             </state>
           </provider>
         </entry>
@@ -114,25 +108,76 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OperacoesClientes.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesClientes.java">
+      <file leaf-file-name="OperacoesPacotes.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesPacotes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="23" column="42" lean-forward="true" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
+            <state relative-caret-position="246">
+              <caret line="59" column="31" lean-forward="true" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Livro.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/principais/Livro.java">
+      <file leaf-file-name="OperacoesLivrosPacotes.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesLivrosPacotes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="37" column="11" selection-start-line="37" selection-start-column="11" selection-end-line="37" selection-end-column="11" />
+            <state relative-caret-position="426">
+              <caret line="29" column="40" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1618#1625#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OperacoesLivros.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesLivros.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="211">
+              <caret line="33" column="30" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EstoqueManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/principais/EstoqueManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-30">
+              <caret line="14" column="33" lean-forward="true" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Pacote.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/principais/Pacote.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="18" column="5" lean-forward="true" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EscolaManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/principais/EscolaManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
+              <folding>
+                <element signature="e#1201#1202#0" expanded="true" />
+                <element signature="e#1239#1240#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -143,6 +188,22 @@
       <find>EDITORAS</find>
       <find>telaEstoque</find>
       <find>table.getValueAt</find>
+      <find>remover</find>
+      <find>Atualizar</find>
+      <find>Create</find>
+      <find>setCompra</find>
+      <find>retirarDoEstoque</find>
+      <find>setComprar</find>
+      <find>REMOVER</find>
+      <find>atualizarPedido</find>
+      <find>escolaId</find>
+      <find>getPacote()</find>
+      <find>resu</find>
+      <find>new Pacote</find>
+      <find>textFields</find>
+      <find>updateData</find>
+      <find>escolaSelecionada</find>
+      <find>fazerAcao</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -152,16 +213,26 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/main/java/Main.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utilidades/Print.java" />
-        <option value="$PROJECT_DIR$/src/main/java/principais/EstoqueManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/principais/EscolaManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/bd/OperacoesEscolas.java" />
         <option value="$PROJECT_DIR$/src/main/java/bd/OperacoesEditoras.java" />
-        <option value="$PROJECT_DIR$/src/main/java/gui/TelaEditora.java" />
-        <option value="$PROJECT_DIR$/src/main/java/principais/Livro.java" />
         <option value="$PROJECT_DIR$/src/main/java/gui/TelaEscola.java" />
+        <option value="$PROJECT_DIR$/src/main/java/gui/TelaEditora.java" />
+        <option value="$PROJECT_DIR$/src/main/java/principais/EstoqueManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnicoAvulso.java" />
+        <option value="$PROJECT_DIR$/src/main/java/gui/TelaPedido.java" />
         <option value="$PROJECT_DIR$/src/main/java/gui/TelaEstoque.java" />
         <option value="$PROJECT_DIR$/src/main/java/bd/OperacoesLivros.java" />
+        <option value="$PROJECT_DIR$/src/main/java/principais/Livro.java" />
+        <option value="$PROJECT_DIR$/src/main/java/utilidades/Print.java" />
+        <option value="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnico.java" />
+        <option value="$PROJECT_DIR$/src/main/java/gui/TelaPedidoPacote.java" />
+        <option value="$PROJECT_DIR$/src/main/java/gui/TableModelPedido.java" />
+        <option value="$PROJECT_DIR$/src/main/java/principais/EscolaManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/gui/TelaPacote.java" />
+        <option value="$PROJECT_DIR$/src/main/java/principais/Pacote.java" />
+        <option value="$PROJECT_DIR$/src/main/java/principais/PacoteManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/bd/OperacoesLivrosPacotes.java" />
+        <option value="$PROJECT_DIR$/src/main/java/bd/OperacoesPacotes.java" />
       </list>
     </option>
   </component>
@@ -176,7 +247,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -229,14 +299,50 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="gui" type="462c0819:PsiDirectoryNode" />
+              <item name="TelaEditora.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+            <path>
+              <item name="LICLivros" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LICLivros" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="gui" type="462c0819:PsiDirectoryNode" />
+              <item name="TelaEscola.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+            <path>
+              <item name="LICLivros" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LICLivros" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="gui" type="462c0819:PsiDirectoryNode" />
+              <item name="TelaPacote.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+            <path>
+              <item name="LICLivros" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LICLivros" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="principais" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LICLivros" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LICLivros" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="utilidades" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -340,142 +446,104 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-11" width="1368" height="780" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32917318" />
-      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32917318" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32917318" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info id="Image Layers" order="2" />
-      <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5025" side_tool="true" weight="0.32984293" />
-      <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5025" side_tool="true" weight="0.32984293" />
+      <window_info anchor="right" id="Maven Projects" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32917318" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4975" weight="0.23868954" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19318181" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Designer" order="3" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20530303" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="UI Designer" order="2" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="UI Designer" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39937598" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
+    <layout-to-restore>
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4975" visible="true" weight="0.23868954" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20530303" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32917318" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39937598" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5025" side_tool="true" weight="0.32984293" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32917318" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32917318" />
+      <window_info anchor="right" id="Maven Projects" order="6" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/gui/TelaEditora.java</url>
+          <line>216</line>
+          <properties />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/gui/TelaPacote.java</url>
+          <line>295</line>
+          <properties />
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/principais/PacoteManager.java</url>
+          <line>78</line>
+          <properties />
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="15" />
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/bd/JavaConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/bd/Operacoes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/principais/Livro.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="11" selection-start-line="37" selection-start-column="11" selection-end-line="37" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesClientes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="28" column="40" selection-start-line="28" selection-start-column="40" selection-end-line="28" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEscola.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3450">
-          <caret line="230" column="27" selection-start-line="230" selection-start-column="27" selection-end-line="230" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/GUIManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="55" selection-start-line="55" selection-end-line="55" />
-          <folding>
-            <element signature="e#7970#7971#0" expanded="true" />
-            <element signature="e#8010#8011#0" expanded="true" />
-            <element signature="e#8665#8666#0" expanded="true" />
-            <element signature="e#8708#8709#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/principais/EscolaManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="55" column="16" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="16" />
-          <folding>
-            <element signature="e#1201#1202#0" expanded="true" />
-            <element signature="e#1239#1240#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesEscolas.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="47" selection-start-line="26" selection-start-column="47" selection-end-line="26" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/bd/Operacoes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/principais/Escola.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEditora.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3090">
-          <caret line="206" column="6" selection-start-line="206" selection-start-column="6" selection-end-line="206" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEstoque.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1410">
-          <caret line="94" column="23" lean-forward="true" selection-start-line="94" selection-start-column="23" selection-end-line="96" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEscola.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2805">
-          <caret line="187" column="5" lean-forward="true" selection-start-line="187" selection-start-column="5" selection-end-line="187" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bd/JavaConnection.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -609,13 +677,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utilidades/Print.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="146" column="39" selection-start-line="146" selection-start-column="39" selection-end-line="146" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesPedidos.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -623,28 +684,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/principais/Escola.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="11" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesEditoras.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="23" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/principais/EditoraManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
-          <folding>
-            <element signature="e#677#678#0" expanded="true" />
-            <element signature="e#705#706#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -669,24 +712,109 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/principais/EstoqueManager.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/principais/Escola.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="62" column="39" selection-start-line="62" selection-start-column="16" selection-end-line="62" selection-end-column="39" />
+        <state relative-caret-position="375">
+          <caret line="25" column="11" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
+          <folding>
+            <element signature="e#422#423#0" expanded="true" />
+            <element signature="e#447#448#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEditora.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesClientes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="57" column="31" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
+        <state relative-caret-position="321">
+          <caret line="83" column="29" selection-start-line="83" selection-start-column="29" selection-end-line="83" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bd/JavaConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-149">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPedidoFinalizacao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="271" column="32" selection-start-line="271" selection-start-column="17" selection-end-line="271" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPedido.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="283" column="23" selection-start-line="283" selection-start-column="23" selection-end-line="283" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jdk1.8.0/src.zip!/javax/swing/JTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="2716" selection-start-line="2716" selection-end-line="2716" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/principais/EditoraManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="40" column="25" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
+          <folding>
+            <element signature="e#855#856#0" expanded="true" />
+            <element signature="e#882#883#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnicoAvulso.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1063">
+          <caret line="521" column="74" lean-forward="true" selection-start-line="521" selection-start-column="74" selection-end-line="521" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/principais/Livro.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="111" column="47" selection-start-line="111" selection-start-column="47" selection-end-line="111" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utilidades/Print.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1390">
+          <caret line="294" column="66" selection-start-line="294" selection-start-column="66" selection-end-line="294" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnico.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="569" column="63" lean-forward="true" selection-start-line="569" selection-start-column="63" selection-end-line="569" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPedidoPacote.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="297" column="86" selection-start-line="297" selection-start-column="86" selection-end-line="297" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEstoque.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="47">
+          <caret line="470" lean-forward="true" selection-start-line="470" selection-end-line="470" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/principais/EscolaManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
+        <state relative-caret-position="210">
+          <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
           <folding>
             <element signature="e#1201#1202#0" expanded="true" />
             <element signature="e#1239#1240#0" expanded="true" />
@@ -694,56 +822,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/principais/Livro.java">
+    <entry file="jar:///usr/lib/jdk1.8.0/src.zip!/java/util/ArrayList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="37" column="11" selection-start-line="37" selection-start-column="11" selection-end-line="37" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEscola.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3660">
-          <caret line="267" column="32" selection-start-line="267" selection-start-column="32" selection-end-line="267" selection-end-column="32" />
+        <state relative-caret-position="210">
+          <caret line="106" column="46" selection-start-line="106" selection-start-column="34" selection-end-line="106" selection-end-column="46" />
           <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEstoque.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3165">
-          <caret line="269" column="46" selection-start-line="269" selection-start-column="46" selection-end-line="269" selection-end-column="46" />
-          <folding>
-            <element signature="e#6448#6449#0" expanded="true" />
-            <element signature="e#6528#6529#0" expanded="true" />
-            <element signature="e#6651#6652#0" expanded="true" />
-            <element signature="e#6729#6730#0" expanded="true" />
-            <element signature="e#6849#6850#0" expanded="true" />
-            <element signature="e#6925#6926#0" expanded="true" />
+            <element signature="e#6283#6284#0" expanded="true" />
+            <element signature="e#6351#6352#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesEscolas.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        <state relative-caret-position="585">
+          <caret line="69" column="92" selection-start-line="69" selection-start-column="53" selection-end-line="69" selection-end-column="92" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesLivros.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEscola.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+        <state relative-caret-position="166">
+          <caret line="257" column="13" selection-start-line="257" selection-start-column="13" selection-end-line="257" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/bd/JavaConnection.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TableModelPedido.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        <state relative-caret-position="141">
+          <caret line="30" column="47" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEditora.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6">
+          <caret line="204" column="26" selection-start-line="204" selection-start-column="17" selection-end-line="204" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/principais/EstoqueManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-30">
+          <caret line="14" column="33" lean-forward="true" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -754,10 +878,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesClientes.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPacote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="23" column="42" lean-forward="true" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
+        <state relative-caret-position="231">
+          <caret line="295" selection-start-line="295" selection-end-line="295" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/principais/Pacote.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="18" column="5" lean-forward="true" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesLivros.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="33" column="30" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesLivrosPacotes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="426">
+          <caret line="29" column="40" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1618#1625#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/principais/PacoteManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="83" selection-start-line="83" selection-end-line="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesPacotes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="59" column="31" lean-forward="true" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
         </state>
       </provider>
     </entry>

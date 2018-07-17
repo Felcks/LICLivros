@@ -256,10 +256,11 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 					livro.setVendidos(livro.getVendidos() - quantidadeComprada);
 					
 					for(int j = 0; j < quantidadeComprada; j++){
-						if(livro.getComprar() > 0)
+						livro.setReservado(livro.getReservado() + 1);
+						/*if(livro.getComprar() > 0)
 							livro.setComprar(livro.getComprar() - 1);
 						else
-							livro.setQuantidade(livro.getQuantidade() + 1);
+							livro.setQuantidade(livro.getQuantidade() + 1);*/
 						
 					}
 					
@@ -273,13 +274,14 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 					Livro livro = EstoqueManager.getInstance().getLivroPeloId(velhoPedido.getIdsDosLivrosComprados()[i]);
 					int quantidadeComprada = velhoPedido.getQtdDosLivrosComprados()[i];
 					livro.setVendidos(livro.getVendidos() + quantidadeComprada);
-					
-					for(int j = 0; j < quantidadeComprada; j++){
+
+					livro.setReservado(livro.getReservado() + 1);
+					/*for(int j = 0; j < quantidadeComprada; j++){
 						if(livro.getQuantidade() > 0)
 							livro.setQuantidade(livro.getQuantidade() - 1);
 						else
 							livro.setComprar(livro.getComprar() + 1);	
-					}
+					}*/
 					
 					EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
 					EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
