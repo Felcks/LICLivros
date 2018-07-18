@@ -5,6 +5,7 @@ import principais.Livro;
 
 import javax.swing.*;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +32,19 @@ public class OperacoesLivrosPacotes extends JavaConnection implements Operacoes
 
             stmt.executeUpdate(sql);
             connection.commit();
-            stmt.close();
-            connection.close();
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Livro já adicionado ao pacote!");
+        }
+        finally {
+            try {
+                stmt.close();
+                connection.close();
+            }
+            catch (SQLException e){
+
+            }
         }
     }
 
@@ -45,7 +55,7 @@ public class OperacoesLivrosPacotes extends JavaConnection implements Operacoes
             stmt  = connection.createStatement();
 
 
-            String sql = "DELETE FROM LIVROS_PACOTES WHERE id_livro = " + livroId + "AND id_pacote = " + pacoteId;
+            String sql = "DELETE FROM LIVROS_PACOTES WHERE id_livro = " + livroId + " AND id_pacote = " + pacoteId;
             stmt.executeUpdate(sql);
 
             connection.commit();
@@ -65,7 +75,7 @@ public class OperacoesLivrosPacotes extends JavaConnection implements Operacoes
             this.ConnectBd();
             stmt = connection.createStatement();
 
-            ResultSet resultSet = stmt.executeQuery("SELECT * FROM LIVROS_PACOTES WHERE id_pacote");
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM LIVROS_PACOTES WHERE id_pacote = " + pacoteId);
             while (resultSet.next()){
                 int id = resultSet.getInt("id_livro");
                 Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);

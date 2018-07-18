@@ -7,59 +7,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8e4abc5-23f3-45a2-ab58-f61b606fe307" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/bd/OperacoesLivrosPacotes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/liclivros.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/liclivros.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bd/OperacoesLivros.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bd/OperacoesLivros.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bd/OperacoesLivrosPacotes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bd/OperacoesLivrosPacotes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bd/OperacoesPacotes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bd/OperacoesPacotes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TableModelPedido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TableModelPedido.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaEditora.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaEditora.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaEscola.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaEscola.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaEstoque.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaEstoque.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaPacote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaPacote.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaPedido.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaPedido.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoPacote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoPacote.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnico.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnicoAvulso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnicoAvulso.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/principais/EscolaManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/principais/EscolaManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/principais/EstoqueManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/principais/EstoqueManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/principais/Livro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/principais/Livro.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/principais/Pacote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/principais/Pacote.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/principais/PacoteManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/principais/PacoteManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utilidades/Print.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utilidades/Print.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bd/OperacoesLivros.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bd/OperacoesLivros.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bd/OperacoesLivrosPacotes.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/bd/OperacoesPacotes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bd/OperacoesPacotes.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModelEditora.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModelEditora.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModelEscola.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModelEscola.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModelLivro.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModelLivro.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModelPacote.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModelPacote.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModelPedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModelPedido.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/MyTableModelPedidoPacote.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/MyTableModelPedidoPacote.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TableModelPedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TableModelPedido.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEditora.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEditora.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEscola.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEscola.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEstoque$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaEstoque.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaEstoque.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPacote$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPacote$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPacote$3.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPacote$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPacote$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$6.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote$7.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPacote.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPacote.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPedido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPedido.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPedidoPacote.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPedidoPacote.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnico$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnico$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnico.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnico.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnicoAvulso$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnicoAvulso$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnicoAvulso.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/gui/TelaPedidoUnicoAvulso.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/principais/EscolaManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/principais/EscolaManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/principais/EstoqueManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/principais/EstoqueManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/principais/Livro.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/principais/Livro.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/principais/Pacote.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/principais/Pacote.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/principais/PacoteManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/principais/PacoteManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/utilidades/Print.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/utilidades/Print.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -71,11 +31,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="TelaEditora.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEditora.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6">
+            <state relative-caret-position="2700">
               <caret line="204" column="26" selection-start-line="204" selection-start-column="17" selection-end-line="204" selection-end-column="26" />
             </state>
           </provider>
@@ -84,8 +44,13 @@
       <file leaf-file-name="TelaPacote.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPacote.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="295" selection-start-line="295" selection-end-line="295" />
+            <state relative-caret-position="270">
+              <caret line="184" column="46" selection-start-line="184" selection-start-column="46" selection-end-line="184" selection-end-column="46" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#5464#5465#0" expanded="true" />
+                <element signature="e#5518#5519#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -93,8 +58,8 @@
       <file leaf-file-name="PacoteManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/principais/PacoteManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="261">
-              <caret line="83" selection-start-line="83" selection-end-line="83" />
+            <state relative-caret-position="126">
+              <caret line="71" selection-start-line="71" selection-end-line="71" />
             </state>
           </provider>
         </entry>
@@ -108,23 +73,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OperacoesPacotes.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="OperacoesPacotes.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesPacotes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="59" column="31" lean-forward="true" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
+            <state relative-caret-position="180">
+              <caret line="113" selection-start-line="113" selection-end-line="113" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OperacoesLivrosPacotes.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="OperacoesLivrosPacotes.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesLivrosPacotes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="426">
-              <caret line="29" column="40" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
+            <state relative-caret-position="225">
+              <caret line="53" column="44" lean-forward="true" selection-start-line="53" selection-start-column="44" selection-end-line="53" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1618#1625#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -133,7 +97,7 @@
       <file leaf-file-name="OperacoesLivros.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesLivros.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
+            <state relative-caret-position="375">
               <caret line="33" column="30" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="30" />
             </state>
           </provider>
@@ -142,8 +106,8 @@
       <file leaf-file-name="EstoqueManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/principais/EstoqueManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-30">
-              <caret line="14" column="33" lean-forward="true" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
+            <state relative-caret-position="150">
+              <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -151,8 +115,8 @@
       <file leaf-file-name="Pacote.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/principais/Pacote.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="18" column="5" lean-forward="true" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+            <state relative-caret-position="240">
+              <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -160,12 +124,8 @@
       <file leaf-file-name="EscolaManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/principais/EscolaManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
+            <state relative-caret-position="570">
               <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
-              <folding>
-                <element signature="e#1201#1202#0" expanded="true" />
-                <element signature="e#1239#1240#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -204,6 +164,7 @@
       <find>updateData</find>
       <find>escolaSelecionada</find>
       <find>fazerAcao</find>
+      <find>operacoesLivrosPacotes</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -228,11 +189,11 @@
         <option value="$PROJECT_DIR$/src/main/java/gui/TelaPedidoPacote.java" />
         <option value="$PROJECT_DIR$/src/main/java/gui/TableModelPedido.java" />
         <option value="$PROJECT_DIR$/src/main/java/principais/EscolaManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/gui/TelaPacote.java" />
         <option value="$PROJECT_DIR$/src/main/java/principais/Pacote.java" />
         <option value="$PROJECT_DIR$/src/main/java/principais/PacoteManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/bd/OperacoesLivrosPacotes.java" />
         <option value="$PROJECT_DIR$/src/main/java/bd/OperacoesPacotes.java" />
+        <option value="$PROJECT_DIR$/src/main/java/gui/TelaPacote.java" />
+        <option value="$PROJECT_DIR$/src/main/java/bd/OperacoesLivrosPacotes.java" />
       </list>
     </option>
   </component>
@@ -247,6 +208,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -299,33 +261,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="gui" type="462c0819:PsiDirectoryNode" />
-              <item name="TelaEditora.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
-            </path>
-            <path>
-              <item name="LICLivros" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LICLivros" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="gui" type="462c0819:PsiDirectoryNode" />
-              <item name="TelaEscola.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
-            </path>
-            <path>
-              <item name="LICLivros" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LICLivros" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="gui" type="462c0819:PsiDirectoryNode" />
-              <item name="TelaPacote.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
-            </path>
-            <path>
-              <item name="LICLivros" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LICLivros" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="principais" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -340,9 +275,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -468,36 +402,36 @@
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5025" side_tool="true" weight="0.32984293" />
       <window_info anchor="right" id="Maven Projects" order="6" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32917318" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4975" weight="0.23868954" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4975" visible="true" weight="0.23868954" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20530303" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20833333" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39937598" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39937598" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4975" visible="true" weight="0.23868954" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20530303" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32917318" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32917318" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -507,9 +441,9 @@
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5025" side_tool="true" weight="0.32984293" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32917318" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info id="Capture Tool" order="6" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32917318" />
       <window_info anchor="right" id="Maven Projects" order="6" />
       <window_info id="Favorites" order="5" side_tool="true" />
@@ -529,18 +463,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/gui/TelaPacote.java</url>
-          <line>295</line>
+          <line>324</line>
           <properties />
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/principais/PacoteManager.java</url>
-          <line>78</line>
-          <properties />
-          <option name="timeStamp" value="14" />
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="15" />
+      <option name="time" value="21" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -813,12 +741,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/principais/EscolaManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
+        <state relative-caret-position="570">
           <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="35" />
-          <folding>
-            <element signature="e#1201#1202#0" expanded="true" />
-            <element signature="e#1239#1240#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -859,15 +783,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaEditora.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6">
+        <state relative-caret-position="2700">
           <caret line="204" column="26" selection-start-line="204" selection-start-column="17" selection-end-line="204" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/principais/EstoqueManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-30">
-          <caret line="14" column="33" lean-forward="true" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
+        <state relative-caret-position="150">
+          <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -878,49 +802,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPacote.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="295" selection-start-line="295" selection-end-line="295" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/principais/Pacote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="18" column="5" lean-forward="true" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+        <state relative-caret-position="240">
+          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesLivros.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
+        <state relative-caret-position="375">
           <caret line="33" column="30" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesLivrosPacotes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="29" column="40" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1618#1625#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/principais/PacoteManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="83" selection-start-line="83" selection-end-line="83" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesPacotes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="59" column="31" lean-forward="true" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
+        <state relative-caret-position="180">
+          <caret line="113" selection-start-line="113" selection-end-line="113" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/principais/PacoteManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="71" selection-start-line="71" selection-end-line="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPacote.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="184" column="46" selection-start-line="184" selection-start-column="46" selection-end-line="184" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5464#5465#0" expanded="true" />
+            <element signature="e#5518#5519#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bd/OperacoesLivrosPacotes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="53" column="44" lean-forward="true" selection-start-line="53" selection-start-column="44" selection-end-line="53" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

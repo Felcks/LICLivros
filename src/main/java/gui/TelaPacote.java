@@ -182,7 +182,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		btn_fazerAcao2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//fazerAcao(fieldName, table, Acao.REMOVER);
+				fazerAcao(table, tableLivros, Acao.REMOVER);
 			}
 		});
 
@@ -280,7 +280,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		
 		this.repintarTabela();
 	}
-		
+
 	private void fazerAcao(JTable table, JTable tableLivros, Acao acao){
 		
 		if(acao == Acao.ADICIONAR){
@@ -293,11 +293,13 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 			}
 			id = Integer.parseInt(tableLivros.getValueAt(tableLivros.getSelectedRow(),0).toString());
 
-			Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
+			//Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
 			Pacote pacote = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
 			this.operacoesLivrosPacotes.INSERT_DATA(id, pacote.getId());
 			this.repintarTabela();
-			this.repintarTabelaLivro(comboBoxEditora.getSelectedItem().toString());
+
+			//this.repintarTabelaLivro(comboBoxEditora.getSelectedItem().toString());
+
 			/*Livro livro = EstoqueManager.getInstance().getLivroPeloNome(text);
 			if(livro.getNome().equals("LivroInexistente"))
 			{
@@ -319,9 +321,21 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 			}*/
 		}
 		else if(acao == Acao.REMOVER){
+
 			int id = -1;
 			id = table.getSelectedRow();
-			
+			if(id == -1 || id >= table.getRowCount()) {
+				JOptionPane.showMessageDialog(this, "Selecione um livro para ser removido.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+			id = Integer.parseInt(table.getValueAt(table.getSelectedRow(),0).toString());
+
+
+			Pacote pacote = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
+			this.operacoesLivrosPacotes.DELETE_LIVRO_DE_PACOTE(id, pacote.getId());
+			this.repintarTabela();
+
+			/*
 			if(id >= 0 && id < PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado).getLivros().size()){
 				Pacote pacoteAtual = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
 				Object[][] data = ((MyTableModelPacote)table.getModel()).getData();
@@ -337,7 +351,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 			}
 			else{
 				JOptionPane.showMessageDialog(this, "Selecione um livo para remover.","Erro ao remover", JOptionPane.OK_CANCEL_OPTION);
-			}
+			}*/
 		}
 	}
 	
@@ -381,9 +395,15 @@ class MyTableModelPacote extends AbstractTableModel {
     }
     
     public void updateData(Escola escola, AnoEscolar anoEscolar){
-    	data = new Object[PacoteManager.getInstance().getPacote(escola.getId(), anoEscolar).getLivros().size()][];
+
+    	Pacote pacote = PacoteManager.getInstance().getPacote(escola.getId(), anoEscolar);
+
+    	OperacoesLivrosPacotes operacoesLivrosPacotes = new OperacoesLivrosPacotes();
+    	ArrayList<Livro> livros = (ArrayList<Livro>)operacoesLivrosPacotes.GET_LIVROS_DE_PACOTE(pacote.getId());
+
+    	data = new Object[livros.size()][];
     	for(int i = 0; i < data.length; i++){
-    		data[i] = PacoteManager.getInstance().getPacote(escola.getId(), anoEscolar).getLivros().get(i).pegarParametrosDePacote();
+    		data[i] = EstoqueManager.getInstance().getLivroPeloId(livros.get(i).getId()).pegarTodosParametrosEspecial();
     	}	
     }
     

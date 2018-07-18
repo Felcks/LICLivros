@@ -67,9 +67,15 @@ public class PacoteManager {
 	}
 	
 	public Pacote getPacote(int escola, AnoEscolar anoEscolar){
-		Pacote pacote = new Pacote(-1, -1, anoEscolar);
+		//Pacote pacote = new Pacote(-1, -1, anoEscolar);
+		Pacote pacote = operacoes.GET_PACOTE(escola, anoEscolar.toString());
+		if(pacote == null){
+			pacote = new Pacote(-1, escola, anoEscolar);
+			this.operacoes.INSERT_DATA_RETORNO_ID(pacote);
+			this.getPacote(escola, anoEscolar);
+		}
 
-		for(int i = 0; i < this.pacotes.size(); i++){
+		/*for(int i = 0; i < this.pacotes.size(); i++){
 			if(escola == this.pacotes.get(i).getEscolaId() && anoEscolar == this.pacotes.get(i).getAnoEscolar()){
 				pacote = this.pacotes.get(i);
 			}
@@ -79,7 +85,7 @@ public class PacoteManager {
 			pacote = new Pacote(-1, escola, anoEscolar);
 			this.pacotes.add(pacote);
             pacote.setId(this.operacoes.INSERT_DATA_RETORNO_ID(pacote));
-		}
+		}*/
 			
 		return pacote;
 	}

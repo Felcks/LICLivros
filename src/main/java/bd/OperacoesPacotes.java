@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import com.sun.deploy.net.proxy.pac.PACFunctions;
 import principais.Pacote;
 import principais.PacoteManager;
 
@@ -96,6 +97,27 @@ public class OperacoesPacotes extends JavaConnection implements Operacoes
 			}
 			this.closeConnections();
 		} catch(Exception e){}
+	}
+
+	public Pacote GET_PACOTE(int escolaId, String ano){
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM PACOTES WHERE ESCOLA = " + escolaId +
+					" AND ANO = '" + ano + "'");
+			Pacote pacote = null;
+			if (resultSet.next()){
+				pacote = new Pacote(resultSet);
+			}
+			this.closeConnections();
+			return pacote;
+		}
+		catch(Exception e){
+
+		}
+
+		return null;
 	}
 	
 }
