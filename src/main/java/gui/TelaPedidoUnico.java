@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -24,6 +25,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import bd.OperacoesLivrosPacotes;
 import principais.AnoEscolar;
 import principais.Cliente;
 import principais.Escola;
@@ -55,6 +57,8 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	
 	public JTextField fieldNome, fieldBairro, fieldComplemento, fieldRua, fieldTelefone, fieldCel, fieldObs;
 	JComboBox pagamentoBox;
+
+	JComboBox escolaBox;
 	
 	public TelaPedidoUnico(GUIManager guiManager)
 	{
@@ -194,9 +198,9 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        c.fill = GridBagConstraints.NONE;
        c.anchor = GridBagConstraints.LINE_END;
        this.add(labelEscola, c);
-       
+
        String[] todasEscolas = EscolaManager.getInstance().getTodosNomesEscolas();
-       JComboBox escolaBox = new JComboBox(todasEscolas);
+       escolaBox = new JComboBox(todasEscolas);
        c.gridx = prox;
        c.gridwidth = 5;
        prox += 5;
@@ -211,7 +215,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        c.fill = GridBagConstraints.NONE;
        c.anchor = GridBagConstraints.LINE_END;
        this.add(labelAno, c);
-       
+
        String[] todosAnos = AnoEscolar.getTodosNomesAnosEscolares();
        JComboBox anoBox = new JComboBox(todosAnos);
        c.gridx = prox;
@@ -255,13 +259,13 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        this.add(pagamentoBox, c);
        
        
-       this.escolaSelecionada = new Escola(escolaBox.getSelectedItem().toString());
+       this.escolaSelecionada = EscolaManager.getInstance().getEscolaPeloNome(escolaBox.getSelectedItem().toString());
        this.anoEscolarSelecionado = AnoEscolar.getAnoEscolarPeloNome(anoBox.getSelectedItem().toString());
 		
-		this.table = new JTable(new TableModelPedido(escolaSelecionada, anoEscolarSelecionado));
-		minimizarTamanhoDaColuna(table, 1, 175, true);
-		minimizarTamanhoDaColuna(table, 2, 90, true);
-		minimizarTamanhoDaColuna(table, 3, 90, true);
+		this.table = new JTable(new MyTableModelPedidoPacote(escolaSelecionada, anoEscolarSelecionado));
+		minimizarTamanhoDaColuna(table, 3, 80, true);
+		minimizarTamanhoDaColuna(table, 2, 80, true);
+		minimizarTamanhoDaColuna(table, 1, 200, true);
 		JScrollPane scrollPane  = new JScrollPane(this.table);
 		table.setFillsViewportHeight(true);
 		c.gridx = 0;
@@ -310,8 +314,8 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		
 	    JLabel labelDescontoDado = new JLabel("Desc: ");
 	    c.gridx = prox;
-	    c.gridwidth = 1;
-	    prox += 1;
+	    c.gridwidth = 2;
+	    prox += 2;
 	    c.fill = GridBagConstraints.NONE;
 	    c.anchor = GridBagConstraints.LINE_END;
 	    this.add(labelDescontoDado, c);
@@ -374,7 +378,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 			public void actionPerformed(ActionEvent arg0) {
 				if(escolaBox != null)
 					if(escolaBox.getItemCount() > 0)
-						escolaSelecionada = new Escola(escolaBox.getSelectedItem().toString());
+						escolaSelecionada = EscolaManager.getInstance().getEscolaPeloNome(escolaBox.getSelectedItem().toString());
 				
 				repintarTabela();
 			}
@@ -423,17 +427,23 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 			JOptionPane.showMessageDialog(this, "Complete as informações.", "Pedido não terminado", JOptionPane.OK_CANCEL_OPTION);
 			return;
 		}
+
+		Pacote pacote = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
+
+		OperacoesLivrosPacotes operacoesLivrosPacotes = new OperacoesLivrosPacotes();
+		ArrayList<Livro> livros = (ArrayList<Livro>)operacoesLivrosPacotes.GET_LIVROS_DE_PACOTE(pacote.getId());
+		pacote.setLivros(livros);
 		
 		Pedido pedido = new Pedido(cliente);
 		pedido.setId(PedidoManager.getInstance().getPedidos().size());
 		pedido.setPacote(pacote);
 		
-		int[] idsDosLivrosComprados = new int[pacote.getLivros().size()];
+		int[] idsDosLivrosComprados = new int[livros.size()];
 		for(int i = 0; i < idsDosLivrosComprados.length; i++)
-			idsDosLivrosComprados[i] = pacote.getLivros().get(i).getId();
+			idsDosLivrosComprados[i] = livros.get(i).getId();
 		pedido.setIdsDosLivrosComprados(idsDosLivrosComprados);
 		
-		Object[][] data = ((TableModelPedido)table.getModel()).getData();
+		Object[][] data = ((MyTableModelPedidoPacote)table.getModel()).getData();
 		int[] qtdDosLivrosComprados = new int[pacote.getLivros().size()];
 		for(int i = 0; i < qtdDosLivrosComprados.length; i++)
 			qtdDosLivrosComprados[i] = (int)data[i][2];
@@ -472,21 +482,12 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		pedido.setFormaDePagamento(fp);
 		pedido.setData();
 		
-		PedidoManager.getInstance().adicionarPedidoEAbrirDoc(pedido);
-		PedidoManager.getInstance().getOperacoes().INSERT_DATA(pedido);
+
 		
 		for(int i = 0; i < pedido.getIdsDosLivrosComprados().length; i++){
 			Livro livro = EstoqueManager.getInstance().getLivroPeloId(pedido.getIdsDosLivrosComprados()[i]);
 			int quantidadeComprada = pedido.getQtdDosLivrosComprados()[i];
-			livro.setVendidos(livro.getVendidos() + quantidadeComprada);
-			for(int j = 0; j < quantidadeComprada; j++){
-
-				livro.setReservado(livro.getReservado() + 1);
-				/*if(livro.getQuantidade() > 0)
-					livro.setQuantidade(livro.getQuantidade() - 1);
-				else
-					livro.setComprar(livro.getComprar() + 1);*/
-			}
+			livro.setReservado(livro.getReservado() + quantidadeComprada);
 
 			EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
 			EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
@@ -494,6 +495,12 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		
 		
 		JOptionPane.showMessageDialog(this, "Pedido realizado com sucesso!", "Pedido concluído!", JOptionPane.INFORMATION_MESSAGE);
+
+		PedidoManager.getInstance().getOperacoes().INSERT_DATA(pedido);
+		Pedido pedido2 = PedidoManager.getInstance().getOperacoes().GET_ULTIMO_PEDIDO();
+		pedido.setId(pedido2.getId());
+        PedidoManager.getInstance().adicionarPedidoEAbrirDoc(pedido);
+
 		guiManager.mudarParaTela("telaInicial2");
 	}
 	
@@ -518,15 +525,14 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 			String precoEmString = data[i][3].toString().substring(3, data[i][3].toString().length());
 			precoEmString = precoEmString.replace(',', '.');
 			double preco = ((double)Double.parseDouble(precoEmString));
-			
-			//preço x quantidade
-			precoTotal += preco * (int)data[i][2];	
+
+			precoTotal += preco * (int)data[i][2];
 		}
-		
-		NumberFormat nf = NumberFormat.getCurrencyInstance();  
+
+		NumberFormat nf = NumberFormat.getCurrencyInstance();
 		String formatado = nf.format (precoTotal);
 		fieldPreco.setText(formatado);
-		
+
 		aplicarDesconto(fieldDesconto.getText());
 	}
 	
@@ -562,10 +568,29 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	
 	private void repintarTabela(){
 		if(this.table != null){
-			((TableModelPedido)this.table.getModel()).updateData(escolaSelecionada, anoEscolarSelecionado);
+			((MyTableModelPedidoPacote)this.table.getModel()).updateData(escolaSelecionada, anoEscolarSelecionado);
 			this.table.repaint();
-			
-			this.pacote = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
+
+			Pacote pacote = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
+
+			OperacoesLivrosPacotes operacoesLivrosPacotes = new OperacoesLivrosPacotes();
+			ArrayList<Livro> livros = (ArrayList<Livro>)operacoesLivrosPacotes.GET_LIVROS_DE_PACOTE(pacote.getId());
+
+
+			Object[][] data = ((MyTableModelPedidoPacote)table.getModel()).getData();
+			precoTotal = 0;
+			int i = 0;
+			for(Livro livro : livros){
+				precoTotal += livro.getPreco() * (int)data[i][2];
+				i++;
+			}
+			NumberFormat nf = NumberFormat.getCurrencyInstance();
+			String formatado = nf.format (precoTotal);
+
+			fieldPreco.setText(formatado);
+			aplicarDesconto(fieldDesconto.getText());
+
+			/*this.pacote = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
 			precoTotal = 0;
 			for(int i = 0; i < pacote.getLivros().size(); i++){
 				precoTotal += pacote.getLivros().get(i).getPreco();
@@ -575,13 +600,21 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 			String formatado = nf.format (precoTotal);
 			
 			fieldPreco.setText(formatado);
-			aplicarDesconto(fieldDesconto.getText());
+			aplicarDesconto(fieldDesconto.getText());*/
 		}
 	
 	}
 	
 	public void prepararComponentes()
 	{
+
+		escolaBox.removeAllItems();
+		String[] todasEscolas = new String[EscolaManager.getInstance().getEscolas().size()];
+		for(int i = 0; i < EscolaManager.getInstance().getEscolas().size(); i++){
+			todasEscolas[i] = EscolaManager.getInstance().getEscolas().get(i).getNome();
+			escolaBox.addItem(todasEscolas[i]);
+		}
+
 		this.repintarTabela();
 		if(fieldNome != null)
 			fieldNome.setText("");

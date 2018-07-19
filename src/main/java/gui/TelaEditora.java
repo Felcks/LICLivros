@@ -214,6 +214,12 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
                 return;
             }
 
+			Editora e = EditoraManager.getInstance().getOperacoes().GET_EDITORA(text);
+            if(e != null){
+				JOptionPane.showMessageDialog(this, "Já existe editora com esse nome.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+
 			Editora editora = new Editora(text);
 			//EditoraManager.getInstance().adicionarNovaEditora(editora);
 			//this.repintarTabela();
@@ -241,8 +247,15 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
             id = Integer.parseInt(table.getValueAt(table.getSelectedRow(),0).toString());
 			
 			Editora velhaEditora = EditoraManager.getInstance().getEditoraPeloId(id);
-			Editora novaEditora = new Editora(text);
 
+			Editora e = EditoraManager.getInstance().getOperacoes().GET_EDITORA(text);
+			if(e != null){
+				JOptionPane.showMessageDialog(this, "Já existe editora com esse nome.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+			EstoqueManager.getInstance().getOperacoes().ATUALIZAR_NOME_DE_EDITORA(velhaEditora.getNome(), text);
+
+			Editora novaEditora = new Editora(text);
 
 			novaEditora.setId(velhaEditora.getId());
             EditoraManager.getInstance().getOperacoes().UPDATE_DATA(novaEditora);
@@ -273,7 +286,14 @@ public class TelaEditora extends JPanel implements IPrepararComponentes{
             }
             id = Integer.parseInt(table.getValueAt(table.getSelectedRow(),0).toString());
 
+            if(EditoraManager.getInstance().getEditoras().size() <= 1){
+				JOptionPane.showMessageDialog(this, "Deve existir ao menos uma editora.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+
             Editora velhaEditora = EditoraManager.getInstance().getEditoraPeloId(id);
+			EstoqueManager.getInstance().getOperacoes().ATUALIZAR_NOME_DE_EDITORA(velhaEditora.getNome(), text);
+
             Editora novaEditora = new Editora("");
 
             novaEditora.setId(velhaEditora.getId());

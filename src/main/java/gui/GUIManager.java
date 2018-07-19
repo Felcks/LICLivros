@@ -68,7 +68,7 @@ public class GUIManager{
 		this.cards.add(this.telaCliente, "telaCliente");
 		this.cards.add(this.telaEditora, "telaEditora");
 		this.cards.add(this.telaPedidoCliente, "telaPedidoCliente");
-		this.cards.add(this.telaPedidoPacote, "telaPedidoPacote");
+		//this.cards.add(this.telaPedidoPacote, "telaPedidoPacote");
 		//this.cards.add(this.telaPedidoPacoteAvulso, "telaPedidoPacoteAvulso");
 		this.cards.add(this.telaPedidoFinalizacao, "telaPedidoFinalizacao");
 		this.cards.add(this.telaEscola, "telaEscola");		

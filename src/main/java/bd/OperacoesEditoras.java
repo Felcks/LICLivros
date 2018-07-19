@@ -73,7 +73,23 @@ public class OperacoesEditoras extends JavaConnection implements Operacoes{
 			}
 			this.closeConnections();
 		} catch(Exception e){}
+	}
 
+	public Editora GET_EDITORA(String nome){
+
+		Editora editora = null;
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM EDITORAS WHERE NOME = '"+ nome + "'");
+			while (resultSet.next()){
+				editora = new Editora(resultSet);
+			}
+			this.closeConnections();
+		} catch(Exception e){}
+
+		return editora;
 	}
 
 }

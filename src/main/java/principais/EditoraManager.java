@@ -14,7 +14,7 @@ public class EditoraManager {
 	
 	private List<Editora> editoras;
 	private static EditoraManager editoraManager;
-	private Operacoes operacoes;
+	private OperacoesEditoras operacoes;
 	
 	private EditoraManager(){
 		this.editoras = new ArrayList<Editora>();
@@ -28,7 +28,7 @@ public class EditoraManager {
 		return editoraManager;
 	}
 	
-	public Operacoes getOperacoes(){
+	public OperacoesEditoras getOperacoes(){
 		return this.operacoes;
 	}
 	

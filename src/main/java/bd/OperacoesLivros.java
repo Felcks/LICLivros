@@ -1,6 +1,7 @@
 package bd;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -95,5 +96,64 @@ public class OperacoesLivros extends JavaConnection implements Operacoes
 			closeConnections();
 		}catch(Exception e){}
 	}
+
+	public void ATUALIZAR_NOME_DE_EDITORA(String velho, String novo){
+
+		try{
+			this.ConnectBd();
+			connection.setAutoCommit(false);
+
+
+			stmt = connection.createStatement();
+			String sql = "UPDATE LIVROS set EDITORA = " + "'" + novo + "'" +
+					" WHERE EDITORA = '" + velho + "'";
+
+			stmt.executeUpdate(sql);
+			connection.commit();
+			this.closeConnections();
+
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+
+    public ArrayList<Livro> GET_ALL_LIVROS_VENDIDOS(){
+
+	    ArrayList<Livro> livros = new ArrayList<Livro>();
+	    try{
+            this.ConnectBd();
+            stmt = connection.createStatement();
+
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM LIVROS WHERE NOME != '' AND VENDIDOS > 0 OR " +
+                    "NOME != '' AND RESERVADO > QUANTIDADE");
+            while (resultSet.next()){
+                Livro livro = new Livro(resultSet);
+                livros.add(livro);
+            }
+            closeConnections();
+        }catch(Exception e){}
+
+        return livros;
+    }
+
+    public void RESETAR_VENDIDOS(){
+
+        try{
+            this.ConnectBd();
+            connection.setAutoCommit(false);
+
+
+            stmt = connection.createStatement();
+            String sql = "UPDATE LIVROS set VENDIDOS = 0 WHERE NOME != ''";
+
+            stmt.executeUpdate(sql);
+            connection.commit();
+            this.closeConnections();
+
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
 	
 }

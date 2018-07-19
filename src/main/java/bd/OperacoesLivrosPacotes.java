@@ -79,7 +79,8 @@ public class OperacoesLivrosPacotes extends JavaConnection implements Operacoes
             while (resultSet.next()){
                 int id = resultSet.getInt("id_livro");
                 Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
-                livros.add(livro);
+                if(livro != null)
+                    livros.add(livro);
             }
             this.closeConnections();
         } catch(Exception e){}

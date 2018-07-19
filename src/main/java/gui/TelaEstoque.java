@@ -238,6 +238,8 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		comboBox.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
+
+
 				atualizarLivros(table, comboBox, textFields[Field.EDITORA.index]);
 			}
 		});
@@ -295,11 +297,19 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 	}
 
 	private void atualizarCampos(){
-		if(table.getSelectedRow() != -1) {
-			textFields[Field.ID.index].setText(table.getValueAt(table.getSelectedRow(), 0).toString());
-			textFields[Field.NOME.index].setText(table.getValueAt(table.getSelectedRow(), 1).toString());
-			textFields[Field.QUANTIDADE.index].setText(table.getValueAt(table.getSelectedRow(), 3).toString());
-			textFields[Field.PRECO.index].setText(table.getValueAt(table.getSelectedRow(), 6).toString().substring(3));
+
+		Acao acao = Acao.valueOf(comboBoxAcoes.getSelectedItem().toString());
+
+		if(acao == Acao.ADICIONAR){
+			limparCampos();
+		}
+		else {
+			if (table.getSelectedRow() != -1 && table.getSelectedRow() < table.getRowCount()) {
+				textFields[Field.ID.index].setText(table.getValueAt(table.getSelectedRow(), 0).toString());
+				textFields[Field.NOME.index].setText(table.getValueAt(table.getSelectedRow(), 1).toString());
+				textFields[Field.QUANTIDADE.index].setText(table.getValueAt(table.getSelectedRow(), 3).toString());
+				textFields[Field.PRECO.index].setText(table.getValueAt(table.getSelectedRow(), 6).toString().substring(3));
+			}
 		}
 	}
 
@@ -344,6 +354,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 	
 	private void fazerAcao(JTextField[] textFields, JTable table, Acao acao){
 		String[] camposEmTexto = servicoDeDigito.transformarCamposEmTexto(textFields);
+
 		camposEmTexto[camposEmTexto.length - 1] =  camposEmTexto[camposEmTexto.length - 1].replace(',', '.');
 		
 		if(acao == Acao.ADICIONAR){
@@ -379,6 +390,11 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 
             Livro novoLivro = new Livro(camposEmTexto);
             Livro livro = EstoqueManager.getInstance().getLivroPeloId(idReal);
+            if(livro == null){
+				JOptionPane.showMessageDialog(this, "Selecione um livro para ser atualizado.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+
             Livro livroASerAdicionado = livro;
 
             //Checando nome

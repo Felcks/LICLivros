@@ -8,7 +8,7 @@ import bd.OperacoesLivros;
 public class EstoqueManager {
 	private static EstoqueManager estoqueManager;
 	private List<Livro> livros;
-	private Operacoes operacoes;
+	private OperacoesLivros operacoes;
 	
 	private EstoqueManager(){
 		this.livros = new ArrayList<Livro>();
@@ -27,19 +27,35 @@ public class EstoqueManager {
 	}
 	
 	public Livro getLivroPeloId(int id){
-		return this.livros.get(id);
+
+		for(Livro livro : this.livros) {
+			if(livro.getId() == id)
+				return livro;
+		}
+
+		return null;
+	}
+
+	private void setLivroPeloId(int id, Livro novoLivro){
+
+		for(int i = 0; i < this.livros.size(); i++){
+			Livro livro = this.livros.get(i);
+			if(livro.getId() == id)
+				this.livros.set(i, novoLivro);
+		}
 	}
 	
 	public void removerLivro(int id){
 		this.livros.remove(id);
 	}
 	
-	public Operacoes getOperacoes(){
+	public OperacoesLivros getOperacoes(){
 		return this.operacoes;
 	}
 	
 	public void atualizarLivro(int index, Livro livro){
-		this.livros.set(index, livro);
+
+		this.setLivroPeloId(index, livro);
 	}
 	
 	public void adicionarNovoLivro(Livro livro){
@@ -131,11 +147,13 @@ public class EstoqueManager {
 	
 	public void limparAposRelatorioFinal(){
 
-		for(int i = 0; i < this.livros.size(); i++){
+		/*for(int i = 0; i < this.livros.size(); i++){
 			Livro livro = livros.get(i);
 			//livro.setComprar(0);
 			livro.setVendidos(0);
 			this.operacoes.UPDATE_DATA(livro);
-		}
+		}*/
+
+		this.operacoes.RESETAR_VENDIDOS();
 	}
 }

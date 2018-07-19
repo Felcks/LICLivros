@@ -513,22 +513,12 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 		FormaDePagamento fp = FormaDePagamento.getFormaDePagamentoPeloNome(pagamentoBox.getSelectedItem().toString());
 		pedido.setFormaDePagamento(fp);
 		pedido.setData();
-		
-		PedidoManager.getInstance().adicionarPedidoEAbrirDoc(pedido);
-		PedidoManager.getInstance().getOperacoes().INSERT_DATA(pedido);
-		
+
+
 		for(int i = 0; i < pedido.getIdsDosLivrosComprados().length; i++){
 			Livro livro = EstoqueManager.getInstance().getLivroPeloId(pedido.getIdsDosLivrosComprados()[i]);
 			int quantidadeComprada = pedido.getQtdDosLivrosComprados()[i];
-			livro.setVendidos(livro.getVendidos() + quantidadeComprada);
-			for(int j = 0; j < quantidadeComprada; j++){
-
-				livro.setReservado(livro.getReservado() + 1);
-				/*if(livro.getQuantidade() > 0)
-					livro.setQuantidade(livro.getQuantidade() - 1);
-				else
-					livro.setComprar(livro.getComprar() + 1);*/
-			}
+			livro.setReservado(livro.getReservado() + quantidadeComprada);
 
 			EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
 			EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
@@ -536,6 +526,12 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 		
 		
 		JOptionPane.showMessageDialog(this, "Pedido realizado com sucesso!", "Pedido concluído!", JOptionPane.INFORMATION_MESSAGE);
+
+		PedidoManager.getInstance().getOperacoes().INSERT_DATA(pedido);
+		Pedido pedido2 = PedidoManager.getInstance().getOperacoes().GET_ULTIMO_PEDIDO();
+		pedido.setId(pedido2.getId());
+		PedidoManager.getInstance().adicionarPedidoEAbrirDoc(pedido);
+
 		idsDosLivrosAdicionados = new ArrayList<Integer>();
 		qtdDosLivrosAdicionados = new ArrayList<Integer>();
 		guiManager.mudarParaTela("telaInicial2");

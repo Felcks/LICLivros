@@ -235,9 +235,11 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 			JOptionPane.showMessageDialog(this, "Selecione um pedido.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
 			return;
 		}
+		id = Integer.parseInt(table.getValueAt(table.getSelectedRow(),0).toString());
+
 		
 		if (acao == Acao.ATUALIZAR){
-			Pedido velhoPedido = PedidoManager.getInstance().getPedidos().get(id);
+			Pedido velhoPedido = PedidoManager.getInstance().getPedidoPeloId(id);
 			String novo = comboBox.getSelectedItem().toString();
 			Status novoStatus = Status.EM_ANDAMENTO;
 			for(int i = 0; i < Status.values().length; i++){
@@ -247,50 +249,80 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 				}
 			}
 			
-			if(novoStatus == Status.CANCELADO && velhoPedido.getStatus() == Status.EM_ANDAMENTO || 
-												 velhoPedido.getStatus() == Status.PRONTO)
+			if(novoStatus == Status.CANCELADO)
 			{
-				for(int i = 0; i < velhoPedido.getIdsDosLivrosComprados().length; i++){
-					Livro livro = EstoqueManager.getInstance().getLivroPeloId(velhoPedido.getIdsDosLivrosComprados()[i]);
-					int quantidadeComprada = velhoPedido.getQtdDosLivrosComprados()[i];
-					livro.setVendidos(livro.getVendidos() - quantidadeComprada);
-					
-					for(int j = 0; j < quantidadeComprada; j++){
-						livro.setReservado(livro.getReservado() + 1);
-						/*if(livro.getComprar() > 0)
-							livro.setComprar(livro.getComprar() - 1);
-						else
-							livro.setQuantidade(livro.getQuantidade() + 1);*/
-						
-					}
-					
-					EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
-					EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
-				}
-			}
-			else if(novoStatus == Status.EM_ANDAMENTO || novoStatus == Status.PRONTO && velhoPedido.getStatus() == Status.CANCELADO)
-			{
-				for(int i = 0; i < velhoPedido.getIdsDosLivrosComprados().length; i++){
-					Livro livro = EstoqueManager.getInstance().getLivroPeloId(velhoPedido.getIdsDosLivrosComprados()[i]);
-					int quantidadeComprada = velhoPedido.getQtdDosLivrosComprados()[i];
-					livro.setVendidos(livro.getVendidos() + quantidadeComprada);
+				if(velhoPedido.getStatus() == Status.EM_ANDAMENTO){
+					{
 
-					livro.setReservado(livro.getReservado() + 1);
-					/*for(int j = 0; j < quantidadeComprada; j++){
-						if(livro.getQuantidade() > 0)
-							livro.setQuantidade(livro.getQuantidade() - 1);
-						else
-							livro.setComprar(livro.getComprar() + 1);	
-					}*/
-					
-					EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
-					EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
+						for(int i = 0; i < velhoPedido.getIdsDosLivrosComprados().length; i++){
+							Livro livro = EstoqueManager.getInstance().getLivroPeloId(velhoPedido.getIdsDosLivrosComprados()[i]);
+							int quantidadeComprada = velhoPedido.getQtdDosLivrosComprados()[i];
+							livro.setReservado(livro.getReservado() - quantidadeComprada);
+							if(livro.getReservado() < 0)
+								livro.setReservado(0);
+
+							EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
+							EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
+						}
+					}
+				}
+				else{
+					JOptionPane.showMessageDialog(this, "Mundança de estado não permitida.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+					return;
 				}
 			}
+			else if(novoStatus == Status.EM_ANDAMENTO) {
+				if (velhoPedido.getStatus() == Status.CANCELADO) {
+
+					for (int i = 0; i < velhoPedido.getIdsDosLivrosComprados().length; i++) {
+						Livro livro = EstoqueManager.getInstance().getLivroPeloId(velhoPedido.getIdsDosLivrosComprados()[i]);
+						int quantidadeComprada = velhoPedido.getQtdDosLivrosComprados()[i];
+						livro.setReservado(livro.getReservado() + quantidadeComprada);
+						if(livro.getReservado() < 0)
+							livro.setReservado(0);
+
+						EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
+						EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
+					}
+				}
+				else{
+					JOptionPane.showMessageDialog(this, "Mundança de estado não permitida.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+					return;
+				}
+			}
+			else if(novoStatus == Status.PRONTO) {
+				if(velhoPedido.getStatus() == Status.EM_ANDAMENTO){
+
+					for (int i = 0; i < velhoPedido.getIdsDosLivrosComprados().length; i++) {
+						Livro livro = EstoqueManager.getInstance().getLivroPeloId(velhoPedido.getIdsDosLivrosComprados()[i]);
+						int quantidadeComprada = velhoPedido.getQtdDosLivrosComprados()[i];
+						livro.setReservado(livro.getReservado() - quantidadeComprada);
+						if(livro.getReservado() < 0)
+							livro.setReservado(0);
+						livro.setVendidos(livro.getVendidos() + quantidadeComprada);
+						livro.setQuantidade(livro.getQuantidade() - quantidadeComprada);
+						if(livro.getQuantidade() < 0)
+							livro.setQuantidade(0);
+
+						EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
+						EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
+					}
+				}
+				else if(velhoPedido.getStatus() == Status.CANCELADO ){
+					JOptionPane.showMessageDialog(this, "Para finalizar o pedido coloque-o em andamento primeiro.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+					return;
+				}
+				else{
+					JOptionPane.showMessageDialog(this, "Mundança de estado não permitida.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+					return;
+				}
+			}
+
+
 			velhoPedido.setStatus(novoStatus);
 			
 			PedidoManager.getInstance().getOperacoes().UPDATE_DATA(velhoPedido);
-			PedidoManager.getInstance().atualizarPedido(id, velhoPedido);
+			PedidoManager.getInstance().atualizarPedidoPorId(id, velhoPedido);
 			
 			String mensage = "";
 			mensage = mensage.concat("Status do pedido atualizado: " + novoStatus.getNome());
@@ -301,8 +333,9 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 			String PATH = "PEDIDOS/";
 			
 			Object[][] data = ((MyTableModelPedido)table.getModel()).getData();
+			int row = table.getSelectedRow();
 			
-			PATH = PATH.concat(id + " - " + data[id][1].toString() + ".pdf");
+			PATH = PATH.concat(id + " - " + data[row][1].toString() + ".pdf");
 			try {
 				Desktop.getDesktop().open(new File(PATH));
 			} catch (IOException e) {
@@ -388,8 +421,6 @@ class MyTableModelPedido extends AbstractTableModel {
     			dataCurrentIndex++;
     		}
     	}
-    	
-    	
     }
     
     public int getColumnCount() {

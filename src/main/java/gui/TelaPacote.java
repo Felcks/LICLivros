@@ -71,14 +71,14 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
         c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 12;
+		c.gridwidth = 10;
 		c.gridheight = 2;
 		c.anchor = GridBagConstraints.CENTER;
-		//this.add(txt_Title, c);
+		this.add(txt_Title, c);
 		
 		JLabel labelEscola = new JLabel("ESCOLA: ");
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 2;
 		c.gridwidth = 1;
 		c.gridheight = 2;
 		c.fill = GridBagConstraints.NONE;
@@ -88,7 +88,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		String[] todasEscolas = EscolaManager.getInstance().getTodosNomesEscolas();
 		comboBox = new JComboBox(todasEscolas);
 		c.gridx = 1;
-		c.gridy = 0;
+		c.gridy = 2;
 		c.gridwidth = 5;
 		c.gridheight = 2;
 		c.fill = GridBagConstraints.NONE;
@@ -97,7 +97,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		
 		JLabel labelAno = new JLabel("ANO: ");
 		c.gridx = 6;
-		c.gridy = 0;
+		c.gridy = 2;
 		c.gridwidth = 1;
 		c.gridheight = 2;
 		c.fill = GridBagConstraints.NONE;
@@ -107,16 +107,15 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		String[] todosAnos = AnoEscolar.getTodosNomesAnosEscolares();
 		JComboBox comboBoxAno = new JComboBox(todosAnos);
 		c.gridx = 7;
-		c.gridy = 0;
+		c.gridy = 2;
 		c.gridwidth = 2;
 		c.gridheight = 2;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.CENTER;
 		this.add(comboBoxAno,c);
-		
-		this.escolaSelecionada = new Escola(comboBox.getSelectedItem().toString());
-		this.anoEscolarSelecionado = AnoEscolar.getAnoEscolarPeloNome(comboBoxAno.getSelectedItem().toString());
 
+		this.escolaSelecionada = EscolaManager.getInstance().getEscolaPeloNome(comboBox.getSelectedItem().toString());
+		this.anoEscolarSelecionado = AnoEscolar.getAnoEscolarPeloNome(comboBoxAno.getSelectedItem().toString());
 
 		this.table = new JTable(new MyTableModelPacote(escolaSelecionada, anoEscolarSelecionado));
 		minimizarTamanhoDaColuna(table, 0, 40);
@@ -125,7 +124,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		JScrollPane scrollPane  = new JScrollPane(this.table);
 		table.setFillsViewportHeight(true);
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 4;
 		c.gridwidth = 10;
 		c.gridheight = 10;
 		c.anchor = GridBagConstraints.CENTER;
@@ -133,12 +132,11 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		this.add(scrollPane, c);
 
 		this.inicializarViewLivros(c);
-
 		
 		JButton btn_fazerAcao = new JButton("Adicionar ao Pacote");
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 14;
-		c.gridy = 12;
+		c.gridy = 16;
 		c.gridwidth = 10;
 		c.gridheight = 1;
 		c.anchor = GridBagConstraints.CENTER;
@@ -147,7 +145,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		JButton btn_fazerAcao2 = new JButton("Remover do Pacote");
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
-		c.gridy = 12;
+		c.gridy = 16;
 		c.gridwidth = 10;
 		c.gridheight = 1;
 		c.anchor = GridBagConstraints.CENTER;
@@ -194,9 +192,20 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 	private JComboBox comboBoxEditora;
 	private void inicializarViewLivros(GridBagConstraints c){
 
-		JLabel editoraLabel = new JLabel("EDITORA: ");
+		JLabel txt_Title = new JLabel("LIVROS", SwingConstants.CENTER);
+		txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));
+		txt_Title.setSize(30,30);
+		c.fill = GridBagConstraints.NONE;
 		c.gridx = 14;
 		c.gridy = 0;
+		c.gridwidth = 10;
+		c.gridheight = 2;
+		c.anchor = GridBagConstraints.CENTER;
+		this.add(txt_Title, c);
+
+		JLabel editoraLabel = new JLabel("EDITORA: ");
+		c.gridx = 14;
+		c.gridy = 2;
 		c.gridwidth = 1;
 		c.gridheight = 2;
 		c.fill = GridBagConstraints.NONE;
@@ -209,7 +218,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		}
 		comboBoxEditora = new JComboBox(todasEditoras);
 		c.gridx = 15;
-		c.gridy = 0;
+		c.gridy = 2;
 		c.gridwidth = 1;
 		c.gridheight = 2;
 		c.anchor = GridBagConstraints.CENTER;
@@ -223,7 +232,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		JScrollPane scrollPane2  = new JScrollPane(this.tableLivros);
 		tableLivros.setFillsViewportHeight(true);
 		c.gridx = 14;
-		c.gridy = 2;
+		c.gridy = 4;
 		c.gridwidth = 10;
 		c.gridheight = 10;
 		c.anchor = GridBagConstraints.CENTER;
@@ -277,6 +286,13 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		}
 
 		PacoteManager.getInstance().getOperacoes().GET_AND_SET_ALL_DATA();
+
+		comboBoxEditora.removeAllItems();
+		String[] todasEditoras = new String[EditoraManager.getInstance().getEditoras().size()];
+		for(int i = 0; i < EditoraManager.getInstance().getEditoras().size(); i++){
+			todasEditoras[i] = EditoraManager.getInstance().getEditoras().get(i).getNome();
+			comboBoxEditora.addItem(todasEditoras[i]);
+		}
 		
 		this.repintarTabela();
 	}
@@ -374,7 +390,6 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 }
 
 
-
 class MyTableModelPacote extends AbstractTableModel {
 	
 	private static Boolean DEBUG = false;
@@ -402,8 +417,10 @@ class MyTableModelPacote extends AbstractTableModel {
     	ArrayList<Livro> livros = (ArrayList<Livro>)operacoesLivrosPacotes.GET_LIVROS_DE_PACOTE(pacote.getId());
 
     	data = new Object[livros.size()][];
-    	for(int i = 0; i < data.length; i++){
-    		data[i] = EstoqueManager.getInstance().getLivroPeloId(livros.get(i).getId()).pegarTodosParametrosEspecial();
+    	for(int i = 0; i < livros.size(); i++){
+    		Livro livro = EstoqueManager.getInstance().getLivroPeloId(livros.get(i).getId());
+    		data[i] = livro.pegarTodosParametrosEspecial();
+
     	}	
     }
     

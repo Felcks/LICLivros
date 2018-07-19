@@ -267,6 +267,11 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 			}
 			id = Integer.parseInt(table.getValueAt(table.getSelectedRow(),0).toString());
 
+			if(EscolaManager.getInstance().getEscolas().size() <= 1){
+				JOptionPane.showMessageDialog(this, "Deve existir ao menos uma escola.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+
 			Escola velhaEscola = EscolaManager.getInstance().getEscolaPeloId(id);
 			Escola novaEscola = new Escola("");
 

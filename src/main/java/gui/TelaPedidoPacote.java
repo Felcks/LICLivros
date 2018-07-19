@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,13 +22,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import bd.OperacoesLivrosPacotes;
 import bd.OperacoesPacotes;
-import principais.AnoEscolar;
-import principais.Escola;
-import principais.EscolaManager;
-import principais.Pacote;
-import principais.PacoteManager;
-import principais.Pedido;
+import principais.*;
 import utilidades.Acao;
 import utilidades.Screen;
 import utilidades.ServicoDeDigito;
@@ -122,11 +119,10 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 		this.escolaSelecionada = new Escola(comboBox.getSelectedItem().toString());
 		this.anoEscolarSelecionado = AnoEscolar.getAnoEscolarPeloNome(comboBoxAno.getSelectedItem().toString());
 		
-		this.table = new JTable(new MyTableModelPedidoPacote(escolaSelecionada, anoEscolarSelecionado));
-		minimizarTamanhoDaColuna(table, 1, 175, true);
-		minimizarTamanhoDaColuna(table, 2, 90, true);
-		minimizarTamanhoDaColuna(table, 3, 90, true);
-		minimizarTamanhoDaColuna(table, 4, 70, false);
+		this.table = new JTable(new MyTableModelPacote(escolaSelecionada, anoEscolarSelecionado));
+		minimizarTamanhoDaColuna(table, 0, 40, true);
+		minimizarTamanhoDaColuna(table, 3, 80, true);
+		minimizarTamanhoDaColuna(table, 2, 175, false);
 		JScrollPane scrollPane  = new JScrollPane(this.table);
 		table.setFillsViewportHeight(true);
 		c.gridx = 0;
@@ -186,7 +182,8 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 			public void actionPerformed(ActionEvent e){
 				if(comboBox != null)
 					if(comboBox.getItemCount() > 0)
-						escolaSelecionada = new Escola(comboBox.getSelectedItem().toString());
+						escolaSelecionada = EscolaManager.getInstance().getEscolaPeloNome(comboBox.getSelectedItem().toString());
+						//escolaSelecionada = new Escola(comboBox.getSelectedItem().toString());
 				
 				repintarTabela();
 			}
@@ -234,10 +231,10 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 	
 	private void repintarTabela(){
 		if(this.table != null){
-			((MyTableModelPedidoPacote)this.table.getModel()).updateData(escolaSelecionada, anoEscolarSelecionado);
+			((MyTableModelPacote)this.table.getModel()).updateData(escolaSelecionada, anoEscolarSelecionado);
 			this.table.repaint();
 			
-			pacote = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
+			/*pacote = PacoteManager.getInstance().getPacote(escolaSelecionada.getId(), anoEscolarSelecionado);
 			idsDosLivrosSelecionados = new int[pacote.getLivros().size()];
 			for(int i = 0; i < idsDosLivrosSelecionados.length; i++)
 				idsDosLivrosSelecionados[i] = pacote.getLivros().get(i).getId();
@@ -250,7 +247,7 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 			NumberFormat nf = NumberFormat.getCurrencyInstance();  
 			String formatado = nf.format (precoTotal);
 			
-			textFieldPreco.setText(formatado);
+			textFieldPreco.setText(formatado);*/
 		}
 	}
 	
@@ -274,6 +271,7 @@ public class TelaPedidoPacote extends JPanel implements IPrepararComponentes {
 	}
 }
 
+
 class MyTableModelPedidoPacote extends AbstractTableModel {
 	
 	private static Boolean DEBUG = false;
@@ -282,8 +280,7 @@ class MyTableModelPedidoPacote extends AbstractTableModel {
     private String[] columnNames = {"NOME",
                                     "EDITORA",
                                     "QUANTIDADE",
-                                    "PREÇO",
-                                    "INCLUIR"};
+                                    "PREÇO"};
    
     private Object[][] data;
     
@@ -293,16 +290,16 @@ class MyTableModelPedidoPacote extends AbstractTableModel {
     }
     
     public void updateData(Escola escola, AnoEscolar anoEscolar){
-    	data = new Object[PacoteManager.getInstance().getPacote(escola.getId(), anoEscolar).getLivros().size()][];
-    	for(int i = 0; i < data.length; i++){
-    		Object[] parametros = PacoteManager.getInstance().getPacote(escola.getId(), anoEscolar).getLivros().get(i).pegarParametrosParaPedido();
-    		data[i] = new Object[parametros.length + 1];
-    		for(int j = 0; j < parametros.length; j++)
-    			data[i][j] = parametros[j];
-    	
-    			data[i][parametros.length] = true;    		
-    	}	
-    }
+		Pacote pacote = PacoteManager.getInstance().getPacote(escola.getId(), anoEscolar);
+
+		OperacoesLivrosPacotes operacoesLivrosPacotes = new OperacoesLivrosPacotes();
+		ArrayList<Livro> livros = (ArrayList<Livro>)operacoesLivrosPacotes.GET_LIVROS_DE_PACOTE(pacote.getId());
+
+		data = new Object[livros.size()][];
+		for(int i = 0; i < data.length; i++){
+			data[i] = EstoqueManager.getInstance().getLivroPeloId(livros.get(i).getId()).pegarParametrosParaPedido();
+		}
+	}
     
     public int getColumnCount() {
         return columnNames.length;
@@ -363,23 +360,10 @@ class MyTableModelPedidoPacote extends AbstractTableModel {
 
         data[row][col] = value;
         fireTableCellUpdated(row, col);
-        
-        //Se for a coluna que contém a boleana, atualizamos a tabela de preço
-        if(col == 4){
-        	if((Boolean)data[row][col] == true){
-        		String a = data[row][3].toString().substring(3, data[row][3].toString().length());
-        		a = a.replace(',', '.');
-        		TelaPedidoPacote.atualizarPrecoTotal((double)Double.parseDouble(a));
-        	}
-        	else{
-        		String a = data[row][3].toString().substring(3, data[row][3].toString().length());
-        		a = a.replace(',', '.');
-        		TelaPedidoPacote.atualizarPrecoTotal(-(double)Double.parseDouble(a));
-        	}
-        	
-        	TelaPedidoPacote.adicionarOuRemoverId(row);
-        		
-        }
+
+        if(col == 2){
+        	TelaPedidoUnico.atualizarPreco(data);
+		}
 
         if (DEBUG) {
             System.out.println("New value of data:");
@@ -400,6 +384,10 @@ class MyTableModelPedidoPacote extends AbstractTableModel {
         }
         System.out.println("--------------------------");
     }
+
+	public Object[][] getData() {
+		return data;
+	}
 }
 
 

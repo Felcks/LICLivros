@@ -1,5 +1,7 @@
 package principais;
 
+import bd.OperacoesEditoras;
+
 import java.sql.*;
 import java.text.Normalizer;
 import java.text.NumberFormat;

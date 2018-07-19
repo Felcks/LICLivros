@@ -84,19 +84,24 @@ public class Pedido {
 		object[1] = this.getCliente().getNome();
 		
 		String livros = "";
-		if(this.getTipoPedido() == TipoPedido.NORMAL){
+		/*if(this.getTipoPedido() == TipoPedido.NORMAL){
 			for(int i = 0; i < this.getPacote().getLivros().size(); i++)
 				if(i < this.getIdsDosLivrosComprados().length)
 					if(this.getIdsDosLivrosComprados()[i] >= 0)
 						livros += this.getPacote().getLivros().get(i).getNome() + ", ";
 		}
-		else{
+		else{*/
 			for(int i = 0; i < idsDosLivrosComprados.length; i++){
 				int id = idsDosLivrosComprados[i];
-				if(id >= 0)
-					livros += EstoqueManager.getInstance().getLivroPeloId(id).getNome();
+				if(id >= 0) {
+					Livro livro = EstoqueManager.getInstance().getLivroPeloId(id);
+					if(livro != null) {
+						String espaco =  (i == 0) ? " " : ", ";
+						livros += espaco + livro.getNome();
+					}
+				}
 			}
-		}
+		//}
 		
 		object[2] = livros; 
 		

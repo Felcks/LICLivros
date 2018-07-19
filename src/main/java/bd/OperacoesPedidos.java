@@ -19,8 +19,7 @@ public class OperacoesPedidos extends JavaConnection implements Operacoes
 				ConnectBd();
 				connection.setAutoCommit(false);
 				stmt  = connection.createStatement();
-			
-				int id = pedido.getId();
+
 				String cliente = pedido.getCliente().getNome();
 				int pacote = pedido.getPacote().getId();
 				String idsLivros = pedido.getIdsDosLivrosCompradosEmString();
@@ -33,9 +32,9 @@ public class OperacoesPedidos extends JavaConnection implements Operacoes
 				String status = pedido.getStatus().toString();
 				String data = pedido.getData();
 				
-				String sql = "INSERT INTO PEDIDOS (ID, CLIENTE, PACOTE, IDS_DOS_LIVROS, QTD_DOS_LIVROS, PRECO,  "
+				String sql = "INSERT INTO PEDIDOS (CLIENTE, PACOTE, IDS_DOS_LIVROS, QTD_DOS_LIVROS, PRECO,  "
 						+ "FORMA_DE_PAGAMENTO, OBS, STATUS, TIPO, DATA)" +
-				"VALUES (" + id + "," + 
+				"VALUES (" +
 						 "'" + cliente + "'" + "," + 
 						  pacote  + "," +
 						"'" + idsLivros + "'" + "," + 
@@ -93,6 +92,22 @@ public class OperacoesPedidos extends JavaConnection implements Operacoes
 			this.closeConnections();
 		} catch(Exception e){}
 	}
-		
+
+	public Pedido GET_ULTIMO_PEDIDO(){
+
+		Pedido pedido = null;
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM PEDIDOS");
+			while (resultSet.next()){
+				pedido = new Pedido(resultSet);
+			}
+			this.closeConnections();
+		} catch(Exception e){}
+
+		return pedido;
+	}
 	
 }

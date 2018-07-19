@@ -58,7 +58,7 @@ public class TelaInicial2 extends JPanel{
        ImageIcon iconLogo = new ImageIcon("Images/Wallpaper.jpg");
        backgroundLabel.setIcon(iconLogo);
        this.add(backgroundLabel, c);
-    
+
 	}
 
 }

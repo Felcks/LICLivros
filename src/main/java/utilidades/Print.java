@@ -19,6 +19,7 @@ import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.print.attribute.standard.DateTimeAtProcessing;
 import javax.swing.JOptionPane;
 
+import bd.OperacoesEscolas;
 import com.itextpdf.awt.geom.Rectangle;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -34,14 +35,9 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import principais.Cliente;
-import principais.EditoraManager;
-import principais.EstoqueManager;
-import principais.Livro;
-import principais.Pedido;
-import principais.TipoPedido;
+import principais.*;
 
-public class Print {
+ public class Print {
 	Document document =  null;
 	private OutputStream os = null;
 	private String PATH = "PEDIDOS/";
@@ -102,13 +98,16 @@ public class Print {
 			sb_PATH.append(dateFormat.format(cal.getTime()).toString());
 			sb_PATH.append(parcialOuFinal);
 			sb_PATH.append(".pdf");
-			
-			for(int i = 0; i < EditoraManager.getInstance().getEditoras().size(); i++){
+
+
+			this.livros = new ArrayList<Livro>();
+			this.livros = EstoqueManager.getInstance().getOperacoes().GET_ALL_LIVROS_VENDIDOS();
+			/*for(int i = 0; i < EditoraManager.getInstance().getEditoras().size(); i++){
 				String editoraName = EditoraManager.getInstance().getEditoras().get(i).getNome();
 				for(int j = 0; j < EstoqueManager.getInstance().getLivrosDeUmaEditora(editoraName).size(); j++){
 					livros.add(EstoqueManager.getInstance().getLivrosDeUmaEditora(editoraName).get(j));
 				}
-			}
+			}*/
 		
 		document = new Document(PageSize.A4);
 		os = new FileOutputStream(sb_PATH.toString());
@@ -166,8 +165,8 @@ public class Print {
 		
 		for(int i = 0; i < l.size(); i++) {
 			//table.addCell(new PdfPCell(new Phrase(String.valueOf(l.get(i).getId()))));
-			if(l.get(i).getComprar() == 0)
-				continue;
+			//if(l.get(i).getComprar() == 0)
+			//	continue;
 			
 			table.addCell(new PdfPCell(new Phrase(l.get(i).getNome(), f2)));
 			table.addCell(new PdfPCell(new Phrase(l.get(i).getEditora(), f2)));
@@ -193,7 +192,7 @@ public class Print {
 		
 		Paragraph adress = new Paragraph("RUA BRAGA, 106"
 				+ "\n"
-				+ "PENHA CICRUlAR"
+				+ "PENHA CIRCULAR"
 				+ "\n"
 				+ "RIO DE JANEIRO - RIO DE JANEIRO - BRASIL"
 				+ "\n"
@@ -290,9 +289,14 @@ public class Print {
 		
 		Phrase phraseSchool = new Phrase();
 		phraseSchool.add(new Chunk("Escola: ", f));
-		if(p.getPacote().getEscolaId() != -1) {
-			//TODO IR NO BD DAS ESCOLAS E BUSCAR COM O ID_ESCOLA
-			phraseSchool.add(new Chunk(p.getPacote().getEscolaId() + " - " + p.getPacote().getAnoEscolar().getNome(), f2));
+		if(p.getPacote().getEscolaId() != 0) {
+			OperacoesEscolas operacoesEscolas = new OperacoesEscolas();
+			Escola escola = operacoesEscolas.GET_ESCOLA(p.getPacote().getEscolaId());
+
+			if(escola != null)
+				phraseSchool.add(new Chunk(escola.getNome() + " - " + p.getPacote().getAnoEscolar().getNome(), f2));
+			else
+				phraseSchool.add(new Chunk(p.getPacote().getEscolaId() + " - " + p.getPacote().getAnoEscolar().getNome(), f2));
 		}
 		else
 			phraseSchool.add(new Chunk("   ---   ", f2));

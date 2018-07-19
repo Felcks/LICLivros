@@ -82,7 +82,25 @@ public class OperacoesEscolas extends JavaConnection implements Operacoes {
 			
 			this.closeConnections();
 		} catch(Exception e){}
-	
+	}
+
+	public Escola GET_ESCOLA(int id){
+
+		Escola escola = null;
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM ESCOLAS WHERE ID = " + id);
+
+			while (resultSet.next()){
+				escola = new Escola(resultSet);
+			}
+
+			this.closeConnections();
+		} catch(Exception e){}
+
+		return escola;
 	}
 
 }

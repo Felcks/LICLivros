@@ -131,11 +131,11 @@ public class TelaRelatorios extends JPanel {
 	{
 		if(fieldFinal.getText().equals("FINAL")){
 			imprimirRelatorio(parcialOuFinal);
-			
+			//ESVAZIAR TUDO QUE JÁ FOI PRO RELATORIO FINAL
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(this, "Siga a instrução descrita breviamente.", "Erro", JOptionPane.OK_CANCEL_OPTION);
+			JOptionPane.showMessageDialog(this, "Siga a instrução descrita previamente.", "Erro", JOptionPane.OK_CANCEL_OPTION);
 		}
 		fieldFinal.setText("");
 	}
