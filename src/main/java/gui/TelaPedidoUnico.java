@@ -501,7 +501,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		pedido.setId(pedido2.getId());
         PedidoManager.getInstance().adicionarPedidoEAbrirDoc(pedido);
 
-		guiManager.mudarParaTela("telaInicial2");
+		guiManager.mudarParaTela("telaPedidoUnico");
 	}
 	
 	private Cliente criarCliente()

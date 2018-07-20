@@ -534,7 +534,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 
 		idsDosLivrosAdicionados = new ArrayList<Integer>();
 		qtdDosLivrosAdicionados = new ArrayList<Integer>();
-		guiManager.mudarParaTela("telaInicial2");
+		guiManager.mudarParaTela("telaPedidoUnicoAvulso");
 	}
 	
 	private Cliente criarCliente()
