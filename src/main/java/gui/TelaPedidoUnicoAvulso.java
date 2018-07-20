@@ -28,8 +28,23 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import principais.*;
-import utilidades.*;
+import principais.AnoEscolar;
+import principais.Cliente;
+import principais.ClienteManager;
+import principais.Escola;
+import principais.EscolaManager;
+import principais.EstoqueManager;
+import principais.Livro;
+import principais.Pacote;
+import principais.PacoteManager;
+import principais.Pedido;
+import principais.PedidoManager;
+import principais.TipoPedido;
+import utilidades.Acao;
+import utilidades.AutoSuggestor;
+import utilidades.FormaDePagamento;
+import utilidades.ServicoDeDigito;
+import utilidades.Status;
 
 public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponentes
 {
@@ -48,8 +63,6 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	JTextField fieldNome, fieldBairro, fieldComplemento, fieldRua, fieldTelefone, fieldCel, fieldObs;
 	JComboBox pagamentoBox;
 	private static JTextField fieldLivro;
-
-	private JTable tableLivros;
 	
 	public TelaPedidoUnicoAvulso(GUIManager guiManager)
 	{
@@ -219,18 +232,9 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 2;
        c.fill = GridBagConstraints.HORIZONTAL;
        this.add(pagamentoBox, c);
-
-
-		JLabel txt_Title = new JLabel("PACOTE", SwingConstants.CENTER);
-		txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));
-		txt_Title.setSize(30,30);
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 10;
-		c.gridheight = 2;
-		c.anchor = GridBagConstraints.CENTER;
-		this.add(txt_Title, c);
+       
+      
+       
  
 		this.table = new JTable(new TableModelPedidoAvulso());
 		minimizarTamanhoDaColuna(table, 1, 175, true);
@@ -240,14 +244,11 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 		table.setFillsViewportHeight(true);
 		c.gridx = 0;
 		c.gridy = 2;
-		c.gridwidth = 10;
-		c.gridheight = 2;
+		c.gridwidth = 50;
+		c.gridheight = 5;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(scrollPane, c);
-
-
-		this.inicializarViewLivros(c);
 		
 		c.gridy = 10;
 		prox = 17;
@@ -267,7 +268,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    prox += 14;
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    c.anchor = GridBagConstraints.CENTER;
-	    //this.add(fieldLivro, c);
+	    this.add(fieldLivro, c);
 	       
 	    Action action = new AbstractAction()
 	    {
@@ -283,7 +284,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	     c.gridx = prox;
 	     c.gridwidth = 1;
 	     prox += 1;
-	     //this.add(adicionar, c);
+	     this.add(adicionar, c);
 	       
 	     autoSuggestor = new AutoSuggestor(fieldLivro, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
 					Color.white, Color.blue, Color.BLACK, 0.55f);
@@ -294,7 +295,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	     c.gridy = 15;
 	     prox += 1;
 	     c.anchor = GridBagConstraints.CENTER;
-	     //this.add(remover, c);
+	     this.add(remover, c);
 	     
 	     remover.addActionListener(new ActionListener() {
 			@Override
@@ -440,87 +441,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    aplicarDesconto(fieldDesconto.getText());
 	    this.repintarTabela();
 	}
-
-	private JComboBox comboBoxEditora;
-	private void inicializarViewLivros(GridBagConstraints c){
-
-		JLabel txt_Title = new JLabel("LIVROS", SwingConstants.CENTER);
-		txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));
-		txt_Title.setSize(30,30);
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 14;
-		c.gridy = 2;
-		c.gridwidth = 10;
-		c.gridheight = 2;
-		c.anchor = GridBagConstraints.CENTER;
-		this.add(txt_Title, c);
-
-		JLabel editoraLabel = new JLabel("EDITORA: ");
-		c.gridx = 14;
-		c.gridy = 3;
-		c.gridwidth = 1;
-		c.gridheight = 2;
-		c.fill = GridBagConstraints.NONE;
-		c.anchor = GridBagConstraints.CENTER;
-		this.add(editoraLabel, c);
-
-		String[] todasEditoras = new String[EditoraManager.getInstance().getEditoras().size()];
-		for(int i = 0; i < EditoraManager.getInstance().getEditoras().size(); i++){
-			todasEditoras[i] = EditoraManager.getInstance().getEditoras().get(i).getNome();
-		}
-		comboBoxEditora = new JComboBox(todasEditoras);
-		c.gridx = 15;
-		c.gridy = 3;
-		c.gridwidth = 1;
-		c.gridheight = 2;
-		c.anchor = GridBagConstraints.CENTER;
-		this.add(comboBoxEditora,c);
-
-
-		this.tableLivros = new JTable(new MyTableModelLivro(""));
-		minimizarTamanhoDaColuna(tableLivros, 0, 40, true);
-		minimizarTamanhoDaColuna(tableLivros, 3, 80, true);
-		minimizarTamanhoDaColuna(tableLivros, 2, 175, true);
-		JScrollPane scrollPane2  = new JScrollPane(this.tableLivros);
-		tableLivros.setFillsViewportHeight(true);
-		c.gridx = 14;
-		c.gridy = 5;
-		c.gridwidth = 10;
-		c.gridheight = 10;
-		c.anchor = GridBagConstraints.CENTER;
-		c.fill = GridBagConstraints.BOTH;
-		this.add(scrollPane2, c);
-
-		comboBoxEditora.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e){
-				atualizarLivros(table, comboBoxEditora);
-			}
-		});
-	}
-
-	private void atualizarLivros(JTable table, JComboBox comboBox){
-		try{
-			if(comboBoxEditora != null){
-				this.repintarTabelaLivro(comboBoxEditora.getSelectedItem().toString());
-				//textField.setText(comboBox.getSelectedItem().toString());
-			}
-
-		}
-		catch(java.lang.NullPointerException e){
-
-		}
-	}
-
-	private void repintarTabelaLivro(String editora){
-		if(this.tableLivros != null){
-			((MyTableModelLivro)this.tableLivros.getModel()).updateData(editora);
-			this.tableLivros.repaint();
-			//TODO atualizarCampos();
-		}
-	}
-
-
+	
 	private void remover()
 	{
 		int id = -1;

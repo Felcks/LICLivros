@@ -7,6 +7,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8e4abc5-23f3-45a2-ab58-f61b606fe307" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/LIC.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/liclivros.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/liclivros.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/LICLivros_jar/LICLivros.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/LICLivros_jar/LICLivros.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnico.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnico.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnicoAvulso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnicoAvulso.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -41,27 +47,8 @@
       <file leaf-file-name="TelaPedidoUnicoAvulso.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnicoAvulso.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="249" column="8" selection-start-line="249" selection-start-column="8" selection-end-line="249" selection-end-column="8" />
-              <folding>
-                <element signature="e#8784#8785#0" expanded="true" />
-                <element signature="e#8804#8805#0" expanded="true" />
-                <element signature="e#11365#11366#0" expanded="true" />
-                <element signature="e#11415#11416#0" expanded="true" />
-                <element signature="e#11560#11561#0" expanded="true" />
-                <element signature="e#11587#11588#0" expanded="true" />
-                <element signature="e#14107#14108#0" expanded="true" />
-                <element signature="e#14150#14151#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TelaPacote.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPacote.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="270" lean-forward="true" selection-start-line="270" selection-end-line="277" />
+            <state relative-caret-position="1275">
+              <caret line="538" column="4" lean-forward="true" selection-start-line="538" selection-start-column="4" selection-end-line="538" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -77,6 +64,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+      <find>minimizarTamanhoDaColuna</find>
       <find>telaPedidoPacote</find>
       <find>GET_LIVROS_DE_PACOTE</find>
       <find>aplicarDesconto</find>
@@ -106,7 +94,6 @@
       <find>&quot;, &quot;</find>
       <find>prepararComponentes</find>
       <find>mudar</find>
-      <find>atualizarL</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -140,10 +127,10 @@
         <option value="$PROJECT_DIR$/src/main/java/bd/OperacoesPedidos.java" />
         <option value="$PROJECT_DIR$/src/main/java/utilidades/Print.java" />
         <option value="$PROJECT_DIR$/src/main/java/principais/Pedido.java" />
+        <option value="$PROJECT_DIR$/src/main/java/gui/TelaPacote.java" />
         <option value="$PROJECT_DIR$/src/main/java/gui/TelaEscola.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnico.java" />
-        <option value="$PROJECT_DIR$/src/main/java/gui/TelaPacote.java" />
         <option value="$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnicoAvulso.java" />
       </list>
     </option>
@@ -198,15 +185,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="gui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LICLivros" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LICLivros" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="gui" type="462c0819:PsiDirectoryNode" />
-              <item name="TelaPacote.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </path>
             <path>
               <item name="LICLivros" type="b2602c69:ProjectViewProjectNode" />
@@ -586,10 +564,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="214" column="34" selection-start-line="214" selection-start-column="34" selection-end-line="214" selection-end-column="34" />
-          <folding>
-            <element signature="e#6225#6226#0" expanded="true" />
-            <element signature="e#6275#6276#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -750,6 +724,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPacote.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3735">
+          <caret line="285" column="9" selection-start-line="280" selection-start-column="8" selection-end-line="285" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/principais/EscolaManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
@@ -816,27 +797,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPacote.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="270" lean-forward="true" selection-start-line="270" selection-end-line="277" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/gui/TelaPedidoUnicoAvulso.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="249" column="8" selection-start-line="249" selection-start-column="8" selection-end-line="249" selection-end-column="8" />
-          <folding>
-            <element signature="e#8784#8785#0" expanded="true" />
-            <element signature="e#8804#8805#0" expanded="true" />
-            <element signature="e#11365#11366#0" expanded="true" />
-            <element signature="e#11415#11416#0" expanded="true" />
-            <element signature="e#11560#11561#0" expanded="true" />
-            <element signature="e#11587#11588#0" expanded="true" />
-            <element signature="e#14107#14108#0" expanded="true" />
-            <element signature="e#14150#14151#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1275">
+          <caret line="538" column="4" lean-forward="true" selection-start-line="538" selection-start-column="4" selection-end-line="538" selection-end-column="4" />
         </state>
       </provider>
     </entry>
