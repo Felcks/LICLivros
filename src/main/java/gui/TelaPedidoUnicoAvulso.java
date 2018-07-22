@@ -28,23 +28,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import principais.AnoEscolar;
-import principais.Cliente;
-import principais.ClienteManager;
-import principais.Escola;
-import principais.EscolaManager;
-import principais.EstoqueManager;
-import principais.Livro;
-import principais.Pacote;
-import principais.PacoteManager;
-import principais.Pedido;
-import principais.PedidoManager;
-import principais.TipoPedido;
-import utilidades.Acao;
-import utilidades.AutoSuggestor;
-import utilidades.FormaDePagamento;
-import utilidades.ServicoDeDigito;
-import utilidades.Status;
+import principais.*;
+import utilidades.*;
 
 public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponentes
 {
@@ -63,6 +48,9 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	JTextField fieldNome, fieldBairro, fieldComplemento, fieldRua, fieldTelefone, fieldCel, fieldObs;
 	JComboBox pagamentoBox;
 	private static JTextField fieldLivro;
+
+
+	private JTable tableLivros;
 	
 	public TelaPedidoUnicoAvulso(GUIManager guiManager)
 	{
@@ -100,7 +88,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        c.gridheight = 1; 
        c.fill = GridBagConstraints.NONE;
        c.anchor = GridBagConstraints.LINE_END;
-       this.add(labelNome, c);
+       ///this.add(labelNome, c);
   
        
        fieldNome = new JTextField();
@@ -109,7 +97,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 20;
        c.fill = GridBagConstraints.HORIZONTAL;
        c.anchor = GridBagConstraints.CENTER;
-       this.add(fieldNome, c);
+       //this.add(fieldNome, c);
        
        
        JLabel labelBairro = new JLabel("Bairro: ");
@@ -118,7 +106,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 1;
        c.fill = GridBagConstraints.NONE;
        c.anchor = GridBagConstraints.LINE_END;
-       this.add(labelBairro, c);
+       //this.add(labelBairro, c);
        
        fieldBairro = new JTextField();
        c.gridx = prox;
@@ -126,7 +114,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 8;
        c.fill = GridBagConstraints.HORIZONTAL;
        c.anchor = GridBagConstraints.CENTER;
-       this.add(fieldBairro, c);
+       //this.add(fieldBairro, c);
        
        
        JLabel labelRua = new JLabel("Rua: ");
@@ -135,7 +123,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 1;
        c.fill = GridBagConstraints.NONE;
        c.anchor = GridBagConstraints.LINE_END;
-       this.add(labelRua, c);
+       //this.add(labelRua, c);
        
        fieldRua = new JTextField();
        c.gridx = prox;
@@ -143,7 +131,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 14;
        c.fill = GridBagConstraints.HORIZONTAL;
        c.anchor = GridBagConstraints.CENTER;
-       this.add(fieldRua, c);
+       //this.add(fieldRua, c);
        
        
        JLabel labelComplemento = new JLabel("Compl: ");
@@ -152,7 +140,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 1;
        c.fill = GridBagConstraints.NONE;
        c.anchor = GridBagConstraints.LINE_END;
-       this.add(labelComplemento, c);
+       //this.add(labelComplemento, c);
        
        fieldComplemento = new JTextField();
        c.gridx = prox;
@@ -160,7 +148,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 4;
        c.fill = GridBagConstraints.HORIZONTAL;
        c.anchor = GridBagConstraints.CENTER;
-       this.add(fieldComplemento, c);
+       //this.add(fieldComplemento, c);
        
        
        prox = 0;
@@ -172,7 +160,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 1;
        c.fill = GridBagConstraints.NONE;
        c.anchor = GridBagConstraints.LINE_END;
-       this.add(labelTelefone, c);
+       //this.add(labelTelefone, c);
        
        fieldTelefone = new JTextField();
        c.gridx = prox;
@@ -180,7 +168,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 9;
        c.fill = GridBagConstraints.HORIZONTAL;
        c.anchor = GridBagConstraints.CENTER;
-       this.add(fieldTelefone, c);    
+       //this.add(fieldTelefone, c);
        
        JLabel labelCel = new JLabel("Cel: ");
        c.gridx = prox;
@@ -188,7 +176,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 1;
        c.fill = GridBagConstraints.NONE;
        c.anchor = GridBagConstraints.LINE_END;
-       this.add(labelCel, c);
+       //this.add(labelCel, c);
        
        fieldCel = new JTextField();
        c.gridx = prox;
@@ -196,7 +184,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 8;
        c.fill = GridBagConstraints.HORIZONTAL;
        c.anchor = GridBagConstraints.CENTER;
-       this.add(fieldCel, c);
+       //this.add(fieldCel, c);
        
        
        JLabel labelObs = new JLabel("Obs: ");
@@ -205,14 +193,14 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 1; 
        c.fill = GridBagConstraints.NONE;
        c.anchor = GridBagConstraints.LINE_END;
-       this.add(labelObs, c);
+       //this.add(labelObs, c);
        
        fieldObs = new JTextField();
        c.gridx = prox;
        c.gridwidth = 17;
        prox += 17;
        c.fill = GridBagConstraints.HORIZONTAL;
-       this.add(fieldObs, c);
+       ///this.add(fieldObs, c);
        
        JLabel labelPagamento = new JLabel("Pgt: ");
        c.gridx = prox;
@@ -220,7 +208,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 1;
        c.fill = GridBagConstraints.NONE;
        c.anchor = GridBagConstraints.LINE_END;
-       this.add(labelPagamento, c);
+       //this.add(labelPagamento, c);
        
        FormaDePagamento[] enumerado = FormaDePagamento.values();
        String[] formasPagamento = new String[enumerado.length];
@@ -231,7 +219,18 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        c.gridwidth = 2;
        prox += 2;
        c.fill = GridBagConstraints.HORIZONTAL;
-       this.add(pagamentoBox, c);
+       //this.add(pagamentoBox, c);
+
+		JLabel txt_Title = new JLabel("PACOTE", SwingConstants.CENTER);
+		txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));
+		txt_Title.setSize(30,30);
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 10;
+		c.gridheight = 2;
+		c.anchor = GridBagConstraints.CENTER;
+		this.add(txt_Title, c);
 
  
 		this.table = new JTable(new TableModelPedidoAvulso());
@@ -241,9 +240,9 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 		JScrollPane scrollPane  = new JScrollPane(this.table);
 		table.setFillsViewportHeight(true);
 		c.gridx = 0;
-		c.gridy = 2;
-		c.gridwidth = 50;
-		c.gridheight = 5;
+		c.gridy = 6;
+		c.gridwidth = 20;
+		c.gridheight = 10;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(scrollPane, c);
@@ -313,7 +312,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    c.gridx = prox;
 	    c.gridwidth = 1;
 	    prox += 1;
-	    this.add(labelPreco, c);
+	    //this.add(labelPreco, c);
 	    
 	    fieldPreco = new JTextField();
 	    c.fill = GridBagConstraints.HORIZONTAL;
@@ -322,7 +321,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    prox += 4;
 	    fieldPreco.setEditable(false);
 	    fieldPreco.setBackground(Color.LIGHT_GRAY);
-	    this.add(fieldPreco, c);
+	    //this.add(fieldPreco, c);
 	    
 	    JLabel labelDesconto = new JLabel("Desc(%): ");
 	    c.gridx = prox;
@@ -330,14 +329,14 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    prox += 1;
 	    c.fill = GridBagConstraints.NONE;
 	    c.anchor = GridBagConstraints.LINE_END;
-	    this.add(labelDesconto, c);
+	    //this.add(labelDesconto, c);
 	    
 	    fieldDesconto = new JTextField();
 	    c.gridx = prox;
 	    c.gridwidth = 2;
 	    prox += 2;
 	    c.fill = GridBagConstraints.HORIZONTAL;
-	    this.add(fieldDesconto, c);
+	    //this.add(fieldDesconto, c);
 		
 	    JLabel labelDescontoDado = new JLabel("Desc: ");
 	    c.gridx = prox;
@@ -345,7 +344,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    prox += 1;
 	    c.fill = GridBagConstraints.NONE;
 	    c.anchor = GridBagConstraints.LINE_END;
-	    this.add(labelDescontoDado, c);
+	    //this.add(labelDescontoDado, c);
 	    
 	    fieldDescontoDado = new JTextField();
 	    c.gridx = prox;
@@ -354,7 +353,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    fieldDescontoDado.setEditable(false);
 	    fieldDescontoDado.setBackground(Color.LIGHT_GRAY);
-	    this.add(fieldDescontoDado, c);
+	    //this.add(fieldDescontoDado, c);
 	    
 	    JLabel labelFinal = new JLabel("Final: ");
 	    c.gridx = prox;
@@ -362,7 +361,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    prox += 1;
 	    c.fill = GridBagConstraints.NONE;
 	    c.anchor = GridBagConstraints.LINE_END;
-	    this.add(labelFinal, c);
+	    //this.add(labelFinal, c);
 	    
 	    fieldFinal = new JTextField();
 	    c.gridx = prox;
@@ -371,7 +370,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    fieldFinal.setEditable(false);
 	    fieldFinal.setBackground(Color.LIGHT_GRAY);
-	    this.add(fieldFinal, c);
+	    //this.add(fieldFinal, c);
 	    
 	    
 		JButton concluirButton = new JButton("Confirmar!");
@@ -438,6 +437,85 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    fieldDesconto.setText("0");
 	    aplicarDesconto(fieldDesconto.getText());
 	    this.repintarTabela();
+
+		inicializarViewLivros(c);
+	}
+
+	private JComboBox comboBoxEditora;
+	private void inicializarViewLivros(GridBagConstraints c){
+
+		JLabel txt_Title = new JLabel("LIVROS", SwingConstants.CENTER);
+		txt_Title.setFont(txt_Title.getFont().deriveFont((float)(Screen.width/25)));
+		txt_Title.setSize(30,30);
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 30;
+		c.gridy = 2;
+		c.gridwidth = 20;
+		c.gridheight = 2;
+		c.anchor = GridBagConstraints.CENTER;
+		this.add(txt_Title, c);
+
+		JLabel editoraLabel = new JLabel("EDITORA: ");
+		c.gridx = 30;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.gridheight = 2;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.CENTER;
+		this.add(editoraLabel, c);
+
+		String[] todasEditoras = new String[EditoraManager.getInstance().getEditoras().size()];
+		for(int i = 0; i < EditoraManager.getInstance().getEditoras().size(); i++){
+			todasEditoras[i] = EditoraManager.getInstance().getEditoras().get(i).getNome();
+		}
+		comboBoxEditora = new JComboBox(todasEditoras);
+		c.gridx = 31;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.gridheight = 2;
+		c.anchor = GridBagConstraints.CENTER;
+		this.add(comboBoxEditora,c);
+
+
+		this.tableLivros = new JTable(new MyTableModelLivro(""));
+		minimizarTamanhoDaColuna(tableLivros, 0, 40, true);
+		minimizarTamanhoDaColuna(tableLivros, 3, 80, true);
+		minimizarTamanhoDaColuna(tableLivros, 2, 175, true);
+		JScrollPane scrollPane2  = new JScrollPane(this.tableLivros);
+		tableLivros.setFillsViewportHeight(true);
+		c.gridx = 30;
+		c.gridy = 6;
+		c.gridwidth = 20;
+		c.gridheight = 10;
+		c.anchor = GridBagConstraints.CENTER;
+		c.fill = GridBagConstraints.BOTH;
+		this.add(scrollPane2, c);
+
+		comboBoxEditora.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				atualizarLivros(table, comboBoxEditora);
+			}
+		});
+	}
+
+	private void atualizarLivros(JTable table, JComboBox comboBox){
+		try{
+			if(comboBox != null){
+				this.repintarTabelaLivro(comboBoxEditora.getSelectedItem().toString());
+			}
+
+		}
+		catch(java.lang.NullPointerException e){
+
+		}
+	}
+
+	private void repintarTabelaLivro(String editora){
+		if(this.tableLivros != null){
+			((MyTableModelLivro)this.tableLivros.getModel()).updateData(editora);
+			this.tableLivros.repaint();
+		}
 	}
 	
 	private void remover()
