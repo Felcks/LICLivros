@@ -251,6 +251,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		try{
 			if(comboBox != null){
 				this.repintarTabelaLivro(comboBoxEditora.getSelectedItem().toString());
+				//textField.setText(comboBox.getSelectedItem().toString());
 			}
 
 		}
@@ -259,10 +260,19 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		}
 	}
 
+	private void repintarTabelaLivro(String editora, Ordenar ordenar){
+		if(this.tableLivros != null){
+			((MyTableModelLivro)this.tableLivros.getModel()).updateData(editora, ordenar);
+			this.tableLivros.repaint();
+			//TODO atualizarCampos();
+		}
+	}
+
 	private void repintarTabelaLivro(String editora){
 		if(this.tableLivros != null){
 			((MyTableModelLivro)this.tableLivros.getModel()).updateData(editora);
 			this.tableLivros.repaint();
+			//TODO atualizarCampos();
 		}
 	}
 
