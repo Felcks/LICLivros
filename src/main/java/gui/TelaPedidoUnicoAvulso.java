@@ -232,9 +232,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        prox += 2;
        c.fill = GridBagConstraints.HORIZONTAL;
        this.add(pagamentoBox, c);
-       
-      
-       
+
  
 		this.table = new JTable(new TableModelPedidoAvulso());
 		minimizarTamanhoDaColuna(table, 1, 175, true);
