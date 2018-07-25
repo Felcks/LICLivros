@@ -98,7 +98,7 @@ public class GUIManager{
 		this.janela.getContentPane().add(this.cards, BorderLayout.CENTER);
 	}
 	
-	public void mudarParaTela(String tela){		
+	public void mudarParaTela(String tela){
 		// ESSE IF AQUI AINDA É RUIM. MAS FOI A MELHOR FORMA QUE ENCONTREI. PELO MENOS O MÉTODO ESTÁ NA INTERFACE.
 		if(tela.equals("telaCliente")){
 			this.telaCliente.prepararComponentes();
@@ -194,10 +194,13 @@ public class GUIManager{
 	    menuItem2.setIcon(new ImageIcon("Images/Escola.png"));
 	    JMenuItem menuItem3 = new JMenuItem("Pacote de Livros");
 	    menuItem3.setIcon(new ImageIcon("Images/Pacote.png"));
+		JMenuItem menuItem4 = new JMenuItem("Clientes");
+		menuItem4.setIcon(new ImageIcon("Images/Books.png"));
 	    register.add(menuItem0);
 	    register.add(menuItem1);
 	    register.add(menuItem2);
 	    register.add(menuItem3);
+	    register.add(menuItem4);
 	    
 	    JMenuItem menuItemFazerPedido = new JMenuItem("Fazer Pedido");
 	    menuItemFazerPedido.setIcon(new ImageIcon("Images/Pedido2.png"));
@@ -246,6 +249,13 @@ public class GUIManager{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				mudarParaTela("telaPacote");
+			}
+		});
+
+	    menuItem4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mudarParaTela("telaCliente");
 			}
 		});
 	    

@@ -3,6 +3,8 @@ package bd;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -18,7 +20,6 @@ public class OperacoesClientes extends JavaConnection implements Operacoes{
 		try{
 			ConnectBd();
 			connection.setAutoCommit(false);
-			int id = cliente.getId();
 			String nome = cliente.getNome();
 			String bairro = cliente.getBairro();
 			String rua = cliente.getRua();
@@ -27,9 +28,8 @@ public class OperacoesClientes extends JavaConnection implements Operacoes{
 			String celular = cliente.getCelular();
 			
 			stmt  = connection.createStatement();
-			String sql = "INSERT INTO CLIENTES (ID, NOME, BAIRRO, RUA, COMPLEMENTO, TELEFONE, CELULAR)" +
-			"VALUES (" + id + "," + 
-					"'" + nome + "'" + "," + 
+			String sql = "INSERT INTO CLIENTES (NOME, BAIRRO, RUA, COMPLEMENTO, TELEFONE, CELULAR)" +
+			"VALUES ('" + nome + "'" + "," +
 					"'" + bairro + "'" + "," +
 					"'" + rua + "'" + "," +
 					"'" + complemento + "'" + "," + 
@@ -92,5 +92,46 @@ public class OperacoesClientes extends JavaConnection implements Operacoes{
 		    this.closeConnections();
 		    
 		} catch(Exception e){}
+	}
+
+	public List<Cliente> GET_ALL(){
+
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM CLIENTES");
+			while (resultSet.next()){
+				Cliente cliente = new Cliente(resultSet);
+				clientes.add(cliente);
+			}
+			this.closeConnections();
+			return clientes;
+
+		} catch(Exception e){}
+
+		return clientes;
+	}
+
+	public Cliente GET_BY_ID(int id){
+
+		Cliente cliente = null;
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM CLIENTES WHERE ID = " + id);
+			while (resultSet.next()){
+				cliente = new Cliente(resultSet);
+				break;
+			}
+			this.closeConnections();
+
+		} catch(Exception e){}
+
+		return cliente;
+
 	}
 }

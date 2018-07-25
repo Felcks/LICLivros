@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,6 +22,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -176,9 +179,10 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				servicoDeDigito.limparCampos(textFields);
+				//servicoDeDigito.limparCampos(textFields);
 				Acao acao = Acao.valueOf(comboBox.getSelectedItem().toString());
 				prepararParaAcao(acao, textFields);
+
 			}
 		});
 		
@@ -230,26 +234,51 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 				ordenarNumeralmente();
 			}
 		});
+
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				String comboBoxValue = comboBox.getSelectedItem().toString();
+
+				if(comboBoxValue.equalsIgnoreCase(Acao.ATUALIZAR.toString()) ||
+						comboBoxValue.equalsIgnoreCase(Acao.REMOVER.toString())) {
+
+					if (!e.getValueIsAdjusting() && table.getSelectedRow() != -1) {
+
+						for(int i = 0; i < 7; i++) {
+							textFields[i].setText(table.getValueAt(table.getSelectedRow(), i).toString());
+						}
+					}
+					else{
+						for(int i = 0; i < 7; i++) {
+							textFields[i].setText("");
+						}
+					}
+				}
+			}
+		});
 				
 	}
 	
 	private void prepararParaAcao(Acao acao, JTextField[] textFields){
-		if(acao == Acao.ADICIONAR){
+
+		if(acao == Acao.ADICIONAR) {
 			textFields[0].setEditable(false);
 			textFields[0].setBackground(Color.lightGray);
-			
+
 			for(int i = 1; i < textFields.length; i++){
 				textFields[i].setEditable(true);
 				textFields[i].setBackground(Color.WHITE);
 			}
+			for (int i = 0; i < 7; i++) {
+				textFields[i].setText("");
+			}
 		}
-		else if(acao == Acao.ATUALIZAR){
-			textFields[0].setEditable(true);
-			textFields[0].setBackground(Color.WHITE);
-			
-			for(int i = 1; i < textFields.length; i++){
-				textFields[i].setEditable(false);
-				textFields[i].setBackground(Color.lightGray);
+		else if(acao == Acao.ATUALIZAR) {
+			if (table.getSelectedRow() != -1) {
+				for (int i = 0; i < 7; i++) {
+					textFields[i].setText(table.getValueAt(table.getSelectedRow(), i).toString());
+				}
 			}
 		}
 	}
@@ -305,13 +334,11 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 			Cliente cliente = new Cliente(camposEmTexto);
 			if(cliente.isValidCliente()) {
 				JOptionPane.showMessageDialog(this, "Novo cliente: " + cliente.getNome(), "Adicionado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
-				ClienteManager.getInstance().adicionarNovoCliente(cliente);
+				ClienteManager.getInstance().getOperacoes().INSERT_DATA(cliente);
 				((MyTableModelCliente)table.getModel()).updateData();
 				table.repaint();
+
 				servicoDeDigito.limparCampos(textFields);
-				
-				//teste
-				ClienteManager.getInstance().getOperacoes().INSERT_DATA(cliente);
 			}
 			else {
 				JOptionPane.showMessageDialog(this, "Preencha todos os campos com informações válidas","Erro ao adicionar", JOptionPane.CANCEL_OPTION);
@@ -321,36 +348,37 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		else if(acao == Acao.ATUALIZAR){
 			String idSelecionado = camposEmTexto[0];
 			int id = -1;
-			id = servicoDeDigito.transformarStringEmInt(idSelecionado);
-			if(id >= 0 && id < ClienteManager.getInstance().getTodosClientes().size()){
-				Cliente novoCliente = new Cliente(camposEmTexto);
-				Cliente cliente = ClienteManager.getInstance().getClientePeloId(id);
-				Cliente clienteASerAdicionado = cliente;
-				//Lógica de só atualizar os estatus que ESTIVEREM PREENCHIDOS
-				String mensage = "";
-				Object[] parametrosDoNovoCliente = novoCliente.pegarTodosParametros();
-				Object[] parametrosDoClienteASerAdicionado = clienteASerAdicionado.pegarTodosParametros();
-				for(int i = 1; i < camposEmTexto.length; i++){
-					if(parametrosDoNovoCliente[i].toString().length() > 0) {
-						mensage = mensage.concat(cliente.pegarTodosParametros()[i] + " ---> " + novoCliente.pegarTodosParametros()[i] + "\n");
-						parametrosDoClienteASerAdicionado[i] = parametrosDoNovoCliente[i];
-					}
-				}
-				if(mensage.length() > 0) {
-					clienteASerAdicionado.setarTodosParametros(parametrosDoClienteASerAdicionado);
-					ClienteManager.getInstance().atualizarCliente(ClienteManager.getInstance().getIndexPeloId(id), clienteASerAdicionado);
-					this.repintarTabela();
-					servicoDeDigito.limparCampos(textFields);
-					JOptionPane.showMessageDialog(this, mensage	,"Atualizado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
-					
-					ClienteManager.getInstance().getOperacoes().UPDATE_DATA(clienteASerAdicionado);
-				}
-				else
-					JOptionPane.showMessageDialog(this, "Não há informação para se atualizar","Erro ao atualizar", JOptionPane.CANCEL_OPTION);
-		}
-			else{
-				JOptionPane.showMessageDialog(this, "Id Inexistente","Erro ao atualizar", JOptionPane.OK_CANCEL_OPTION);
+			id = table.getSelectedRow();
+			if(id == -1 || id >= table.getRowCount()){
+				JOptionPane.showMessageDialog(this, "Selecione uma editora para ser atualizada.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
 			}
+			id = Integer.parseInt(table.getValueAt(table.getSelectedRow(),0).toString());
+
+			Cliente novoCliente = new Cliente(camposEmTexto);
+			Cliente cliente = ClienteManager.getInstance().getClientePeloId(id);
+			Cliente clienteASerAdicionado = cliente;
+			//Lógica de só atualizar os estatus que ESTIVEREM PREENCHIDOS
+			String mensage = "";
+			Object[] parametrosDoNovoCliente = novoCliente.pegarTodosParametros();
+			Object[] parametrosDoClienteASerAdicionado = clienteASerAdicionado.pegarTodosParametros();
+			for(int i = 1; i < camposEmTexto.length; i++){
+				if(parametrosDoNovoCliente[i].toString().length() > 0) {
+					mensage = mensage.concat(cliente.pegarTodosParametros()[i] + " ---> " + novoCliente.pegarTodosParametros()[i] + "\n");
+					parametrosDoClienteASerAdicionado[i] = parametrosDoNovoCliente[i];
+				}
+			}
+			if(mensage.length() > 0) {
+				clienteASerAdicionado.setarTodosParametros(parametrosDoClienteASerAdicionado);
+				ClienteManager.getInstance().getOperacoes().UPDATE_DATA(clienteASerAdicionado);
+				this.repintarTabela();
+				//servicoDeDigito.limparCampos(textFields);
+				JOptionPane.showMessageDialog(this, mensage	,"Atualizado com sucesso!", JOptionPane.INFORMATION_MESSAGE);
+
+			}
+			else
+				JOptionPane.showMessageDialog(this, "Não há informação para se atualizar","Erro ao atualizar", JOptionPane.CANCEL_OPTION);
+
 		}
 	}
 	
@@ -381,9 +409,11 @@ class MyTableModelCliente extends AbstractTableModel {
     }
     
     public void updateData(){
-    	data = new Object[ClienteManager.getInstance().getTodosClientes().size()][];
+
+    	List<Cliente> clientes = ClienteManager.getInstance().getTodosClientes();
+    	data = new Object[clientes.size()][];
     	for(int i = 0; i < data.length; i++){
-    		data[i] = ClienteManager.getInstance().getTodosClientes().get(i).pegarTodosParametros();
+    		data[i] = clientes.get(i).pegarTodosParametros();
     	}	 	
     }
     

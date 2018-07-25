@@ -15,7 +15,7 @@ public class ClienteManager
 {
 	private static ClienteManager clienteManager;
 	private List<Cliente> clientes;
-	private Operacoes operacoes;
+	private OperacoesClientes operacoes;
 	
 	private ClienteManager(){
 		this.clientes = new ArrayList<Cliente>();	
@@ -49,7 +49,7 @@ public class ClienteManager
 		return this.operacoes;
 	}
 	public List<Cliente> getTodosClientes(){
-		return this.clientes;
+		return this.operacoes.GET_ALL();
 	}
 	public Cliente getClientePeloNome(String nome){
 		Cliente cliente = new Cliente();
@@ -74,14 +74,8 @@ public class ClienteManager
 		}
 	}
 	public Cliente getClientePeloId(int id){
-		Cliente c = new Cliente();
-		for(int i = 0; i < this.clientes.size(); i++){
-			if(this.clientes.get(i).getId() == id){
-				c = this.clientes.get(i);
-				break;
-			}
-		}
-		
+
+		Cliente c = this.operacoes.GET_BY_ID(id);
 		return c;
 	}
 	
