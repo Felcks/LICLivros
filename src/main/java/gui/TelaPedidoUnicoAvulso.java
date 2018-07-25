@@ -382,25 +382,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    c.gridy = 18;
 	    c.fill = GridBagConstraints.BOTH;
 	    this.add(concluirButton, c);
-	    
-	    JButton voltarButton = new JButton("Voltar");
-	    c.gridx = 0;
-	    c.gridwidth = 2;
-	    c.gridheight = 2;
-	    prox += 2;
-	    c.gridy = 18;
-	    c.fill = GridBagConstraints.BOTH;
-	    //this.add(voltarButton, c);
-	    
-	    
-	    voltarButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				guiManager.mudarParaTela("telaInicial");
-			}
-		});
-	 
-	   
+
 	    
 	    concluirButton.addActionListener(new ActionListener() {
 			@Override

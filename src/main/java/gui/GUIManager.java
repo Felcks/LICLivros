@@ -195,12 +195,12 @@ public class GUIManager{
 	    JMenuItem menuItem3 = new JMenuItem("Pacote de Livros");
 	    menuItem3.setIcon(new ImageIcon("Images/Pacote.png"));
 		JMenuItem menuItem4 = new JMenuItem("Clientes");
-		menuItem4.setIcon(new ImageIcon("Images/Books.png"));
+		menuItem4.setIcon(new ImageIcon("Images/Cliente.png"));
+		register.add(menuItem4);
 	    register.add(menuItem0);
 	    register.add(menuItem1);
 	    register.add(menuItem2);
 	    register.add(menuItem3);
-	    register.add(menuItem4);
 	    
 	    JMenuItem menuItemFazerPedido = new JMenuItem("Fazer Pedido");
 	    menuItemFazerPedido.setIcon(new ImageIcon("Images/Pedido2.png"));

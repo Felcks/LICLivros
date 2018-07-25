@@ -64,7 +64,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		JTextField[] textFields = new JTextField[7];
 		int[] widthX = new int[] { 1, 9, 4, 4, 2, 2, 2 };
 		int posicaoAtual = 0;
-		c.gridy = 18;
+		c.gridy = 13;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		for(int i = 0; i < textFields.length; i++){
 			textFields[i] = new JTextField();
@@ -84,7 +84,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
                  "TELEFONE",
                  "CELULAR"};
 		JLabel[] labels = new JLabel[7];
-		c.gridy = 17;
+		c.gridy = 12;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.PAGE_END;
 		posicaoAtual = 0;
@@ -113,19 +113,22 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		for (int i = 0; i < (table.getColumnModel().getColumnCount()); i++) {
 	            table.getColumnModel().getColumn(i).setPreferredWidth(150);
 	    }
-		table.getColumnModel().getColumn(0).setMinWidth(40);
-		table.getColumnModel().getColumn(0).setPreferredWidth(40);
-		table.getColumnModel().getColumn(0).setMaxWidth(40);
+		minimizarColuna(0, 40);
+		minimizarColuna(1, 300);
+		minimizarColuna(4, 200);
+		minimizarColuna(5, 100);
+		minimizarColuna(6, 100);
+
 		DefaultTableCellRenderer left = new DefaultTableCellRenderer();
 		left.setHorizontalAlignment(SwingConstants.LEFT);
 		table.getColumnModel().getColumn(0).setCellRenderer(left);
 		table.setFillsViewportHeight(true);
-		c.gridx = 0;
+		c.gridx = 5;
 		c.gridy = 2;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
-		c.gridwidth = 24;
-		c.gridheight = 15;
+		c.gridwidth = 15;
+		c.gridheight = 10;
 		this.add(scrollPane, c);
 		
 		String[] acoes = new String[2];
@@ -135,17 +138,17 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridwidth = 3;
-		c.gridheight = 2;
+		c.gridheight = 5;
 		c.gridx = 10;
-		c.gridy = 19;
+		c.gridy = 13;
 		this.add(comboBox, c);
 		
-		JButton btn_fazerAcao = new JButton("Fazer Ação!");
-		c.fill = GridBagConstraints.HORIZONTAL;;
+		JButton btn_fazerAcao = new JButton("Confirmar!");
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 13;
-		c.gridy = 19;
+		c.gridy = 13;
 		c.gridwidth = 5;
-		c.gridheight = 2;
+		c.gridheight = 5;
 		this.add(btn_fazerAcao, c);
 		
 		JButton btn_Voltar = new JButton("Voltar");
@@ -154,24 +157,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		c.gridy = 20;
 		c.gridwidth = 2;
 		c.gridheight = 2;
-		this.add(btn_Voltar, c);
-		
-		JButton btn_OrdenarAlfabeticamente = new JButton("Ordem Alfabetica");
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridwidth = 4;
-		c.gridheight = 1;
-		this.add(btn_OrdenarAlfabeticamente, c);
-		
-		JButton btn_OrdenarNumeralmente = new JButton("Ordem Numeral");
-		c.fill = GridBagConstraints.NONE;
-		c.gridx = 19;
-		c.gridy = 0;
-		c.gridwidth = 4;
-		c.gridheight = 1;
-		this.add(btn_OrdenarNumeralmente, c);
-		
+		//this.add(btn_Voltar, c);
 
 		textFields[0].setEditable(false);
 		textFields[0].setBackground(Color.lightGray);
@@ -190,7 +176,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		textFields[0].getDocument().addDocumentListener(new DocumentListener() {	
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				checarId(textFields[0].getText(), textFields);
+				//checarId(textFields[0].getText(), textFields);
 			}
 			
 			@Override
@@ -219,21 +205,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 				guiManager.mudarParaTela("telaInicial");
 			}
 		});
-		
-		
-		btn_OrdenarAlfabeticamente.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ordenarAlfabeticamente();
-			}
-		});
-		
-		btn_OrdenarNumeralmente.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e){
-				ordenarNumeralmente();
-			}
-		});
+
 
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
@@ -257,7 +229,13 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 				}
 			}
 		});
-				
+	}
+
+	private void minimizarColuna(int i, int width){
+
+		table.getColumnModel().getColumn(i).setMinWidth(width);
+		table.getColumnModel().getColumn(i).setPreferredWidth(width);
+		table.getColumnModel().getColumn(i).setMaxWidth(width);
 	}
 	
 	private void prepararParaAcao(Acao acao, JTextField[] textFields){
@@ -265,6 +243,8 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		if(acao == Acao.ADICIONAR) {
 			textFields[0].setEditable(false);
 			textFields[0].setBackground(Color.lightGray);
+
+			servicoDeDigito.limparCampos(textFields);
 
 			for(int i = 1; i < textFields.length; i++){
 				textFields[i].setEditable(true);
@@ -314,21 +294,9 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		this.repintarTabela();
 	}
 	
-	private void ordenarNumeralmente(){
-		ClienteManager.getInstance().organizarEmOrdemDeId();
-		((MyTableModelCliente)table.getModel()).updateData();
-		table.repaint();
-	}
-	private void ordenarAlfabeticamente(){
-		ClienteManager.getInstance().organizarEmOrdemAlfabetica();
-		((MyTableModelCliente)table.getModel()).updateData();
-		table.repaint();
-	}
-	
 	private void fazerAcao(JTextField[] textFields, JTable table, Acao acao) throws ArrayIndexOutOfBoundsException {
 		//AQUI PEGAMOS TODOS OS TEXTOS DOS CAMPOS E ORDENAMOS A LISTA EM ORDEM NUMERAL ANTES DE QUALQUER AÇÃO
 		String[] camposEmTexto = servicoDeDigito.transformarCamposEmTexto(textFields);
-		this.ordenarNumeralmente();
 		
 		if(acao == Acao.ADICIONAR){
 			Cliente cliente = new Cliente(camposEmTexto);
@@ -416,10 +384,11 @@ class MyTableModelCliente extends AbstractTableModel {
     		data[i] = clientes.get(i).pegarTodosParametros();
     	}	 	
     }
-    
-    
 
-    public int getColumnCount() {
+
+
+
+	public int getColumnCount() {
         return columnNames.length;
     }
 

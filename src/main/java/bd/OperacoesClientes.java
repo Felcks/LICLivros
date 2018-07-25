@@ -94,6 +94,27 @@ public class OperacoesClientes extends JavaConnection implements Operacoes{
 		} catch(Exception e){}
 	}
 
+	public List<String> GET_ALL_NOMES(){
+
+		ArrayList<String> nomes = new ArrayList<String>();
+
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM CLIENTES ORDER BY NOME ASC");
+			while (resultSet.next()){
+
+				String nome = resultSet.getString("NOME");
+				nomes.add(nome);
+			}
+			this.closeConnections();
+
+		} catch(Exception e){}
+
+		return nomes;
+	}
+
 	public List<Cliente> GET_ALL(){
 
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
@@ -102,7 +123,7 @@ public class OperacoesClientes extends JavaConnection implements Operacoes{
 			this.ConnectBd();
 			stmt = connection.createStatement();
 
-			ResultSet resultSet = stmt.executeQuery("SELECT * FROM CLIENTES");
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM CLIENTES ORDER BY NOME ASC");
 			while (resultSet.next()){
 				Cliente cliente = new Cliente(resultSet);
 				clientes.add(cliente);

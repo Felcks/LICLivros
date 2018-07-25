@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import com.sun.deploy.net.proxy.pac.PACFunctions;
 import principais.Pacote;
 import principais.PacoteManager;
 

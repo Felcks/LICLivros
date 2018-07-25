@@ -8,35 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import bd.OperacoesLivrosPacotes;
-import principais.AnoEscolar;
-import principais.Cliente;
-import principais.Escola;
-import principais.EscolaManager;
-import principais.EstoqueManager;
-import principais.Livro;
-import principais.Pacote;
-import principais.PacoteManager;
-import principais.Pedido;
-import principais.PedidoManager;
-import principais.TipoPedido;
+import principais.*;
 import utilidades.AutoSuggestor;
 import utilidades.FormaDePagamento;
 import utilidades.ServicoDeDigito;
@@ -46,6 +26,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 {
 	private GUIManager guiManager;
 	private ServicoDeDigito servicoDeDigito;
+	private AutoSuggestor suggestor;
 	
 	public Escola escolaSelecionada;
 	public AnoEscolar anoEscolarSelecionado;
@@ -103,7 +84,6 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        c.fill = GridBagConstraints.HORIZONTAL;
        c.anchor = GridBagConstraints.CENTER;
        this.add(fieldNome, c);
-       
        
        JLabel labelBairro = new JLabel("Bairro: ");
        c.gridx = prox;
@@ -257,6 +237,34 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        prox += 2;
        c.fill = GridBagConstraints.HORIZONTAL;
        this.add(pagamentoBox, c);
+
+		Action action = new AbstractAction()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				verificarNomeClienteExistente(fieldNome, fieldBairro, fieldRua, fieldComplemento, fieldTelefone, fieldCel);
+			}
+		};
+
+		fieldNome.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				verificarNomeClienteExistente(fieldNome, fieldBairro, fieldRua, fieldComplemento, fieldTelefone, fieldCel);
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				verificarNomeClienteExistente(fieldNome, fieldBairro, fieldRua, fieldComplemento, fieldTelefone, fieldCel);
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				//verificarNomeClienteExistente(fieldNome, fieldBairro, fieldRua, fieldComplemento, fieldTelefone, fieldCel);
+			}
+		});
+
+		//fieldNome.addActionListener(action);
        
        
        this.escolaSelecionada = EscolaManager.getInstance().getEscolaPeloNome(escolaBox.getSelectedItem().toString());
@@ -355,23 +363,10 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	    c.gridy = 18;
 	    c.fill = GridBagConstraints.BOTH;
 	    this.add(concluirButton, c);
-	    
-	    JButton voltarButton = new JButton("Voltar");
-	    c.gridx = 0;
-	    c.gridwidth = 2;
-	    c.gridheight = 2;
-	    prox += 2;
-	    c.gridy = 18;
-	    c.fill = GridBagConstraints.BOTH;
-	    //this.add(voltarButton, c);
-	    
-	    
-	    voltarButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				guiManager.mudarParaTela("telaInicial");
-			}
-		});
+
+	    List<String> nomesClientes = ClienteManager.getInstance().getTodosNomesClientes();
+		suggestor = new AutoSuggestor(fieldNome, guiManager.getJanela(), nomesClientes,
+				Color.white, Color.blue, Color.BLACK, 0.55f);
 	    
 	    escolaBox.addActionListener(new ActionListener() {
 			@Override
@@ -420,6 +415,92 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	    aplicarDesconto(fieldDesconto.getText());
 	    this.repintarTabela();
 	}
+
+	private void verificarNomeClienteExistente(JTextField textField, JTextField bairro, JTextField rua, JTextField compl, JTextField tel, JTextField cel){
+
+		String nome = textField.getText();
+		if(nome.length() == 0)
+			nome.concat(" ");
+
+		if(nome.length() - 1 <= 0)
+			return;
+
+		String nomeSemEspacoFinal = nome.substring(0, nome.length() - 1);
+		List<Cliente> clientes = ClienteManager.getInstance().getTodosClientes();
+
+		for(int i = 0; i < clientes.size(); i++){
+
+			Cliente cliente = clientes.get(i);
+			if(cliente.getNome().equals(nome) || cliente.getNome().equals(nomeSemEspacoFinal)){
+
+				adicionarClienteAoPedido(cliente, bairro, rua, compl, tel, cel);
+				return;
+			}
+		}
+
+		removerClienteDoPedido(bairro, rua, compl, tel, cel);
+	}
+
+	private void adicionarClienteAoPedido(Cliente cliente,  JTextField bairro, JTextField rua, JTextField compl, JTextField tel, JTextField cel) {
+
+		bairro.setEditable(false);
+		bairro.setBackground(Color.LIGHT_GRAY);
+
+		rua.setEditable(false);
+		rua.setBackground(Color.LIGHT_GRAY);
+
+		compl.setEditable(false);
+		compl.setBackground(Color.LIGHT_GRAY);
+
+		tel.setEditable(false);
+		tel.setBackground(Color.LIGHT_GRAY);
+
+		cel.setEditable(false);
+		cel.setBackground(Color.LIGHT_GRAY);
+
+		bairro.setText(cliente.getBairro());
+		rua.setText(cliente.getRua());
+		compl.setText(cliente.getComplemento());
+		tel.setText(cliente.getTelefone());
+		cel.setText(cliente.getCelular());
+
+		clienteExistente = true;
+
+		//COLOCAR ALGUMA BOLEANA DIZENDO SE O CLIENTE È EXISTENTE OU NÂO
+	}
+
+	boolean clienteExistente = false;
+	private void removerClienteDoPedido(JTextField bairro, JTextField rua, JTextField compl, JTextField tel, JTextField cel) {
+
+		System.out.println("antes do if");
+		if(clienteExistente) {
+
+			clienteExistente = false;
+
+			bairro.setEditable(true);
+			bairro.setBackground(Color.WHITE);
+
+			rua.setEditable(true);
+			rua.setBackground(Color.WHITE);
+
+			compl.setEditable(true);
+			compl.setBackground(Color.WHITE);
+
+			tel.setEditable(true);
+			tel.setBackground(Color.WHITE);
+
+			cel.setEditable(true);
+			cel.setBackground(Color.WHITE);
+
+			bairro.setText("");
+			rua.setText("");
+			compl.setText("");
+			tel.setText("");
+			cel.setText("");
+		}
+	}
+
+
 	
 	private void concluirPedido(){
 		Cliente cliente = criarCliente();
@@ -632,6 +713,18 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 			fieldRua.setText("");
 		if(fieldDesconto != null)
 			fieldDesconto.setText("");
+
+
+		fieldBairro.setEditable(true);
+		fieldBairro.setBackground(Color.WHITE);
+		fieldRua.setEditable(true);
+		fieldRua.setBackground(Color.WHITE);
+		fieldComplemento.setEditable(true);
+		fieldComplemento.setBackground(Color.WHITE);
+		fieldTelefone.setEditable(true);
+		fieldTelefone.setBackground(Color.WHITE);
+		fieldCel.setEditable(true);
+		fieldCel.setBackground(Color.WHITE);
 	}
 	
 	private void minimizarTamanhoDaColuna(JTable table, int index, int tam, Boolean goLeft)

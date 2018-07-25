@@ -37,12 +37,8 @@ public class ClienteManager
 	}
 	
 	public List<String> getTodosNomesClientes(){
-		List<String> todosNomes = new ArrayList<String>();
-		for(int i = 0; i < this.clientes.size(); i++){
-			todosNomes.add(clientes.get(i).getNome());
-		}
-		
-		return todosNomes;
+
+		return this.operacoes.GET_ALL_NOMES();
 	}
 	
 	public Operacoes getOperacoes(){
