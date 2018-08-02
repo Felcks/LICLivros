@@ -45,9 +45,9 @@ public class TelaCredito extends JPanel {
         c.fill = GridBagConstraints.NONE;
         this.add(titulo, c);
         
-        JLabel data = new JLabel("Data: 18/07/2017");
+        JLabel data = new JLabel("Data: 02/08/2018");
         data.setFont(data.getFont().deriveFont(20f));
-        JLabel versao = new JLabel("Versão: 2.0.0.1");
+        JLabel versao = new JLabel("Versão: 3.0");
         versao.setFont(versao.getFont().deriveFont(20f));
         c.anchor = GridBagConstraints.CENTER;
         c.gridheight = 1;

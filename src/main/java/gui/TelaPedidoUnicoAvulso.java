@@ -51,7 +51,8 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	private GUIManager guiManager;
 	private ServicoDeDigito servicoDeDigito;
 	public AutoSuggestor autoSuggestor;
-	
+	public AutoSuggestor suggestorCliente;
+
 	private JTable table;
 	public static List<Integer> idsDosLivrosAdicionados;
 	public static List<Integer> qtdDosLivrosAdicionados;
@@ -233,6 +234,23 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
        c.fill = GridBagConstraints.HORIZONTAL;
        this.add(pagamentoBox, c);
 
+		fieldNome.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				verificarNomeClienteExistente(fieldNome, fieldBairro, fieldRua, fieldComplemento, fieldTelefone, fieldCel);
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				verificarNomeClienteExistente(fieldNome, fieldBairro, fieldRua, fieldComplemento, fieldTelefone, fieldCel);
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				//verificarNomeClienteExistente(fieldNome, fieldBairro, fieldRua, fieldComplemento, fieldTelefone, fieldCel);
+			}
+		});
+
  
 		this.table = new JTable(new TableModelPedidoAvulso());
 		minimizarTamanhoDaColuna(table, 1, 175, true);
@@ -286,6 +304,10 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	       
 	     autoSuggestor = new AutoSuggestor(fieldLivro, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
 					Color.white, Color.blue, Color.BLACK, 0.55f);
+
+		List<String> nomesClientes = ClienteManager.getInstance().getTodosNomesClientes();
+		suggestorCliente = new AutoSuggestor(fieldNome, guiManager.getJanela(), nomesClientes,
+				Color.white, Color.blue, Color.BLACK, 0.55f);
 	     
 	     JButton remover = new JButton("Remover");
 	     c.gridx = 24;
@@ -420,6 +442,88 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    fieldDesconto.setText("0");
 	    aplicarDesconto(fieldDesconto.getText());
 	    this.repintarTabela();
+	}
+
+	private void verificarNomeClienteExistente(JTextField textField, JTextField bairro, JTextField rua, JTextField compl, JTextField tel, JTextField cel){
+
+		String nome = textField.getText();
+		if(nome.length() == 0)
+			nome.concat(" ");
+
+		if(nome.length() - 1 <= 0)
+			return;
+
+		String nomeSemEspacoFinal = nome.substring(0, nome.length() - 1);
+		List<Cliente> clientes = ClienteManager.getInstance().getTodosClientes();
+
+		for(int i = 0; i < clientes.size(); i++){
+
+			Cliente cliente = clientes.get(i);
+			if(cliente.getNome().equals(nome) || cliente.getNome().equals(nomeSemEspacoFinal)){
+
+				adicionarClienteAoPedido(cliente, bairro, rua, compl, tel, cel);
+				return;
+			}
+		}
+
+		removerClienteDoPedido(bairro, rua, compl, tel, cel);
+	}
+
+	private void adicionarClienteAoPedido(Cliente cliente,  JTextField bairro, JTextField rua, JTextField compl, JTextField tel, JTextField cel) {
+
+		bairro.setEditable(false);
+		bairro.setBackground(Color.LIGHT_GRAY);
+
+		rua.setEditable(false);
+		rua.setBackground(Color.LIGHT_GRAY);
+
+		compl.setEditable(false);
+		compl.setBackground(Color.LIGHT_GRAY);
+
+		tel.setEditable(false);
+		tel.setBackground(Color.LIGHT_GRAY);
+
+		cel.setEditable(false);
+		cel.setBackground(Color.LIGHT_GRAY);
+
+		bairro.setText(cliente.getBairro());
+		rua.setText(cliente.getRua());
+		compl.setText(cliente.getComplemento());
+		tel.setText(cliente.getTelefone());
+		cel.setText(cliente.getCelular());
+
+		clienteExistente = true;
+	}
+
+	boolean clienteExistente = false;
+	private void removerClienteDoPedido(JTextField bairro, JTextField rua, JTextField compl, JTextField tel, JTextField cel) {
+
+		System.out.println("antes do if");
+		if(clienteExistente) {
+
+			clienteExistente = false;
+
+			bairro.setEditable(true);
+			bairro.setBackground(Color.WHITE);
+
+			rua.setEditable(true);
+			rua.setBackground(Color.WHITE);
+
+			compl.setEditable(true);
+			compl.setBackground(Color.WHITE);
+
+			tel.setEditable(true);
+			tel.setBackground(Color.WHITE);
+
+			cel.setEditable(true);
+			cel.setBackground(Color.WHITE);
+
+			bairro.setText("");
+			rua.setText("");
+			compl.setText("");
+			tel.setText("");
+			cel.setText("");
+		}
 	}
 	
 	private void remover()
