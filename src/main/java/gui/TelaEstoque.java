@@ -15,18 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -165,8 +154,8 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		minimizarTamanhoDaColuna(table, 4, 90);
 		minimizarTamanhoDaColuna(table, 5, 90);
 		minimizarTamanhoDaColuna(table, 6, 90);
-		
-		table.setFillsViewportHeight(true);
+
+        table.setFillsViewportHeight(true);
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 24;

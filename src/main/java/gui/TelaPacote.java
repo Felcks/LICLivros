@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -278,6 +279,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 
 	@Override
 	public void prepararComponentes(){
+
 		comboBox.removeAllItems();
 		String[] todasEscolas = new String[EscolaManager.getInstance().getEscolas().size()];
 		for(int i = 0; i < EscolaManager.getInstance().getEscolas().size(); i++){
@@ -515,22 +517,36 @@ class MyTableModelLivro extends AbstractTableModel {
 	}
 
 	public void updateData(String editora, Ordenar ordenar){
-		data = new Object[EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).size()][];
+
+
+		/*List<Livro> livros = EstoqueManager.getInstance().getTodosLivros();
+		data = new Object[livros.size()][];
+		for(int i = 0; i < data.length; i++){
+			data[i] = livros.get(i).pegarTodosParametrosEspecial();
+		}*/
+
+		/*data = new Object[EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).size()][];
 		for(int i = 0; i < data.length; i++){
 			data[i] = EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).get(i).pegarTodosParametrosEspecial();
-		}
+		}*/
 
-		lastOrdem = ordenar;
-		ordenar(editora);
+		//lastOrdem = ordenar;
+		//ordenar(editora);
 	}
 
 	public void updateData(String editora){
-		data = new Object[EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).size()][];
+		/*data = new Object[EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).size()][];
 		for(int i = 0; i < data.length; i++){
 			data[i] = EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).get(i).pegarTodosParametrosEspecial();
 		}
 
-		ordenar(editora);
+		ordenar(editora);*/
+
+        List<Livro> livros = EstoqueManager.getInstance().getTodosLivros();
+        data = new Object[livros.size()][];
+        for(int i = 0; i < data.length; i++){
+            data[i] = livros.get(i).pegarTodosParametrosEspecial();
+        }
 	}
 
 	private void ordenar(String editora){

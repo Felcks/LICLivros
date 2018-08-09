@@ -75,6 +75,17 @@ public class EstoqueManager {
 		
 		return nomes;
 	}
+
+	public List<Livro> getTodosLivros(){
+
+		/*List<String> nomes = new ArrayList<String>();
+		for(int i = 0; i < this.livros.size(); i++)
+			nomes.add(this.livros.get(i).getNome());
+
+		return nomes;*/
+
+		return operacoes.GET_ALL();
+	}
 	
 	public void getLivrosDoBancoDeDados(){
 		this.livros.clear();

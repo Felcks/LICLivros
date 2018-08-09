@@ -136,6 +136,24 @@ public class OperacoesLivros extends JavaConnection implements Operacoes
         return livros;
     }
 
+	public ArrayList<Livro> GET_ALL(){
+
+		ArrayList<Livro> livros = new ArrayList<Livro>();
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM LIVROS WHERE NOME != '' ORDER BY EDITORA ASC");
+			while (resultSet.next()){
+				Livro livro = new Livro(resultSet);
+				livros.add(livro);
+			}
+			closeConnections();
+		}catch(Exception e){}
+
+		return livros;
+	}
+
     public void RESETAR_VENDIDOS(){
 
         try{
