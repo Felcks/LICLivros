@@ -309,23 +309,21 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 		suggestorCliente = new AutoSuggestor(fieldNome, guiManager.getJanela(), nomesClientes,
 				Color.white, Color.blue, Color.BLACK, 0.55f);
 	     
-	     JButton remover = new JButton("Remover");
-	     c.gridx = 24;
-	     c.gridwidth = 4;
-	     c.gridy = 15;
-	     prox += 1;
-	     c.anchor = GridBagConstraints.CENTER;
-	     this.add(remover, c);
-	     
-	     remover.addActionListener(new ActionListener() {
+		 JButton remover = new JButton("Remover");
+		 c.gridx = 24;
+		 c.gridwidth = 4;
+		 c.gridy = 15;
+		 prox += 1;
+		 c.anchor = GridBagConstraints.CENTER;
+		 this.add(remover, c);
+
+		 remover.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				remover();
 			}
 		});
-	       
-			
-		
+
 		prox = 17;
 		c.gridy = 7;
 		
@@ -498,7 +496,6 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	boolean clienteExistente = false;
 	private void removerClienteDoPedido(JTextField bairro, JTextField rua, JTextField compl, JTextField tel, JTextField cel) {
 
-		System.out.println("antes do if");
 		if(clienteExistente) {
 
 			clienteExistente = false;
@@ -544,6 +541,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	}
 	
 	private void concluirPedido(){
+
 		Cliente cliente = criarCliente();
 		if(cliente.isValidClienteParaPedido() == false){
 			JOptionPane.showMessageDialog(this, "Complete as informações.", "Pedido não terminado", JOptionPane.OK_CANCEL_OPTION);
@@ -607,14 +605,16 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 			EstoqueManager.getInstance().atualizarLivro(livro.getId(), livro);
 			EstoqueManager.getInstance().getOperacoes().UPDATE_DATA(livro);
 		}
-		
-		
+
 		JOptionPane.showMessageDialog(this, "Pedido realizado com sucesso!", "Pedido concluído!", JOptionPane.INFORMATION_MESSAGE);
 
 		PedidoManager.getInstance().getOperacoes().INSERT_DATA(pedido);
 		Pedido pedido2 = PedidoManager.getInstance().getOperacoes().GET_ULTIMO_PEDIDO();
 		pedido.setId(pedido2.getId());
 		PedidoManager.getInstance().adicionarPedidoEAbrirDoc(pedido);
+
+		if(!clienteExistente)
+			ClienteManager.getInstance().inserirClienteNoBD(cliente);
 
 		idsDosLivrosAdicionados = new ArrayList<Integer>();
 		qtdDosLivrosAdicionados = new ArrayList<Integer>();

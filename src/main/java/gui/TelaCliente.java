@@ -131,9 +131,10 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		c.gridheight = 10;
 		this.add(scrollPane, c);
 		
-		String[] acoes = new String[2];
+		String[] acoes = new String[3];
 		acoes[0] = Acao.ADICIONAR.name();
 		acoes[1] = Acao.ATUALIZAR.name();
+		acoes[2] = Acao.REMOVER.name();
 		JComboBox comboBox = new JComboBox(acoes);
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -254,7 +255,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 				textFields[i].setText("");
 			}
 		}
-		else if(acao == Acao.ATUALIZAR) {
+		else if(acao == Acao.ATUALIZAR || acao == Acao.REMOVER) {
 			if (table.getSelectedRow() != -1) {
 				for (int i = 0; i < 7; i++) {
 					textFields[i].setText(table.getValueAt(table.getSelectedRow(), i).toString());
@@ -318,7 +319,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 			int id = -1;
 			id = table.getSelectedRow();
 			if(id == -1 || id >= table.getRowCount()){
-				JOptionPane.showMessageDialog(this, "Selecione uma editora para ser atualizada.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				JOptionPane.showMessageDialog(this, "Selecione um cliente para ser atualizado.","Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
 				return;
 			}
 			id = Integer.parseInt(table.getValueAt(table.getSelectedRow(),0).toString());
@@ -347,6 +348,20 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 			else
 				JOptionPane.showMessageDialog(this, "Não há informação para se atualizar","Erro ao atualizar", JOptionPane.CANCEL_OPTION);
 
+		}
+		else if(acao == Acao.REMOVER) {
+
+			int id = -1;
+			id = table.getSelectedRow();
+			if (id == -1 || id >= table.getRowCount()) {
+				JOptionPane.showMessageDialog(this, "Selecione uma cliente para ser removido.", "Erro ao concluir ação", JOptionPane.CANCEL_OPTION);
+				return;
+			}
+			id = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
+
+			ClienteManager.getInstance().removerCliente(id);
+			this.repintarTabela();
+			JOptionPane.showMessageDialog(this, "Cliente removido."	,"Removido com sucesso!", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	

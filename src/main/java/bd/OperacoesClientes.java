@@ -131,7 +131,9 @@ public class OperacoesClientes extends JavaConnection implements Operacoes{
 			this.closeConnections();
 			return clientes;
 
-		} catch(Exception e){}
+		} catch(Exception e){
+
+		}
 
 		return clientes;
 	}
@@ -154,5 +156,21 @@ public class OperacoesClientes extends JavaConnection implements Operacoes{
 
 		return cliente;
 
+	}
+
+	public void REMOVER(int id){
+
+		try{
+			this.ConnectBd();
+			connection.setAutoCommit(false);
+			stmt = connection.createStatement();
+
+			String sql = "DELETE FROM CLIENTES WHERE ID = " + id;
+			stmt.executeUpdate(sql);
+
+			connection.commit();
+			this.closeConnections();
+
+		} catch(Exception e){}
 	}
 }

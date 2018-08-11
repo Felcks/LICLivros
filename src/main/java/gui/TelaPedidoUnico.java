@@ -75,8 +75,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        c.fill = GridBagConstraints.NONE;
        c.anchor = GridBagConstraints.LINE_END;
        this.add(labelNome, c);
-  
-       
+
        fieldNome = new JTextField();
        c.gridx = prox;
        c.gridwidth = 20;
@@ -472,7 +471,6 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 	boolean clienteExistente = false;
 	private void removerClienteDoPedido(JTextField bairro, JTextField rua, JTextField compl, JTextField tel, JTextField cel) {
 
-		System.out.println("antes do if");
 		if(clienteExistente) {
 
 			clienteExistente = false;
@@ -562,9 +560,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		FormaDePagamento fp = FormaDePagamento.getFormaDePagamentoPeloNome(pagamentoBox.getSelectedItem().toString());
 		pedido.setFormaDePagamento(fp);
 		pedido.setData();
-		
 
-		
 		for(int i = 0; i < pedido.getIdsDosLivrosComprados().length; i++){
 			Livro livro = EstoqueManager.getInstance().getLivroPeloId(pedido.getIdsDosLivrosComprados()[i]);
 			int quantidadeComprada = pedido.getQtdDosLivrosComprados()[i];
@@ -581,6 +577,9 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		Pedido pedido2 = PedidoManager.getInstance().getOperacoes().GET_ULTIMO_PEDIDO();
 		pedido.setId(pedido2.getId());
         PedidoManager.getInstance().adicionarPedidoEAbrirDoc(pedido);
+
+        if(!clienteExistente)
+        	ClienteManager.getInstance().inserirClienteNoBD(cliente);
 
 		guiManager.mudarParaTela("telaPedidoUnico");
 	}

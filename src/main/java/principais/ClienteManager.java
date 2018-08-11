@@ -58,8 +58,14 @@ public class ClienteManager
 	public void adicionarNovoCliente(Cliente cliente){
 		this.clientes.add(cliente);
 	}
+
+	public void inserirClienteNoBD(Cliente cliente){
+		this.operacoes.INSERT_DATA(cliente);
+	}
+
 	public void removerCliente(int id){
-		this.clientes.remove(this.getIndexPeloId(id));
+		//this.clientes.remove(this.getIndexPeloId(id));
+		this.operacoes.REMOVER(id);
 	}
 	public void atualizarCliente(int index, Cliente cliente){
 		this.clientes.set(index, cliente);	
