@@ -40,7 +40,6 @@ public class OperacoesLivros extends JavaConnection implements Operacoes
 					preco + ");";
 
 			stmt.executeUpdate(sql);
-			stmt.close();
 			connection.commit();
 			this.closeConnections();
 			

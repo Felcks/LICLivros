@@ -121,6 +121,14 @@ public class Livro implements Comparator<Livro> {
 		return todosParametros;
 	}
 
+	public Object[] pegarParametrosNomeEditora(){
+		Object[] todosParametros = new Object[2];
+		todosParametros[0] = this.getNome();
+		todosParametros[1] = this.getEditora();
+		return todosParametros;
+	}
+
+
 
 	public Object[] pegarTodosParametrosParaEstoque(){
 		Object[] todosParametros = new Object[7];

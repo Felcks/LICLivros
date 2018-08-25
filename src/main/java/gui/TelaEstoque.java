@@ -148,6 +148,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		
 		this.table = new JTable(new MyTableModel(""));
 		JScrollPane scrollPane  = new JScrollPane(this.table);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		minimizarTamanhoDaColuna(table, 0, 40);
 		minimizarTamanhoDaColuna(table, 2, 140);
 		minimizarTamanhoDaColuna(table, 3, 90);
@@ -438,6 +439,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 			((MyTableModel)this.table.getModel()).updateData(editora, ordenar);
 			this.table.repaint();
 			atualizarCampos();
+			table.revalidate();
 		}
 	}
 	
@@ -446,6 +448,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 			((MyTableModel)this.table.getModel()).updateData(editora);
 			this.table.repaint();
 			atualizarCampos();
+			table.revalidate();
 		}
 	}
 	

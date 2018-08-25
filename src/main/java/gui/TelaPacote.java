@@ -177,7 +177,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 				fazerAcao(table, tableLivros, Acao.ADICIONAR);
 			}
 		});
-		
+
 		btn_fazerAcao2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -535,18 +535,20 @@ class MyTableModelLivro extends AbstractTableModel {
 	}
 
 	public void updateData(String editora){
-		/*data = new Object[EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).size()][];
+
+		List<Livro> livros = EstoqueManager.getInstance().getLivrosDeUmaEditora(editora);
+		data = new Object[livros.size()][];
 		for(int i = 0; i < data.length; i++){
-			data[i] = EstoqueManager.getInstance().getLivrosDeUmaEditora(editora).get(i).pegarTodosParametrosEspecial();
+			data[i] = livros.get(i).pegarTodosParametrosEspecial();
 		}
 
-		ordenar(editora);*/
+		/*ordenar(editora);*/
 
-        List<Livro> livros = EstoqueManager.getInstance().getTodosLivros();
+        /*List<Livro> livros = EstoqueManager.getInstance().getTodosLivros();
         data = new Object[livros.size()][];
         for(int i = 0; i < data.length; i++){
             data[i] = livros.get(i).pegarTodosParametrosEspecial();
-        }
+        }*/
 	}
 
 	private void ordenar(String editora){

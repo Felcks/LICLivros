@@ -26,6 +26,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import principais.AnoEscolar;
@@ -257,17 +259,18 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 		minimizarTamanhoDaColuna(table, 2, 90, true);
 		minimizarTamanhoDaColuna(table, 3, 90, true);
 		JScrollPane scrollPane  = new JScrollPane(this.table);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		table.setFillsViewportHeight(true);
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 50;
-		c.gridheight = 5;
+		c.gridheight = 10;
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.BOTH;
 		this.add(scrollPane, c);
 		
-		c.gridy = 10;
-		prox = 17;
+		c.gridy = 14;
+		prox = 0;
 		
 		JLabel novosLivros = new JLabel("Novos Livros: ");
 		c.gridheight = 1;
@@ -285,16 +288,16 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    c.fill = GridBagConstraints.HORIZONTAL;
 	    c.anchor = GridBagConstraints.CENTER;
 	    this.add(fieldLivro, c);
-	       
-	    Action action = new AbstractAction()
-	    {
-	         @Override
-	         public void actionPerformed(ActionEvent e)
-	         {
-				adicionarLivroAoPedido(fieldLivro);
-	         }
-	    };
-	       fieldLivro.addActionListener(action);
+//
+//	    Action action = new AbstractAction()
+//	    {
+//	         @Override
+//	         public void actionPerformed(ActionEvent e)
+//	         {
+//				adicionarLivroAoPedido(fieldLivro);
+//	         }
+//	    };
+//	       fieldLivro.addActionListener(action);
 	       
 	     JButton adicionar = new JButton("Adicionar");
 	     c.gridx = prox;
@@ -302,19 +305,20 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	     prox += 1;
 	     this.add(adicionar, c);
 	       
-	     autoSuggestor = new AutoSuggestor(fieldLivro, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
-					Color.white, Color.blue, Color.BLACK, 0.55f);
+	     /*autoSuggestor = new AutoSuggestor(fieldLivro, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(),
+					Color.white, Color.blue, Color.BLACK, 0.55f);*/
 
 		List<String> nomesClientes = ClienteManager.getInstance().getTodosNomesClientes();
 		suggestorCliente = new AutoSuggestor(fieldNome, guiManager.getJanela(), nomesClientes,
 				Color.white, Color.blue, Color.BLACK, 0.55f);
-	     
-		 JButton remover = new JButton("Remover");
-		 c.gridx = 24;
-		 c.gridwidth = 4;
-		 c.gridy = 15;
-		 prox += 1;
-		 c.anchor = GridBagConstraints.CENTER;
+
+		JButton remover = new JButton("Remover livro");
+		c.gridx = 8;
+		c.gridy = 16;
+		prox += 1;
+		c.gridwidth = 2;
+		c.gridheight = 2;
+		c.fill = GridBagConstraints.NONE;
 		 this.add(remover, c);
 
 		 remover.addActionListener(new ActionListener() {
@@ -324,8 +328,8 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 			}
 		});
 
-		prox = 17;
-		c.gridy = 7;
+		prox = 0;
+		c.gridy = 12;
 		
 		JLabel labelPreco = new JLabel("Preço: ");
 		c.fill = GridBagConstraints.NONE;
@@ -392,9 +396,21 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    fieldFinal.setEditable(false);
 	    fieldFinal.setBackground(Color.LIGHT_GRAY);
 	    this.add(fieldFinal, c);
+
+		JTable tableLivro = new JTable(new TableModelLivrosPedidoAvulso());
+		minimizarTamanhoDaColuna(tableLivro, 1, 90, true);
+		JScrollPane scrollPane2  = new JScrollPane(tableLivro);
+		scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		tableLivro.setFillsViewportHeight(true);
+		c.gridx = prox;
+		c.gridwidth = 35;
+		c.gridheight = 5;
+		c.anchor = GridBagConstraints.CENTER;
+		c.fill = GridBagConstraints.BOTH;
+		this.add(scrollPane2, c);
 	    
 	    
-		JButton concluirButton = new JButton("Confirmar!");
+		JButton concluirButton = new JButton("Confirmar Pedido!");
 	    c.gridx = 48;
 	    c.gridwidth = 2;
 	    c.gridheight = 2;
@@ -402,6 +418,15 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    c.gridy = 18;
 	    c.fill = GridBagConstraints.BOTH;
 	    this.add(concluirButton, c);
+
+		tableLivro.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (!e.getValueIsAdjusting() && tableLivro.getSelectedRow() != -1) {
+					fieldLivro.setText(tableLivro.getValueAt(tableLivro.getSelectedRow(), 0).toString());
+				}
+			}
+		});
 
 	    
 	    concluirButton.addActionListener(new ActionListener() {
@@ -414,11 +439,16 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 	    fieldDesconto.getDocument().addDocumentListener(new DocumentListener() {	
 			@Override
 			public void removeUpdate(DocumentEvent e) {
+
+				System.out.println(fieldNome.getText());
 				aplicarDesconto(fieldDesconto.getText());
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent e) {
+
+
+				System.out.println(fieldNome.getText());
 				aplicarDesconto(fieldDesconto.getText());
 			}
 			
@@ -434,6 +464,26 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 				// TODO Auto-generated method stub
 				adicionarLivroAoPedido(fieldLivro);
 				
+			}
+		});
+
+		fieldLivro.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				((TableModelLivrosPedidoAvulso)tableLivro.getModel()).updateData(fieldLivro.getText());
+				tableLivro.repaint();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				((TableModelLivrosPedidoAvulso)tableLivro.getModel()).updateData(fieldLivro.getText());
+				tableLivro.repaint();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0){
+				((TableModelLivrosPedidoAvulso)tableLivro.getModel()).updateData(fieldLivro.getText());
+				tableLivro.repaint();
 			}
 		});
 	    
@@ -728,8 +778,8 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 			fieldDesconto.setText("");
 		if(fieldLivro != null)
 		{
-			 autoSuggestor = new AutoSuggestor(fieldLivro, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(), 
-						Color.white, Color.blue, Color.black, 0.55f);
+			 /*autoSuggestor = new AutoSuggestor(fieldLivro, guiManager.getJanela(), EstoqueManager.getInstance().getTodosLivrosNomes(),
+						Color.white, Color.blue, Color.black, 0.55f);*/
 			 fieldLivro.setText("");
 		}
 	}
