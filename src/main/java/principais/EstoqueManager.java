@@ -93,14 +93,17 @@ public class EstoqueManager {
 		operacoes.GET_AND_SET_ALL_DATA();	
 	}
 	public List<Livro> getLivrosDeUmaEditora(String editora){
+
 		List<Livro> livrosDeEditora = new ArrayList<Livro>();
-		for(int i = 0; i < this.getLivros().size(); i++){
+		List<Livro> livros = this.operacoes.GET_ALL();
+		/*for(int i = 0; i < this.getLivros().size(); i++){
 			if(this.getLivros().get(i).getEditora().equals(editora)){
 				livrosDeEditora.add(this.getLivros().get(i));
 			}
-		}
+		}*/
 
-		return livrosDeEditora;
+		//return livrosDeEditora;
+		return operacoes.GET_ALL_LIVROS_DE_EDITORA(editora);
 	}
 	
 	public String[] getTodosOsNomesDosLivros(){

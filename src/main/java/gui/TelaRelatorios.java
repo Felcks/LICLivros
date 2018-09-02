@@ -131,6 +131,7 @@ public class TelaRelatorios extends JPanel {
 	{
 		if(fieldFinal.getText().equals("FINAL")){
 			imprimirRelatorio(parcialOuFinal);
+
 			//ESVAZIAR TUDO QUE JÁ FOI PRO RELATORIO FINAL
 		}
 		else

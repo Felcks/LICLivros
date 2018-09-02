@@ -105,6 +105,7 @@ public class TelaEscola extends JPanel implements IPrepararComponentes {
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table.getColumnModel().getColumn(0).setMaxWidth(40);
 		DefaultTableCellRenderer left = new DefaultTableCellRenderer();
+		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		left.setHorizontalAlignment(SwingConstants.LEFT);
 		table.getColumnModel().getColumn(0).setCellRenderer(left);
 		JScrollPane scrollPane = new JScrollPane(table);

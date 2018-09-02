@@ -151,7 +151,8 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
         table.getColumnModel().getColumn(0).setMinWidth(40);
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table.getColumnModel().getColumn(0).setMaxWidth(40);
-		
+
+		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		DefaultTableCellRenderer left = new DefaultTableCellRenderer();
 		left.setHorizontalAlignment(SwingConstants.LEFT);
 		table.getColumnModel().getColumn(0).setCellRenderer(left);;
@@ -355,6 +356,7 @@ public class TelaPedido extends JPanel implements IPrepararComponentes {
 		if(table != null){
 			((MyTableModelPedido)table.getModel()).updateData();
 			table.repaint();
+			table.revalidate();
 		}
 	}
 	

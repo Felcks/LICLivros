@@ -148,6 +148,7 @@ public class TelaEstoque extends JPanel implements IPrepararComponentes {
 		
 		this.table = new JTable(new MyTableModel(""));
 		JScrollPane scrollPane  = new JScrollPane(this.table);
+		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		minimizarTamanhoDaColuna(table, 0, 40);
 		minimizarTamanhoDaColuna(table, 2, 140);

@@ -16,8 +16,9 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener; 
 import java.awt.event.KeyEvent; 
 import java.awt.event.MouseAdapter; 
-import java.awt.event.MouseEvent; 
-import java.util.ArrayList; 
+import java.awt.event.MouseEvent;
+import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.Collections; 
 import java.util.LinkedHashSet; 
 import java.util.List; 
@@ -50,6 +51,13 @@ public class AutoSuggestor {
     private final List<String> dictionary = new ArrayList<String>();
     private int tW, tH; 
     private int lastFocusableIndex = 0;
+
+    public static String stripAccents(String s)
+    {
+        s = Normalizer.normalize(s, Normalizer.Form.NFD);
+        s = s.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+        return s;
+    }
     
     
     private DocumentListener documentListener = new DocumentListener() { 
@@ -341,7 +349,7 @@ public class AutoSuggestor {
      * @return 
      */ 
     public String getCurrentlyTypedWord() { 
-        String text = textField.getText(); 
+        String text = stripAccents(textField.getText());
         return text; 
     } 
  
@@ -406,8 +414,9 @@ public class AutoSuggestor {
         dictionary.add(word); 
     } 
  
-    boolean wordTyped(String typedWord) { 
- 
+    boolean wordTyped(String typedWord) {
+
+        typedWord = FormatadorString.tirarAcentoColocarCaixaAlta(typedWord);
      if (typedWord.isEmpty()) { 
       return false; 
      } 
@@ -419,7 +428,8 @@ public class AutoSuggestor {
  
      for (String word : dictionary) {//get words in the dictionary which we added 
       boolean fullymatches = true; 
-      if(typedWord.length()<=word.length()){//Important! Removes harmful exception for words not in list 
+      if(typedWord.length()<=word.length()){//Important! Removes harmful exception for words not in list
+          word = FormatadorString.tirarAcentoColocarCaixaAlta(word);
        for (int i = 0; i < typedWord.length(); i++) {//each string in the word 
         if (!typedWord.toLowerCase().startsWith(String.valueOf(word.toLowerCase().charAt(i)), i)) {//check for match 
          fullymatches = false; 
@@ -550,8 +560,8 @@ class SuggestionLabel extends JLabel {
     } 
  
     private void replaceWithSuggestedText() { 
-        String suggestedWord = getText(); 
-        String text = textField.getText(); 
+        String suggestedWord = getText();
+        String text = FormatadorString.tirarAcentoColocarCaixaAlta(textField.getText());
         String typedWord = autoSuggestor.getCurrentlyTypedWord(); 
         if(text.indexOf(typedWord)==-1){ 
          return; 

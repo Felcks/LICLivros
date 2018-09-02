@@ -17,10 +17,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import bd.OperacoesLivrosPacotes;
 import principais.*;
-import utilidades.AutoSuggestor;
-import utilidades.FormaDePagamento;
-import utilidades.ServicoDeDigito;
-import utilidades.Status;
+import utilidades.*;
 
 public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 {
@@ -270,6 +267,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
        this.anoEscolarSelecionado = AnoEscolar.getAnoEscolarPeloNome(anoBox.getSelectedItem().toString());
 		
 		this.table = new JTable(new MyTableModelPedidoPacote(escolaSelecionada, anoEscolarSelecionado));
+		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		minimizarTamanhoDaColuna(table, 3, 80, true);
 		minimizarTamanhoDaColuna(table, 2, 80, true);
 		minimizarTamanhoDaColuna(table, 1, 200, true);
@@ -417,7 +415,7 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 
 	private void verificarNomeClienteExistente(JTextField textField, JTextField bairro, JTextField rua, JTextField compl, JTextField tel, JTextField cel){
 
-		String nome = textField.getText();
+		String nome = FormatadorString.tirarAcentoColocarCaixaAlta(textField.getText());
 		if(nome.length() == 0)
 			nome.concat(" ");
 
@@ -430,7 +428,8 @@ public class TelaPedidoUnico extends JPanel implements IPrepararComponentes
 		for(int i = 0; i < clientes.size(); i++){
 
 			Cliente cliente = clientes.get(i);
-			if(cliente.getNome().equals(nome) || cliente.getNome().equals(nomeSemEspacoFinal)){
+			String nomeCliente = FormatadorString.tirarAcentoColocarCaixaAlta(cliente.getNome());
+			if(nomeCliente.equals(nome) || nomeCliente.equals(nomeSemEspacoFinal)){
 
 				adicionarClienteAoPedido(cliente, bairro, rua, compl, tel, cel);
 				return;

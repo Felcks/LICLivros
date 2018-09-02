@@ -265,6 +265,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		if(this.tableLivros != null){
 			((MyTableModelLivro)this.tableLivros.getModel()).updateData(editora, ordenar);
 			this.tableLivros.repaint();
+			tableLivros.revalidate();
 			//TODO atualizarCampos();
 		}
 	}
@@ -273,6 +274,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		if(this.tableLivros != null){
 			((MyTableModelLivro)this.tableLivros.getModel()).updateData(editora);
 			this.tableLivros.repaint();
+			tableLivros.revalidate();
 			//TODO atualizarCampos();
 		}
 	}
@@ -386,6 +388,7 @@ public class TelaPacote extends JPanel implements IPrepararComponentes {
 		if(this.table != null){
 			((MyTableModelPacote)this.table.getModel()).updateData(escolaSelecionada, anoEscolarSelecionado);
 			this.table.repaint();
+			this.table.revalidate();
 		}
 	}
 	

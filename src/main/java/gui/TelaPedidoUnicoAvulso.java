@@ -42,11 +42,7 @@ import principais.PacoteManager;
 import principais.Pedido;
 import principais.PedidoManager;
 import principais.TipoPedido;
-import utilidades.Acao;
-import utilidades.AutoSuggestor;
-import utilidades.FormaDePagamento;
-import utilidades.ServicoDeDigito;
-import utilidades.Status;
+import utilidades.*;
 
 public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponentes
 {
@@ -258,6 +254,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 		minimizarTamanhoDaColuna(table, 1, 175, true);
 		minimizarTamanhoDaColuna(table, 2, 90, true);
 		minimizarTamanhoDaColuna(table, 3, 90, true);
+		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane  = new JScrollPane(this.table);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		table.setFillsViewportHeight(true);
@@ -399,9 +396,10 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 
 		JTable tableLivro = new JTable(new TableModelLivrosPedidoAvulso());
 		minimizarTamanhoDaColuna(tableLivro, 1, 90, true);
+		tableLivro.setFillsViewportHeight(true);
+		tableLivro.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPane2  = new JScrollPane(tableLivro);
 		scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		tableLivro.setFillsViewportHeight(true);
 		c.gridx = prox;
 		c.gridwidth = 35;
 		c.gridheight = 5;
@@ -424,6 +422,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting() && tableLivro.getSelectedRow() != -1) {
 					fieldLivro.setText(tableLivro.getValueAt(tableLivro.getSelectedRow(), 0).toString());
+					tableLivro.clearSelection();
 				}
 			}
 		});
@@ -494,7 +493,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 
 	private void verificarNomeClienteExistente(JTextField textField, JTextField bairro, JTextField rua, JTextField compl, JTextField tel, JTextField cel){
 
-		String nome = textField.getText();
+		String nome = FormatadorString.tirarAcentoColocarCaixaAlta(textField.getText());
 		if(nome.length() == 0)
 			nome.concat(" ");
 
@@ -507,7 +506,8 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 		for(int i = 0; i < clientes.size(); i++){
 
 			Cliente cliente = clientes.get(i);
-			if(cliente.getNome().equals(nome) || cliente.getNome().equals(nomeSemEspacoFinal)){
+			String nomeCliente = FormatadorString.tirarAcentoColocarCaixaAlta(cliente.getNome());
+			if(nomeCliente.equals(nome) || nomeCliente.equals(nomeSemEspacoFinal)){
 
 				adicionarClienteAoPedido(cliente, bairro, rua, compl, tel, cel);
 				return;
@@ -750,6 +750,7 @@ public class TelaPedidoUnicoAvulso extends JPanel implements IPrepararComponente
 			
 			fieldPreco.setText(formatado);
 			aplicarDesconto(fieldDesconto.getText());
+			this.table.revalidate();
 		}
 	
 	}

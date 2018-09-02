@@ -153,6 +153,25 @@ public class OperacoesLivros extends JavaConnection implements Operacoes
 		return livros;
 	}
 
+	public ArrayList<Livro> GET_ALL_LIVROS_DE_EDITORA(String editora){
+
+		ArrayList<Livro> livros = new ArrayList<Livro>();
+		try{
+			this.ConnectBd();
+			stmt = connection.createStatement();
+
+			ResultSet resultSet = stmt.executeQuery("SELECT * FROM LIVROS WHERE NOME != '' AND EDITORA = '" + editora +
+					"' ORDER BY NOME ASC");
+			while (resultSet.next()){
+				Livro livro = new Livro(resultSet);
+				livros.add(livro);
+			}
+			closeConnections();
+		}catch(Exception e){}
+
+		return livros;
+	}
+
     public void RESETAR_VENDIDOS(){
 
         try{
@@ -161,7 +180,7 @@ public class OperacoesLivros extends JavaConnection implements Operacoes
 
 
             stmt = connection.createStatement();
-            String sql = "UPDATE LIVROS set VENDIDOS = 0 WHERE NOME != ''";
+            String sql = "UPDATE LIVROS set VENDIDOS = 0, RESERVADO = 0 WHERE NOME != ''";
 
             stmt.executeUpdate(sql);
             connection.commit();

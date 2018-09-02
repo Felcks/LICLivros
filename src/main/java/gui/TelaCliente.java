@@ -113,6 +113,7 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		for (int i = 0; i < (table.getColumnModel().getColumnCount()); i++) {
 	            table.getColumnModel().getColumn(i).setPreferredWidth(150);
 	    }
+		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		minimizarColuna(0, 40);
 		minimizarColuna(1, 300);
 		minimizarColuna(4, 200);
@@ -174,22 +175,22 @@ public class TelaCliente extends JPanel implements IPrepararComponentes {
 		});
 		
 		
-		textFields[0].getDocument().addDocumentListener(new DocumentListener() {	
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				//checarId(textFields[0].getText(), textFields);
-			}
-			
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				checarId(textFields[0].getText(), textFields);
-			}
-			
-			@Override
-			public void changedUpdate(DocumentEvent arg0) {
-				checarId(textFields[0].getText(), textFields);
-			}
-		});
+//		textFields[0].getDocument().addDocumentListener(new DocumentListener() {
+//			@Override
+//			public void removeUpdate(DocumentEvent e) {
+//				//checarId(textFields[0].getText(), textFields);
+//			}
+//
+//			@Override
+//			public void insertUpdate(DocumentEvent e) {
+//				checarId(textFields[0].getText(), textFields);
+//			}
+//
+//			@Override
+//			public void changedUpdate(DocumentEvent arg0) {
+//				checarId(textFields[0].getText(), textFields);
+//			}
+//		});
 		
 		btn_fazerAcao.addActionListener(new ActionListener() {
 			@Override
